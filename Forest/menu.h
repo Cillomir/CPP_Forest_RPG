@@ -13,6 +13,7 @@
 #include "console.cpp"
 #include "internals.h"
 
+#pragma region Key Definitions
 #define KEY_CR			'\x0D'
 #define KEY_LF			'\x0A'
 #define KEY_BKSP		'\x08'
@@ -43,6 +44,7 @@
 #define KEY_CENTER		'\x4C'
 #define KEY_INS			'\x52'
 #define KEY_DEL			'\x53'
+#pragma endregion
 
 class Menu
 {
@@ -68,10 +70,15 @@ private:
 	std::string prompt;
 	std::vector<std::tuple<char, std::string>> options;
 
+	static std::vector<Menu> menus;
 	//static std::unordered_map<std::string, Menu> allMenus;
 
 	void setDefaults()
 	{
+		header = defHeader;
+		prompt = defPrompt;
+		options = defOption;
+
 		columns = Menu::defCol;
 		if (options.size() > defMaxPerCol) columns = 2;
 		//if (columns == 2) 
@@ -89,39 +96,36 @@ public:
 	Menu()
 	{
 		Menu::setDefaults();
-		header = defHeader;
-		prompt = defPrompt;
-		options = defOption;
+		//Menu::menus.push_back(this);
 	};
 	Menu(std::vector<std::tuple<char, std::string>> vOptions)
 	{
-		header = Menu::defHeader;
-		prompt = Menu::defPrompt;
-		options = vOptions;
 		Menu::setDefaults();
+		options = vOptions;
 	}
 	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions)
 	{
-		header = sHeader;
-		prompt = Menu::defPrompt;
-		options = vOptions;
 		Menu::setDefaults();
+		header = sHeader;
+		options = vOptions;
 	}
 	Menu(std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
 	{
-		header = Menu::defHeader;
+		Menu::setDefaults();
 		prompt = sPrompt;
 		options = vOptions;
-		Menu::setDefaults();
 	}
 	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
 	{
+		Menu::setDefaults();
 		header = sHeader;
 		prompt = sPrompt;
 		options = vOptions;
-		Menu::setDefaults();
 	}
-
+	static void addMenu(Menu menu)
+	{
+		menus.emplace(menu);
+	}
 	//static void addMenu(std::string name, Menu menu)
 	//{
 	//	allMenus.emplace(name, menu);
@@ -130,6 +134,11 @@ public:
 	//{
 	//	return allMenus.at(name);
 	//}
+
+	std::string getHeader() { return header; }
+	void setHeader(std::string sHeader) { header = sHeader; }
+	std::string getPrompt() { return prompt; }
+	void setPrompt(std::string sPrompt) { prompt = sPrompt; }
 
 	void display(Console scrn)
 	{

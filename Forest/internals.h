@@ -22,8 +22,6 @@ namespace IT
 	static std::string toCapitalize(std::string s)
 	{
 		s = IT::toLower(s);
-		//std::transform(s.begin(), s.end(), s.begin(),
-		//	[](unsigned char c) {return std::tolower(c); });
 		s[0] = std::toupper(s[0]);
 		return s;
 	}

@@ -1,0 +1,26 @@
+Level	Name	Health	Attack	Defense	Experience	Coinage	Loot	Bounty
+1	Deer	10	2	2	10	15	0	
+1	Pig	12	2	3	10	15	0
+1	Fox	8	3	2	10	15	0
+1	Crow	8	3	2	10	15	0
+1	Pickpocket	20	4	3	10	15	12
+2	Deer	12	3	3	10	20	0
+2	Wolf	15	5	4	10	20	0
+2	Boar	18	4	6	10	20	0
+2	Bandit	25	6	5	10	20	15
+2	Bandit	28	6	6	10	20	15
+3	Wolf	16	8	7	10	25	0
+3	Wolf	18	8	6	10	25	0
+3	Boar	20	7	9	10	25	0
+3	Boar	22	7	8	10	25	0
+3	Bandit Leader	35	9	12	10	25	25
+4	Wolf	20	10	9	10	30	0
+4	Boar	25	9	11	10	30	0
+4	Bandit Leader	40	11	14	10	30	25
+4	Wild Boar	35	12	15	10	30	0
+4	Bear	45	15	14	10	30	0
+5	Wild Boar	55	14	16	10	40	0
+5	Wild Boar	60	16	15	10	40	0
+5	Bear	65	18	17	10	40	0
+5	Bear	70	19	16	10	40	0
+5	Bandit Captain	50	15 18	10	40	30

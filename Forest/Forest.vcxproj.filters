@@ -59,13 +59,16 @@
     <ClInclude Include="menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Forest.rc">
+    <Text Include="Creatures.txt">
       <Filter>Resource Files</Filter>
-    </ResourceCompile>
+    </Text>
+    <Text Include="Items.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="ArtTown.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -142,11 +142,12 @@
     <ClInclude Include="console.h" />
     <ClInclude Include="equipment.h" />
     <ClInclude Include="menu.h" />
-    <ClInclude Include="resource.h" />
     <ClInclude Include="shops.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Forest.rc" />
+    <Text Include="ArtTown.txt" />
+    <Text Include="Creatures.txt" />
+    <Text Include="Items.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

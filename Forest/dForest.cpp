@@ -1,4 +1,5 @@
 // Forest Dungeon
+#pragma once
 #include "dungeons.h"
 //#include "creature.cpp"
 

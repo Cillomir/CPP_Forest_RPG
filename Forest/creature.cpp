@@ -1,4 +1,4 @@
-//#pragma once
+#pragma once
 #include "creature.h"
 
 //void Player::viewStats(Console scrn) {

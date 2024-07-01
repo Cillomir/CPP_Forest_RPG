@@ -1,0 +1,47 @@
+Type	Name	Material	Value	Description
+Armor	Jerkin	Leather	20	Default
+Armor	Light Armor	Leather	20	Default
+Armor	Studded Armor	Leather	20	Default
+Armor	Hide Armor	Leather	20	Default
+Gear	Boots	Leather	20	Default
+Gear	Gloves	Leather	20	Default
+Gear	Gauntlets	Leather	20	Default
+Gear	Helm	Leather	20	Default
+Armor	Chain Shirt	Iron	20	Default
+Armor	Chain Hauberk	Iron	20	Default
+Armor	Coat of Plates	Iron	20	Default
+Armor	Scalemail	Iron	20	Default
+Armor	Plate Armor	Iron	20	Default
+Gear	Boots	Iron	20	Default
+Gear	Chain Gloves	Iron	20	Default
+Gear	Gauntlets	Iron	20	Default
+Gear	Helm	Iron	20	Default
+Gear	Greathelm	Iron	20	Default
+Armor	Chain Shirt	Steel	20	Default
+Armor	Chain Hauberk	Steel	20	Default
+Armor	Coat of Plates	Steel	20	Default
+Armor	Scalemail	Steel	20	Default
+Armor	Plate Armor	Steel	20	Default
+Gear	Boots	Steel	20	Default
+Gear	Chain Gloves	Steel	20	Default
+Gear	Gauntlets	Steel	20	Default
+Gear	Helm	Steel	20	Default
+Gear	Greathelm	Steel	20	Default
+
+Weapon	Dagger	Iron	20	Default
+Weapon	Dagger	Steel	20	Default
+Weapon	Shortsword	Iron	20	Default
+Weapon	Shortsword	Steel	20	Default
+Weapon	Longsword	Iron	20	Default
+Weapon	Longsword	Steel	20	Default
+Weapon	Battleaxe	Iron	20	Default
+Weapon	Battleaxe	Steel	20	Default
+Weapon	Warhammer	Iron	20	Default
+Weapon	Warhammer	Steel	20	Default
+Weapon	Greatsword	Iron	20	Default
+Weapon	Greatsword	Steel	20	Default
+
+Material	Light Leather	Leather	10	From a deer, wolf, or similar animal
+Material	Heavy Leather	Leather	20	From a boar, bear, or similar animal
+Material	Iron Ore	Iron	10	Default
+
