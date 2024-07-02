@@ -1,123 +1,182 @@
-/* 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Program Name: Forest.cpp
-Author: Joel Leckie
-Date: 2024-06-17
-Description:	This file contains the 'main' function. 
-				Program execution begins and ends there.
-
-Versions:
-    0.1.0 - 2024-06-20: Initial program creation and design
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-To-Do:
-    Fix classes not showing in other modules (missing prototypes?)
-    Add Quest [B]oard
-        Add pertinant quests (e.g. Armor shop requests 3 deer hide: kill 3 deer)
-    Add [T]reasury
-    Add colors to text
-    Add weapon stats (e.g. hit roll, damage roll, damage types)
-    Add armor stats (e.g. AC for bludge, pierce, slash, magic resist)
-    Add monsters (lvl 0 - 10 + boss) current level or previous level can be encountered)
-	Add non-monster encounters 
-    Make shop calculations a common static procedure (e.g. buy item, sell item, list items)
-	Add [G]uild Hall (to turn in quests, earn gold, gain levels, get training, etc.)
-	Add battle maneuvers (per class, e.g. warrior, rogue, ranger) that use stamina
-		(e.g. vital shot, power attack, trip, kick, etc.)
-	Add combat spells (per class, e.g. warrior, rogue, ranger) that use spirit/mana
-		(e.g. second wind, boost, protection, etc.)
-	Add spellcasting (per class, e.g. mage, cleric) that use spirit/mana
-		(e.g. dart, missile, healing, protection, weakening, etc.)
-    
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-*/
 #pragma once
-#include <iostream>
-#include <string>
-#include <vector>
-#include <unordered_map>
-#include <algorithm>
-#include <windows.h>
-#include "internals.h"
-#include "console.cpp"
-#include "menu.cpp"
-#include "creature.cpp"
-#include "shops.cpp"
-//#include "dForest.cpp"
-//#include "internals.h"
+#include "town.h"
 
-Console screen = Console();
-Menu townMenu1 = Menu();
+#pragma region Town
+//static void Town::townMain()
+//{
+//    std::string header = "Welcome to the town!";
+//    std::string prompt = "Select a destination:";
+//    std::vector<std::tuple<char, std::string>> options;
+//    options.push_back(std::make_tuple('A', "rmor Shop"));
+//    options.push_back(std::make_tuple('W', "eapon Shop"));
+//    options.push_back(std::make_tuple('H', "ealer's Hut"));
+//    options.push_back(std::make_tuple('F', "orest"));
+//    options.push_back(std::make_tuple('V', "iew Your Stats"));
+//    options.push_back(std::make_tuple('Q', "uit"));
+//    Menu townMenu = Menu(header, options, prompt);
+//    char cmd;
+//    do {
+//        Console::screen.clear();
+//        Console::screen.cursorReset();
+//        townMenu.display(Console::screen);
+//        cmd = IT::getKey();
+//        switch (cmd) {
+//        case 'A':
+//            Town::armorShop();
+//            break;
+//        case 'W':
+//            Town::weaponShop();
+//            break;
+//        case 'H':
+//            Town::healersHut();
+//            break;
+//            //case 'F':
+//            //    Forest::menu();
+//            //    break;
+//            //case 'V':
+//            //	player.viewStats();
+//            //	break;
+//        }
+//    } while (cmd != 'Q');
+//}
+#pragma endregion
 
-Player introduction() 
-{
-	//testKey(KEY_ARR_UP);
-	screen.clear();
-	screen.cursorReset();
-	std::string playerName;
-    std::cout << "Please enter your name: ";
-    std::cin >> playerName;
-	playerName = IT::toCapitalize(playerName);
-	std::cout << "Welcome, " << playerName << "\n";
-    Player player = Player(playerName);
-	//player.viewStats(screen);
-	return player;
-}
+//#pragma region Armor Shop
+//static void Town::armorShopInit()
+//{
+//    std::string header = "Welcome to the Armor Shop!";
+//    std::string prompt = "Select an Option:";
+//    std::vector<std::tuple<char, std::string>> options;
+//    options.push_back(std::make_tuple('B', "uy Armor"));
+//    options.push_back(std::make_tuple('S', "ell Armor"));
+//    options.push_back(std::make_tuple('L', "ist Armor"));
+//    options.push_back(std::make_tuple('V', "iew Your Stats"));
+//    options.push_back(std::make_tuple('R', "eturn to Town"));
+//    //armorMenu1.setHeader(header);
+//    //armorMenu1.setPrompt(prompt);
+//     Menu armorMenu1 = Menu(header, options, prompt);
+//    // Menu m = Menu(header, options, prompt);
+//    // Menu::addMenu("Armor", m);
+//    // Menu::addMenu("Armor", Menu(header, options, prompt));
+//}
+//static void Town::armorShop() {
+//    char cmd;
+//    do {    
+//        //armorMenu1.display(Console::screen);
+//        std::cin >> cmd;
+//        //Console::screen.clear();
+//        //Console::screen.cursorReset();
+//        //switch (cmd) {
+//            //case 'B':
+//            //    buyArmor();
+//            //    break;
+//            //case 'S':
+//            //    sellArmor();
+//            //    break;
+//            //case 'L':
+//            //    listArmor();
+//            //    break;
+//            //case 'V':
+//            //    player.viewStats();
+//            //    break;
+//        //}
+//    } while (cmd != 'R');
+//}
+//static void buyArmor() {};
+//static void sellArmor() {};
+//static void listArmor() {};
+#pragma endregion
 
-static void townInit()
-{
-	std::string header = "Welcome to the town!";
-	std::string prompt = "Select a destination:";
-	std::vector<std::tuple<char, std::string>> options;
-	//armorShopInit();
-	options.push_back(std::make_tuple('A', "rmor Shop"));
-	//weaponShopInit();
-	options.push_back(std::make_tuple('W', "eapon Shop"));
-	//healersHutInit();
-	options.push_back(std::make_tuple('H', "ealer's Hut"));
-	//forestInit();
-	options.push_back(std::make_tuple('F', "orest"));
-	options.push_back(std::make_tuple('V', "iew Your Stats"));
-	options.push_back(std::make_tuple('Q', "uit"));
-	townMenu1 = Menu(header, options, prompt);
-	// Menu m = Menu(header, options, prompt);
-	// Menu::addMenu("Town", m);
-	// Menu::addMenu("Town", Menu(header, options, prompt));
-}
-void townMain(Player player)
-{
-//	Menu::getMenu("Town").display(screen);
-	//screen.clear();
-	//screen.cursorReset();
-	townMenu1.display(screen);
-	char cmd;
-	do {
-		cmd = getKey();
-        switch (cmd) {
-        case 'A':
-            armorShop(screen, player);
-            break;
-        case 'W':
-            weaponShop(screen, player);
-            break;
-        case 'H':
-            healersHut(screen, player);
-            break;
-        //case 'F':
-        //    Forest::menu(screen);
-        //    break;
-		//case 'V':
-		//	player.viewStats(screen);
-		//	break;
-        }
-    } while (cmd != 'Q');
-}
+#pragma region Weapon Shop
+//static void Town::weaponShopInit()
+//{
+//    std::string header = "Welcome to the Weapon Shop!";
+//    std::string prompt = "Select an Option:";
+//    std::vector<std::tuple<char, std::string>> options;
+//    options.push_back(std::make_tuple('B', "uy Weapons"));
+//    options.push_back(std::make_tuple('S', "ell Weapons"));
+//    options.push_back(std::make_tuple('L', "ist Weapons"));
+//    options.push_back(std::make_tuple('V', "iew Your Stats"));
+//    options.push_back(std::make_tuple('R', "eturn to Town"));
+//    Menu weaponMenu1 = Menu(header, options, prompt);
+//    // Menu m = Menu(header, options, prompt);
+//    // Menu::addMenu("Weapon", m);
+//    // Menu::addMenu("Weapon", Menu(header, options, prompt));
+//}
+//static void Town::weaponShop() {
+//    char cmd;
+//    do {
+//        //weaponMenu1.display(Console::screen);
+//        std::cin >> cmd;
+//        //Console::screen.clear();
+//        //Console::screen.cursorReset();
+//        //switch (cmd) {
+//        //case 'B':
+//        //    buyWeapons();
+//        //    break;
+//        //case 'S':
+//        //    sellWeapons();
+//        //    break;
+//        //case 'L':
+//        //    listWeapons();
+//        //    break;
+//        //case 'V':
+//        //    player.viewStats();
+//        //    break;
+//        //}
+//    } while (cmd != 'R');
+//};
+//static void buyWeapons() {};
+//static void sellWeapons() {};
+//static void listWeapons() {};
+#pragma endregion
 
-int main()
-{
-    Player p = introduction();
-	townInit();
-	//Item::init();
-    townMain(p);
-    screen.restore();
-}
+#pragma region Healers Hut
+//static void Town::healersHutInit()
+//{
+//    std::string header = "Welcome to the Healer's Hut!";
+//    std::string prompt = "Select an Option:";
+//    std::vector<std::tuple<char, std::string>> options;
+//    options.push_back(std::make_tuple('H', "ealing"));
+//    options.push_back(std::make_tuple('B', "uy Potions"));
+//    options.push_back(std::make_tuple('S', "ell Potions"));
+//    options.push_back(std::make_tuple('L', "ist Potions"));
+//    options.push_back(std::make_tuple('V', "iew Your Stats"));
+//    options.push_back(std::make_tuple('R', "eturn to Town"));
+//    Menu healersMenu1 = Menu(header, options, prompt);
+//    // Menu m = Menu(header, options, prompt);
+//    // Menu::addMenu("Healer", m);
+//    // Menu::addMenu("Healer", Menu(header, options, prompt));
+//}
+//static void Town::healersHut() {
+//    char cmd;
+//    do {
+//        //healersMenu1.display(Console::screen);
+//        std::cin >> cmd;
+//        //Console::screen.clear();
+//        //Console::screen.cursorReset();
+//        //switch (cmd) {
+//        //case 'H':
+//        //    getHealing();
+//        //    break;
+//        //case 'B':
+//        //    buyPotions();
+//        //    break;
+//        //case 'S':
+//        //    sellPotions();
+//        //    break;
+//        //case 'L':
+//        //    listPotions();
+//        //    break;
+//        //case 'V':
+//        //    player.viewStats();
+//        //    break;
+//        //}
+//    } while (cmd != 'R');
+//
+//};
+//static void getHealing();
+//static void buyPotions();
+//static void sellPotions();
+//static void listPotions();
+#pragma endregion

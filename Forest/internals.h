@@ -1,9 +1,7 @@
 #pragma once
-#include <iostream>
 #include <string>
-#include <cctype>
-#include <vector>
 #include <algorithm>
+#include <conio.h>
 
 namespace IT
 {
@@ -24,5 +22,13 @@ namespace IT
 		s = IT::toLower(s);
 		s[0] = std::toupper(s[0]);
 		return s;
+	}
+	static char getKey()
+	{
+		char key;
+		key = _getch();
+		if (key != 0) return std::toupper(key);
+		key = _getch();
+		return key;
 	}
 };

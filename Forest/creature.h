@@ -1,15 +1,34 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 #include "console.h"
 
 #pragma region Creatures
 class Player
 {
-public:
-	// Constructor
-	Player(std::string name) {
-		_name = name;
+protected:
+	static const int minLevel = 1;
+	static const int maxLevel = 10;
+	static const int minExp = 0;
+	static const int minGold = 0;
+	static const int maxGold = 1000000;
+	const std::vector<int> expNeeded = { 0, 100, 200, 400, 800, 1500, 2500, 4000, 6500, 10000, 15000 };
+
+private:
+	std::string _name;
+	int _level;
+	int _experience;
+	int _gold;
+	int _health;
+	int _healthMax;
+	int _strength;
+	int _defense;
+	//Item _weapon;
+	//Item _armor;
+
+	void setDefaults()
+	{
 		_level = 1;
 		_experience = 0;
 		_gold = 100;
@@ -20,16 +39,31 @@ public:
 		//_weapon = Item("Fists", 0, ItemType::misc);
 		//_armor = Item("Tunic", 0, ItemType::gear);
 	}
+public:
+	static Player player;
+
+	// Constructor
+	Player() 
+	{
+		_name = "";
+		setDefaults();
+	}
+	Player(std::string name)
+	{
+		_name = name;
+		setDefaults();
+	}
 
 	// Sets & Gets
 	std::string getName(void) { return _name; }
 	void setName(std::string name) { _name = name; }
 
 	int getLevel(void) { return _level; }
-	void gainLevel(void) { if (_level < maxLevel) _level++; }
-	void loseLevel(void) { if (_level > minLevel) _level--; }
+	void gainLevel(void) { if (_level < maxLevel) _level++; _experience = 0; }
+	void loseLevel(void) { if (_level > minLevel) _level--; _experience = 0; }
 
 	int getExp(void) { return _experience; }
+	int gainExp(int exp) { if (_experience + exp < expNeeded[getLevel()]) _experience += exp; else gainLevel(); }
 
 	int getGold(void) { return _gold; }
 	void setGold(int gold) { _gold = gold; }
@@ -60,25 +94,13 @@ public:
 
 	// Public Methods
 	//void viewStats(Console scrn);
+	//void Player::viewStats(Console scrn) {
+	//	scrn.clear();
+	//	scrn.cursorReset();
+	//	std::cout << this->getName() << std::endl;
+	//	std::cout << std::string(25, '~') << std::endl;
+	//};
 
-private:
-	std::string _name;
-	int _level;
-	int _experience;
-	int _gold;
-	int _health;
-	int _healthMax;
-	int _strength;
-	int _defense;
-	//Item _weapon;
-	//Item _armor;
-
-protected:
-	static const int minLevel = 1;
-	static const int maxLevel = 10;
-	static const int minExp = 0;
-	static const int minGold = 0;
-	static const int maxGold = 1000000;
 };
 #pragma endregion
 

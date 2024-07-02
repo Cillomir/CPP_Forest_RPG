@@ -131,18 +131,18 @@
     <ClCompile Include="console.cpp" />
     <ClCompile Include="dForest.cpp" />
     <ClCompile Include="menu.cpp" />
-    <ClCompile Include="town.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClInclude Include="dungeons.h" />
     <ClInclude Include="internals.h" />
     <ClCompile Include="equipment.cpp" />
-    <ClCompile Include="shops.cpp" />
+    <ClCompile Include="town.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creature.h" />
     <ClInclude Include="console.h" />
     <ClInclude Include="equipment.h" />
     <ClInclude Include="menu.h" />
-    <ClInclude Include="shops.h" />
+    <ClInclude Include="town.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ArtTown.txt" />

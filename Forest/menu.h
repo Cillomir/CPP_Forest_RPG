@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <conio.h>
 #include <ctype.h>
-#include "console.cpp"
+#include "console.h"
 #include "internals.h"
 
 #pragma region Key Definitions
@@ -70,9 +70,6 @@ private:
 	std::string prompt;
 	std::vector<std::tuple<char, std::string>> options;
 
-	static std::vector<Menu> menus;
-	//static std::unordered_map<std::string, Menu> allMenus;
-
 	void setDefaults()
 	{
 		header = defHeader;
@@ -96,7 +93,6 @@ public:
 	Menu()
 	{
 		Menu::setDefaults();
-		//Menu::menus.push_back(this);
 	};
 	Menu(std::vector<std::tuple<char, std::string>> vOptions)
 	{
@@ -122,28 +118,15 @@ public:
 		prompt = sPrompt;
 		options = vOptions;
 	}
-	static void addMenu(Menu menu)
-	{
-		menus.emplace(menu);
-	}
-	//static void addMenu(std::string name, Menu menu)
-	//{
-	//	allMenus.emplace(name, menu);
-	//}
-	//static Menu getMenu(std::string name)
-	//{
-	//	return allMenus.at(name);
-	//}
-
 	std::string getHeader() { return header; }
 	void setHeader(std::string sHeader) { header = sHeader; }
 	std::string getPrompt() { return prompt; }
 	void setPrompt(std::string sPrompt) { prompt = sPrompt; }
 
-	void display(Console scrn)
+	void display(Console screen)
 	{
-		scrn.clear();
-		scrn.cursorReset();
+		screen.clear();
+		screen.cursorReset();
 		std::cout << WHITE << header << std::endl;
 		for (std::tuple<char, std::string> tup : options)
 		{

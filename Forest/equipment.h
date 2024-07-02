@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "console.h"
 //#include "internals.h"
 
 //enum equipType : int {

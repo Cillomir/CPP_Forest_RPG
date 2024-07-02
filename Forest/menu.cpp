@@ -7,14 +7,6 @@ static void pressAnyKey()
 	std::cin.ignore();
 }
 
-static char getKey()
-{
-	char key;
-	key = _getch();
-	if (key != 0) return std::toupper(key);
-	key = _getch();
-	return key;
-}
 static void testKey(char escape)
 {
 	char key;

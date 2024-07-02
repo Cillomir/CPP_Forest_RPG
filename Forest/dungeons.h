@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
-#include "console.cpp"
-//#include "console.h"
+#include "console.h"
+//#include "menu.h"
 //#include "creature.h"
 
 class Forest 

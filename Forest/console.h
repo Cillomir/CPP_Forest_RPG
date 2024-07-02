@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <wchar.h>
 
+#pragma region Definitions
 // ----------------------------------------------------------------------------
 //  Control Sequence Introducer (CSI) sequences
 // ----------------------------------------------------------------------------
@@ -73,6 +74,7 @@
 #define B_MAGENTA_BR    "\x1B[105m"
 #define B_CYAN_BR       "\x1B[106m"
 #define B_WHITE_BR      "\x1B[107m"
+#pragma endregion
 
 class Console
 {
@@ -93,6 +95,8 @@ private:
     }
 
 public:
+    static Console screen;
+
     Console(void) {
         hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
         // Fetch existing console mode so we correctly add a flag and not turn off others
@@ -108,118 +112,99 @@ public:
         SetConsoleMode(hStdOut, originalMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING);
         return 0;
     }
-
     bool restore() {
         // Restore the mode on the way out to be nice to other command-line applications.
         SetConsoleMode(hStdOut, originalMode);
         return 0;
     }
-
     bool clear() {
         // Write the sequence for clearing the display (2J only clears the visible window).
         return runSequence(L"\x1b[2J");
     }
-
     bool clearScroll() {
         // Write the sequence for clearing the scroll back (3J only clears the scroll back).
         return runSequence(L"\x1b[3J");
     }
-
     bool lineUp() {
         // Reverse Index – Performs the reverse operation of \n, moves cursor up one line
         // maintains horizontal position, scrolls buffer if necessary
         return runSequence(L"\x1b[M");
     }
-
     bool saveCursor() {
         // Save Cursor Position in Memory
         return runSequence(L"\x1b[7");
     }
-
     bool restoreCursor() {
         // Restore Cursor Position from Memory
         return runSequence(L"\x1b[8");
     }
-
     bool cursorUp(int n) {
         // Cursor up by <n>
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xA", n);
         return runSequence(sequence);
     }
-
     bool cursorDown(int n) {
         // Cursor down by <n>
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xB", n);
         return runSequence(sequence);
     }
-
     bool cursorRight(int n) {
         // Cursor forward (Right) by <n>
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xC", n);
         return runSequence(sequence);
     }
-
     bool cursorLeft(int n) {
         // Cursor backward (Left) by <n>
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xD", n);
         return runSequence(sequence);
     }
-
     bool cursorNext(int n) {
         // Cursor down <n> lines from current position
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xE", n);
         return runSequence(sequence);
     }
-
     bool cursorPrev(int n) {
         // Cursor up <n> lines from current position
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xF", n);
         return runSequence(sequence);
     }
-
     bool cursorHPos(int p) {
         // Cursor moves to <p>th position horizontally in the current line
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xG", p);
         return runSequence(sequence);
     }
-
     bool cursorVPos(int p) {
         // Cursor moves to the <p>th position vertically in the current column
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%xd", p);
         return runSequence(sequence);
     }
-
     bool cursorPos(int x, int y) {
         // Cursor moves to <x>; <y> coordinate within the viewport, where <x> is the column of the <y> line
         PCWSTR sequence = L"";
         wprintf(sequence, "\x1b[%x;%xH", y, x);
         return runSequence(sequence);
     }
-
     bool cursorReset() {
         // Cursor moves to 1,1 coordinate within the viewport
         return runSequence(L"\x1b[1;1H");
     }
-
     bool reportCursor() {
         // Emit the cursor position as: ESC [ <r> ; <c> R Where <r> = cursor row and <c> = cursor column
         return runSequence(L"\x1b[6n");
     }
-
     bool cursorBlink(bool enable) {
         // Start the cursor blinking
         if (enable) return runSequence(L"\x1b[?12h");
         else return runSequence(L"\x1b[?12l");
     }
-
     enum CursorShape {
         User,
         BlinkBlock,
@@ -229,7 +214,6 @@ public:
         BlinkBar,
         SteadyBar
     };
-
     bool cursorShape(CursorShape shape) {
         switch (shape) {
             case CursorShape::User: return runSequence(L"\x1b[0 q");
@@ -248,7 +232,6 @@ public:
                 break;
         }
     }
-
     bool insertChar(int n) {
         // Insert <n> spaces at the current cursor position, shifting all existing text to the right. 
         // Text exiting the screen to the right is removed.
@@ -256,7 +239,6 @@ public:
         wprintf(seq, "\x1b[%x@", n);
         return runSequence(seq);
     }
-
     bool deleteChar(int n) {
         // Delete <n> creatures at the current cursor position, shifting in space creatures 
         // from the right edge of the screen.
@@ -264,14 +246,12 @@ public:
         wprintf(seq, "\x1b[%xP", n);
         return runSequence(seq);
     }
-
     bool eraseChar(int n) {
         // Erase <n> creatures from the current cursor position by overwriting them with a space creature.
         PCWSTR seq = L"";
         wprintf(seq, "\x1b[%xX", n);
         return runSequence(seq);
     }
-
     bool insertLine(int n) {
         // Inserts <n> lines into the buffer at the cursor position. 
         // The line the cursor is on, and lines below it, will be shifted downwards.
@@ -279,14 +259,12 @@ public:
         wprintf(seq, "\x1b[%xL", n);
         return runSequence(seq);
     }
-
     bool deleteLine(int n) {
         // Deletes <n> lines from the buffer, starting with the row the cursor is on.
         PCWSTR seq = L"";
         wprintf(seq, "\x1b[%xM", n);
         return runSequence(seq);
     }
-
     enum Erase {
         toEnd,
         fromStart,
@@ -304,22 +282,18 @@ public:
         wprintf(seq, "\x1b[%xK", x);
         return runSequence(seq);
     }
-
     bool keypadApplication(void) {
         // Keypad keys will emit their Application Mode sequences.
         return runSequence(L"\x1b[=");
     }
-
     bool keypadNumeric(void) {
         // Keypad keys will emit their Numeric Mode sequences.
         return runSequence(L"\x1b[>");
     }
-
     bool enableASCIIMode(void) {
         // Enables ASCII Mode (Default)
         return runSequence(L"\x1b[(B");
     }
-
     bool enableLineDrawing(void) {
         // Enables DEC Line Drawing Mode
         return runSequence(L"\x1b[(0");
@@ -349,7 +323,6 @@ public:
         // Sets the console width to 132 columns wide.
         return runSequence(L"\x1b[?3h");
     }
-
     bool setWidth80(void) {
         // Sets the console width to 80 columns wide.
         return runSequence(L"\x1b[?3i");
@@ -362,6 +335,5 @@ public:
     // Numpad & Function Keys
 
     // Modifiers
-
 
 };
