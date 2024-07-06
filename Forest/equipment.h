@@ -6,17 +6,17 @@
 #include "console.h"
 //#include "internals.h"
 
-//enum equipType : int {
-//	weapon, armor, potion, gear, misc
-//};
-//
-//class equip
-//{
-//private:
-//	std::string _name;
-//	int _value;
-//	equipType _type;
-//
+enum class equipType : int {
+	weapon, armor, potion, gear, misc
+};
+
+class equipment
+{
+private:
+	std::string _name;
+	int _value;
+	equipType _type;
+
 //	static std::vector<equip> _allEquipment;
 //	static std::vector<equip> _allWeapons;
 //	static std::vector<equip> _allArmors;
@@ -39,7 +39,7 @@
 //		_allEquipment.emplace_back(_allMisc);
 //	};
 //
-//public:
+public:
 //	static void init(void);
 //	static std::vector<equip> allEquip()
 //	{
@@ -66,12 +66,12 @@
 //		return equip::_allMisc;
 //	}
 //
-//	equip() {};
-//
-//	equip(std::string name, int value, equipType type) {
-//		_name = name;
-//		_value = value;
-//		_type = type;
+	equipment() {};
+
+	equipment(std::string name, int value, equipType type) {
+		_name = name;
+		_value = value;
+		_type = type;
 //		_allEquipment.emplace_back(this);
 //
 //		switch (_type) {
@@ -90,8 +90,8 @@
 //		case misc:
 //			_allMisc.emplace_back(this);
 //			break;
-//		}
-//	};
+		}
+	};
 //
 //	std::string name() { return _name; }
 //	int value() { return _value; }
@@ -134,8 +134,59 @@
 //		initComplete = true;
 //	};
 //};
+class Weapon : Equipment
+{
+private:
+	std::string name;
+	std::string description;
+	int value;
+	bool masterwork;
+	int cutting;
+	int piercing;
+	int smashing;
+	int accuracy;
+	std::tuple<int, int> damage;
 
+public:
+	Weapon()
+	{
+		name = "";
+		description = "";
+		cutting = 0;
+		piercing = 0;
+		smashing = 0;
+		accuracy = 0;
+		damage = { 0, 0 };
+	}
+};
 
+class Armor : Equipment
+{
+private:
+	std::string name;
+	std::string description;
+	int value;
+	bool masterwork;
+	int hardness;
+	int cutting;
+	int piercing;
+	int smashing;
+	int health;
+
+public:
+	Armor()
+	{
+		name = "";
+		description = "";
+		value = 0;
+		masterwork = false;
+		hardness = 0;
+		cutting = 0;
+		piercing = 0;
+		smashing = 0;
+		health = 0;
+	}
+};
 
 /*
 #pragma region Equipment
