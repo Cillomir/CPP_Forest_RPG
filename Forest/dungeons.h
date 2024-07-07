@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
-#include "console.h"
+#include "support/Console.h"
 //#include "menu.h"
 //#include "creature.h"
 

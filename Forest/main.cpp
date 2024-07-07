@@ -38,24 +38,27 @@ To-Do:
 #include <unordered_map>
 #include <algorithm>
 #include <windows.h>
-#include "internals.h"
-#include "console.cpp"
+#include "support/Internals.h"
+#include "support/Console.h"
 #include "menu.cpp"
-#include "creature.h"
 #include "town.h"
-//#include "dForest.cpp"
+#include "creature.h"
+//#include "equipment.h"
+//#include "dungeons.h"
+using namespace CSL_Console;
 
-//Console screen = Console();
+#define Print std::cout <<
+#define Input std::cin >>
 
 Player introduction() 
 {
-	Console::screen.clear();
-	Console::screen.cursorReset();
+
+	CSL::clear();
 	std::string playerName;
-    std::cout << "Please enter your name: ";
-    std::cin >> playerName;
+    Print "Please enter your name: ";
+    Input playerName;
 	playerName = IT::toCapitalize(playerName);
-	std::cout << "Welcome, " << playerName << "\n";
+	Print "Welcome, " << playerName << "\n";
 	Player player = Player(playerName);
 	Player::player.setName(playerName);
 	//player.viewStats();
@@ -64,9 +67,11 @@ Player introduction()
 
 int main()
 {
+	CSL::enableVTMode();
 	Player p = introduction();
 	//Town::townInit();
 	//Item::init();
 	Town::townMain();
+	
 	//Console::screen.restore();
 }

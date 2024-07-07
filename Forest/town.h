@@ -3,10 +3,11 @@
 #include <string>
 #include <tuple>
 #include <vector>
-#include "internals.h"
-#include "console.h"
+#include "support/Internals.h"
+#include "support/Console.h"
 #include "menu.h"
 #include "creature.h"
+using namespace CSL_Console;
 
 namespace Town
 {
@@ -23,9 +24,8 @@ namespace Town
         Menu armorMenu = Menu(header, options, prompt);
         char cmd;
         do {
-            Console::screen.clear();
-            Console::screen.cursorReset();
-            armorMenu.display(Console::screen);
+            CSL::clear();
+            armorMenu.display();
             cmd = IT::getKey();
             //switch (cmd) {
                 //case 'B':
@@ -61,9 +61,8 @@ namespace Town
         Menu weaponMenu = Menu(header, options, prompt);
         char cmd;
         do {
-            Console::screen.clear();
-            Console::screen.cursorReset();
-            weaponMenu.display(Console::screen);
+            CSL::clear();
+            weaponMenu.display();
             std::cin >> cmd;
             //switch (cmd) {
                 //case 'B':
@@ -99,9 +98,8 @@ namespace Town
         Menu healersMenu = Menu(header, options, prompt);
         char cmd;
         do {
-            Console::screen.clear();
-            Console::screen.cursorReset();
-            healersMenu.display(Console::screen);
+            CSL::clear();
+            healersMenu.display();
             std::cin >> cmd;
             //switch (cmd) {
             //case 'H':
@@ -142,9 +140,8 @@ namespace Town
         Menu townMenu = Menu(header, options, prompt);
         char cmd;
         do {
-            Console::screen.clear();
-            Console::screen.cursorReset();
-            townMenu.display(Console::screen);
+            CSL::clear();
+            townMenu.display();
             cmd = IT::getKey();
             switch (cmd) {
             case 'A':

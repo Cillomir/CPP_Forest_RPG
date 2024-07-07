@@ -128,26 +128,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="creature.cpp" />
-    <ClCompile Include="console.cpp" />
     <ClCompile Include="dForest.cpp" />
+    <ClCompile Include="support\Log.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="dungeons.h" />
-    <ClInclude Include="internals.h" />
+    <ClInclude Include="support\Log.h" />
+    <ClInclude Include="support\Colors.h" />
+    <ClInclude Include="support\Internals.h" />
     <ClCompile Include="equipment.cpp" />
     <ClCompile Include="town.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creature.h" />
-    <ClInclude Include="console.h" />
+    <ClInclude Include="support\Console.h" />
     <ClInclude Include="equipment.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="town.h" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ArtTown.txt" />
-    <Text Include="Creatures.txt" />
-    <Text Include="Items.txt" />
+    <Text Include="resources\ArtTown.txt" />
+    <Text Include="resources\Creatures.txt" />
+    <Text Include="resources\Items.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,19 +3,19 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "console.h"
+#include "support/Console.h"
 //#include "internals.h"
 
-enum class equipType : int {
+enum class EquipType : int {
 	weapon, armor, potion, gear, misc
 };
 
-class equipment
+class Equipment
 {
 private:
 	std::string _name;
 	int _value;
-	equipType _type;
+	EquipType _type;
 
 //	static std::vector<equip> _allEquipment;
 //	static std::vector<equip> _allWeapons;
@@ -40,6 +40,7 @@ private:
 //	};
 //
 public:
+
 //	static void init(void);
 //	static std::vector<equip> allEquip()
 //	{
@@ -66,9 +67,9 @@ public:
 //		return equip::_allMisc;
 //	}
 //
-	equipment() {};
+	Equipment() {};
 
-	equipment(std::string name, int value, equipType type) {
+	Equipment(std::string name, int value, EquipType type) {
 		_name = name;
 		_value = value;
 		_type = type;
@@ -134,7 +135,7 @@ public:
 //		initComplete = true;
 //	};
 //};
-class Weapon : Equipment
+class Weapon : public Equipment
 {
 private:
 	std::string name;
@@ -160,7 +161,7 @@ public:
 	}
 };
 
-class Armor : Equipment
+class Armor : public Equipment
 {
 private:
 	std::string name;

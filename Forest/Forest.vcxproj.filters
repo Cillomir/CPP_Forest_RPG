@@ -21,13 +21,7 @@
     <ClCompile Include="creature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="console.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="equipment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shops.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dForest.cpp">
@@ -36,21 +30,24 @@
     <ClCompile Include="menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="support\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="creature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="console.h">
+    <ClInclude Include="support\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="equipment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shops.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="internals.h">
+    <ClInclude Include="support\Internals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="dungeons.h">
@@ -59,15 +56,24 @@
     <ClInclude Include="menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="town.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="support\Colors.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="support\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Creatures.txt">
+    <Text Include="resources\Creatures.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="Items.txt">
+    <Text Include="resources\Items.txt">
       <Filter>Resource Files</Filter>
     </Text>
-    <Text Include="ArtTown.txt">
+    <Text Include="resources\ArtTown.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>

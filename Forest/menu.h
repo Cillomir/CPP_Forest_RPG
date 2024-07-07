@@ -10,8 +10,9 @@
 #include <algorithm>
 #include <conio.h>
 #include <ctype.h>
-#include "console.h"
-#include "internals.h"
+#include "support/Console.h"
+#include "support/Internals.h"
+using namespace CSL_Color;
 
 #pragma region Key Definitions
 #define KEY_CR			'\x0D'
@@ -46,8 +47,11 @@
 #define KEY_DEL			'\x53'
 #pragma endregion
 
+static void pressAnyKey();
+
 class Menu
 {
+#define Print std::cout <<
 protected:
 	std::string defHeader = "Please make a selection:";
 	std::string defPrompt = "Your command?";
@@ -123,19 +127,18 @@ public:
 	std::string getPrompt() { return prompt; }
 	void setPrompt(std::string sPrompt) { prompt = sPrompt; }
 
-	void display(Console screen)
+	void display()
 	{
-		screen.clear();
-		screen.cursorReset();
-		std::cout << WHITE << header << std::endl;
+		CSL_Console::CSL::clear();
+		Print WHITE << header << std::endl;
 		for (std::tuple<char, std::string> tup : options)
 		{
-			std::cout << BLUE << "[";
-			std::cout << CYAN << std::get<0>(tup);
-			std::cout << BLUE << "]";
-			std::cout << BLUE_BR << std::get<1>(tup) << std::endl;
+			Print BLUE << "[";
+			Print CYAN << std::get<0>(tup);
+			Print BLUE << "]";
+			Print BLUE_BR << std::get<1>(tup) << std::endl;
 		}
-		std::cout << WHITE << prompt << " ";
+		Print WHITE << prompt << " ";
 	}
 
 	void arrUp()

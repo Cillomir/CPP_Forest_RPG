@@ -31,4 +31,12 @@ namespace IT
 		key = _getch();
 		return key;
 	}
+	static void pressKey()
+	{
+		char key;
+		key = _getch();
+		if (key != 0) return;
+		key = _getch();
+		return;
+	}
 };
