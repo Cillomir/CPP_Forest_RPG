@@ -283,6 +283,37 @@ namespace CSL_Key
     const std::string F10(CSI"21~");        // F10 Key
     const std::string F11(CSI"23~");        // F11 Key
     const std::string F12(CSI"24~");        // F12 Key
+
+    const char KEY_CR('\x0D');
+    const char KEY_LF('\x0A');
+    const char KEY_BKSP('\x08');
+    const char KEY_TAB('\x09');
+    const char KEY_ESC('\x1B');
+    const char KEY_SHFT_TAB('\x0F');
+    const char KEY_BELL('\x07');
+    const char KEY_F1('\x3B');
+    const char KEY_F2('\x3C');
+    const char KEY_F3('\x3D');
+    const char KEY_F4('\x3E');
+    const char KEY_F5('\x3F');
+    const char KEY_F6('\x40');
+    const char KEY_F7('\x41');
+    const char KEY_F8('\x42');
+    const char KEY_F9('\x43');
+    const char KEY_F10('\x44');
+    const char KEY_F11('\x57');
+    const char KEY_F12('\x58');
+    const char KEY_HOME('\x47');
+    const char KEY_END('\x4F');
+    const char KEY_PG_UP('\x49');
+    const char KEY_PG_DOWN('\x51');
+    const char KEY_ARR_UP('\x48');
+    const char KEY_ARR_DOWN('\x50');
+    const char KEY_ARR_LEFT('\x4B');
+    const char KEY_ARR_RIGHT('\x4D');
+    const char KEY_CENTER('\x4C');
+    const char KEY_INS('\x52');
+    const char KEY_DEL('\x53');
 }
 
 namespace CSL_Console
