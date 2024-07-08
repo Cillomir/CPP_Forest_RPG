@@ -13,6 +13,8 @@
 #include "support/Console.h"
 #include "support/Internals.h"
 using namespace CSL_Color;
+using namespace CSL_Console;
+using namespace CSL_Cursor;
 
 static void pressAnyKey();
 
@@ -20,14 +22,15 @@ class Menu
 {
 #define Print std::cout <<
 protected:
-	static const std::string def_Header = "Please make a selection:";
-	static const std::string def_Prompt = "Your command?";
-	std::vector<std::tuple<char, std::string>> def_Option;
+	const std::string def_Header = "Please make a selection:";
+	const std::string def_Prompt = "Your command? ";
+	const std::vector<std::tuple<char, std::string>> def_Option;
 	static const int def_NumColumns = 1;
-	static const int def_Spacing = 30;
-	static const int def_MaxPerCol = 10;
+	static const int def_OptionWidth = 30;
+	static const int def_MaxOptionRows = 10;
 	static const int def_StartRow = 20;
 	static const int def_HeaderFromBottom = 14;
+	static const int def_PromptFromBottom = 3;
 	static const int def_HeaderColumn = 5;
 	static const int def_OptionColumn = 9;
 	static const int def_PromptColumn = 5;
@@ -40,12 +43,14 @@ private:
 
 	int _numColumns;
 	int _startRow;
-	int _startCol;
-	int _spacing;
-	int _curOption;
+	int _optionWidth;
+	int _selIndex;
+	int _selColumn;
 	std::vector<int> _colBreaks;
+	std::vector<int> _optionPerCol;
 
 	static int _headerFromBottom;
+	static int _promptFromBottom;
 	static int _headerCol;
 	static int _optionCol;
 	static int _promptCol;
@@ -53,6 +58,7 @@ private:
 	static std::map<std::string, Menu> _allMenus;
 
 	void setDefaults();
+	void calcOptionColumns();
 
 public:
 	Menu()
@@ -62,79 +68,43 @@ public:
 	Menu(std::vector<std::tuple<char, std::string>> vOptions)
 	{
 		Menu::setDefaults();
-		options = vOptions;
+		_options = vOptions;
+		calcOptionColumns();
 	}
 	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions)
 	{
 		Menu::setDefaults();
-		header = sHeader;
-		options = vOptions;
+		_header = sHeader;
+		_options = vOptions;
+		calcOptionColumns();
 	}
 	Menu(std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
 	{
 		Menu::setDefaults();
-		prompt = sPrompt;
-		options = vOptions;
+		_prompt = sPrompt;
+		_options = vOptions;
+		calcOptionColumns();
 	}
 	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
 	{
 		Menu::setDefaults();
-		header = sHeader;
-		prompt = sPrompt;
-		options = vOptions;
-	}
-	std::string getHeader() { return header; }
-	void setHeader(std::string sHeader) { header = sHeader; }
-	std::string getPrompt() { return prompt; }
-	void setPrompt(std::string sPrompt) { prompt = sPrompt; }
-
-	void display()
-	{
-		CSL_Console::CSL::clear();
-		Print WHITE << header << std::endl;
-		for (std::tuple<char, std::string> tup : options)
-		{
-			Print BLUE << "[";
-			Print CYAN << std::get<0>(tup);
-			Print BLUE << "]";
-			Print BLUE_BR << std::get<1>(tup) << std::endl;
-		}
-		Print WHITE << prompt << " ";
+		_header = sHeader;
+		_prompt = sPrompt;
+		_options = vOptions;
+		calcOptionColumns();
 	}
 
-	void arrUp()
-	{
-		if (curOption < 0) {
-			curOption--;
-		}
-		else {
-			curOption = (int)options.size() - 1;
-		}
-	}
-	void arrDown()
-	{
-		if (curOption == options.size() - 1) {
-			curOption = 0;
-		}
-		else {
-			curOption++;
-		}
-	}
-	//void arrLeft()
-	//{
-	//	if (columns > 1 && curOption >= colBreaks[1]) curOption += colBreaks[1];
-	//	if (columns > 1 && curOption < colBreaks[1]) curOption -= colBreaks[1];
-	//}
-	//void arrRight()
-	//{
-	//	if (columns > 1 && curOption < colBreaks[1]) curOption += colBreaks[1];
-	//	if (columns > 1 && curOption > colBreaks[1]) curOption -= colBreaks[1];
-	//}
-	char select()
-	{
-		//std::tuple <char,std::string> tup = options[curOption];
-		//return std::get<0>(tup);
+	std::string getHeader() { return _header; }
+	void setHeader(std::string sHeader) { _header = sHeader; }
 
-		return std::get<0>(options[curOption]);
-	}
+	std::string getPrompt() { return _prompt; }
+	void setPrompt(std::string sPrompt) { _prompt = sPrompt; }
+
+	void display();
+
+	void arrUp();
+	void arrDown();
+	void arrLeft();
+	void arrRight();
+	char select();
 };

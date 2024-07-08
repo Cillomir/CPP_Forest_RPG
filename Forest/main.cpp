@@ -40,7 +40,7 @@ To-Do:
 #include <windows.h>
 #include "support/Internals.h"
 #include "support/Console.h"
-#include "menu.cpp"
+#include "menu.h"
 #include "town.h"
 #include "creature.h"
 //#include "equipment.h"

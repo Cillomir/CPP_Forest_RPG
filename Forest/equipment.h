@@ -3,15 +3,17 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <tuple>
 #include "support/Console.h"
 //#include "internals.h"
 
-enum class EquipType : int {
-	weapon, armor, potion, gear, misc
-};
-
 class Equipment
 {
+public:
+	enum class EquipType : int {
+		weapon, armor, potion, gear, misc
+	};
+
 private:
 	std::string _name;
 	int _value;
@@ -40,7 +42,6 @@ private:
 //	};
 //
 public:
-
 //	static void init(void);
 //	static std::vector<equip> allEquip()
 //	{
@@ -67,7 +68,12 @@ public:
 //		return equip::_allMisc;
 //	}
 //
-	Equipment() {};
+	Equipment() 
+	{
+		_name = "";
+		_value = 0;
+		_type = EquipType::misc;
+	};
 
 	Equipment(std::string name, int value, EquipType type) {
 		_name = name;
@@ -153,6 +159,8 @@ public:
 	{
 		name = "";
 		description = "";
+		value = 0;
+		masterwork = false;
 		cutting = 0;
 		piercing = 0;
 		smashing = 0;

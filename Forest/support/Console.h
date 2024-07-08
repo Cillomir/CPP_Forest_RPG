@@ -285,7 +285,9 @@ namespace CSL_Key
     const std::string F12(CSI"24~");        // F12 Key
 
     const char KEY_CR('\x0D');
+    const char KEY_RETURN('\x0D');
     const char KEY_LF('\x0A');
+    const char KEY_LINEFEED('\x0A');
     const char KEY_BKSP('\x08');
     const char KEY_TAB('\x09');
     const char KEY_ESC('\x1B');
