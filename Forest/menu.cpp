@@ -9,16 +9,6 @@ int Menu::_promptCol = Menu::def_PromptColumn;
 COORD Menu::_screenSize = { 120, 30 };
 std::map<std::string, Menu> Menu::_allMenus;
 
-static void pressAnyKey()
-{
-	Print CSL_Cursor::CUR_HIDE;
-	std::string message = "Press any key to continue...";
-	COORD size = CSL_Console::CSL::getWindowSize();
-	CSL_Cursor::Cursor::setPos(size.X - (int)message.size() - 2, size.Y - 1);
-	Print WHITE << message;
-	IT::pressKey();
-}
-
 void Menu::setDefaults()
 {
 	_header = Menu::def_Header;

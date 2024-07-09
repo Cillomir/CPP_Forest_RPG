@@ -12,11 +12,10 @@
 #include <ctype.h>
 #include "support/Console.h"
 #include "support/Internals.h"
+#include "support/Locals.h"
 using namespace CSL_Color;
 using namespace CSL_Console;
 using namespace CSL_Cursor;
-
-static void pressAnyKey();
 
 class Menu
 {

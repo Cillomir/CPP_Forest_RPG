@@ -38,8 +38,9 @@ To-Do:
 #include <unordered_map>
 #include <algorithm>
 #include <windows.h>
-#include "support/Internals.h"
 #include "support/Console.h"
+#include "support/Internals.h"
+#include "support/Locals.h"
 #include "menu.h"
 #include "town.h"
 #include "creature.h"
@@ -59,9 +60,12 @@ Creatures::Player introduction()
     Input playerName;
 	playerName = IT::toCapitalize(playerName);
 	Print "Welcome, " << playerName << "\n";
+	pressAnyKey();
 	Creatures::Player player = Creatures::Player(playerName);
+	//player.setMain();
 	Creatures::mainPlayer = player;
-	Creatures::Player::mainPlayer.viewStats();
+	//Creatures::mainPlayer = Creatures::Player(playerName);
+	Creatures::mainPlayer.viewStats();
 	return player;
 }
 

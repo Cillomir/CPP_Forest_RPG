@@ -1,8 +1,12 @@
 #pragma once
 #include "creature.h"
 using namespace Creatures;
+using namespace CSL_Color;
 using namespace CSL_Console;
+using namespace CSL_Cursor;
 using namespace CSL_Line;
+
+//Creatures::mainPlayer = Player();
 
 void Creature::setDefaults(int level, int health)
 {
@@ -14,6 +18,7 @@ void Creature::setDefaults(int level, int health)
 
 void Player::setDefaults()
 {
+	_title = "the fledgling";
 	_level = 1;
 	_experience = 0;
 	_gold = 100;
@@ -104,12 +109,57 @@ bool Creature::take(Equipment item)
 
 void Player::viewStats() {
 	CSL::clear();
-	Print getName() << std::endl;
 	Line::lineDrawingOn();
+	Cursor::setHor(2);
 	Line::lineDraw(Line::TL);
-	for (int i = 2; i < 119; ++i)
-	{
-		Line:lineDraw(Line::HOR);
-	}
+	for (int i = 3; i < 80 - 2; ++i)
+		Line::lineDraw(Line::HOR);
 	Line::lineDraw(Line::TR);
+	COORD cursorPos = CSL::getCursorPos();
+	for (int i = 2; i < 20; ++i)
+	{
+		Print "\n";
+		Cursor::setHor(2);
+		if (i == 8)
+		{
+			Line::lineDraw(Line::LEFT_T);
+			for (int i = 3; i < 80 - 2; ++i)
+				Line::lineDraw(Line::HOR);
+			Line::lineDraw(Line::RIGHT_T);
+		}
+		else
+		{
+			Line::lineDraw(Line::VER);
+			Cursor::setHor(80 - 2);
+			Line::lineDraw(Line::VER);
+		}
+	}
+	Print "\n";
+	Cursor::setHor(2);
+	Line::lineDraw(Line::BL);
+	for (int i = 3; i < 80 - 2; ++i)
+		Line::lineDraw(Line::HOR);
+	Line::lineDraw(Line::BR);
+	Line::lineDrawingOff();
+
+	Cursor::setPos(5, 2);
+	Print FG_AZURE1 << getName() << FG_CYAN1 << ", " << getTitle() << FG_GRAY2;
+	Cursor::setPos(5, 4);
+	Print "Level: " << FG_SPRING1 << getLevel() << FG_GRAY2;
+	Cursor::setHor(30);
+	Print "Experience: " << FG_SPRING1 << getExp() << FG_GRAY2;
+	Cursor::setPos(5, 6);
+	Print "Health: " << FG_RED1 << getHealth() << FG_GRAY1 << "/" << FG_RED1 << getHealthMax() << FG_GRAY2;
+	Cursor::setPos(5, 7);
+	Print "Strength: " << FG_ORANGE1 << getStrength() << FG_GRAY2;
+	Cursor::setHor(30);
+	Print "Defense: " << FG_AZURE1 << getDefense() << FG_GRAY2;
+	Cursor::setPos(5, 9);
+	Print "Gold: " << FG_GOLD1 << getGold() << FG_GRAY2;
+	Cursor::setPos(5, 10);
+	Print "Weapon: " << FG_WHITE << getWeapon() << FG_GRAY2;
+	Cursor::setHor(30);
+	Print "Armor: " << FG_WHITE << getArmor() << FG_GRAY2;
+	Print SGR_RESET;
+	pressAnyKey();
 };

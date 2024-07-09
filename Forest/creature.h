@@ -5,6 +5,7 @@
 #include <tuple>
 #include "support/Console.h"
 #include "support/Internals.h"
+#include "support/Locals.h"
 #include "equipment.h"
 
 #ifndef CREATURES_H
@@ -75,6 +76,7 @@ namespace Creatures
 
 	private:
 		std::string _name;
+		std::string _title;
 		int _level;
 		int _experience;
 		int _gold;
@@ -120,8 +122,39 @@ namespace Creatures
 		}
 
 		// Sets & Gets
+		//void setMain()
+		//{
+		//	mainPlayer = *this;
+		//}
+		Player& operator=(Player& obj)
+		{
+			if (this != &obj)
+			{
+				_name = obj._name;
+				_title = obj._title;
+				_level = obj._level;
+				_experience = obj._experience;
+				_gold = obj._gold;
+				_health = obj._health;
+				_strength = obj._strength;
+				_defense = obj._defense;
+				_curWeapon = obj._curWeapon;
+				_curArmor = obj._curArmor;
+				_allEquipment = obj._allEquipment;
+				_allWeapons = obj._allWeapons;
+				_allArmors = obj._allArmors;
+				_allPotions = obj._allPotions;
+				_allGear = obj._allGear;
+				_allMisc = obj._allMisc;
+			}
+			return *this;
+		}
+
 		std::string getName(void) { return _name; }
 		void setName(std::string name) { _name = name; }
+
+		std::string getTitle(void) { return _title; }
+		void setTitle(std::string title) { _title = title; }
 
 		int getLevel(void) { return _level; }
 		void gainLevel(void) { if (_level < maxLevel) _level++; _experience = 0; }
@@ -160,7 +193,7 @@ namespace Creatures
 		// Public Methods
 		void viewStats();
 	};
-	Player mainPlayer;
+	static Player mainPlayer;
 
 	//class NPC
 	//{
