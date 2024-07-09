@@ -50,7 +50,7 @@ using namespace CSL_Console;
 #define Print std::cout <<
 #define Input std::cin >>
 
-Player introduction() 
+Creatures::Player introduction()
 {
 
 	CSL::clear();
@@ -59,16 +59,16 @@ Player introduction()
     Input playerName;
 	playerName = IT::toCapitalize(playerName);
 	Print "Welcome, " << playerName << "\n";
-	Player player = Player(playerName);
-	Player::player.setName(playerName);
-	//player.viewStats();
+	Creatures::Player player = Creatures::Player(playerName);
+	Creatures::mainPlayer = player;
+	Creatures::Player::mainPlayer.viewStats();
 	return player;
 }
 
 int main()
 {
 	CSL::enableVTMode();
-	Player p = introduction();
+	Creatures::Player p = introduction();
 	//Town::townInit();
 	//Item::init();
 	Town::townMain();

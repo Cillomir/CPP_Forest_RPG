@@ -19,66 +19,126 @@ private:
 	int _value;
 	EquipType _type;
 
-//	static std::vector<equip> _allEquipment;
-//	static std::vector<equip> _allWeapons;
-//	static std::vector<equip> _allArmors;
-//	static std::vector<equip> _allPotions;
-//	static std::vector<equip> _allGear;
-//	static std::vector<equip> _allMisc;
-//
-//	static void sortEquipment(void)
-//	{
-//		std::sort(_allWeapons.begin(), _allWeapons.end(), [](equip a, equip b) {return a._name < b._name; });
-//		std::sort(_allArmors.begin(), _allArmors.end(), [](equip a, equip b) {return a._name < b._name; });
-//		std::sort(_allPotions.begin(), _allPotions.end(), [](equip a, equip b) {return a._name < b._name; });
-//		std::sort(_allGear.begin(), _allGear.end(), [](equip a, equip b) {return a._name < b._name; });
-//		std::sort(_allMisc.begin(), _allMisc.end(), [](equip a, equip b) {return a._name < b._name; });
-//		_allEquipment.clear();
-//		_allEquipment.emplace_back(_allWeapons);
-//		_allEquipment.emplace_back(_allArmors);
-//		_allEquipment.emplace_back(_allPotions);
-//		_allEquipment.emplace_back(_allGear);
-//		_allEquipment.emplace_back(_allMisc);
-//	};
-//
 public:
-//	static void init(void);
-//	static std::vector<equip> allEquip()
-//	{
-//		return equip::_allEquipment;
-//	};
-//	static std::vector<equip> allWeapons()
-//	{
-//		return equip::_allWeapons;
-//	}
-//	static std::vector<equip> allArmors()
-//	{
-//		return equip::_allArmors;
-//	}
-//	static std::vector<equip> allPotions()
-//	{
-//		return equip::_allPotions;
-//	}
-//	static std::vector<equip> allGear()
-//	{
-//		return equip::_allGear;
-//	}
-//	static std::vector<equip> allMisc()
-//	{
-//		return equip::_allMisc;
-//	}
-//
-	Equipment() 
+	Equipment()
 	{
 		_name = "";
 		_value = 0;
 		_type = EquipType::misc;
-	};
-
-	Equipment(std::string name, int value, EquipType type) {
+	}
+	Equipment(std::string name, int value, EquipType type)
+	{
 		_name = name;
 		_value = value;
 		_type = type;
+	}
+
+	std::string getName() { return _name; }
+	void setName(std::string name) { _name = name; }
+	int getValue() { return _value; }
+	void setValue(int value) { _value = value; }
+	std::string getType()
+	{
+		switch (_type)
+		{
+		case EquipType::weapon: return "weapon";
+			break;
+		case EquipType::armor: return "armor";
+			break;
+		case EquipType::potion: return "potion";
+			break;
+		case EquipType::gear: return "gear";
+			break;
+		case EquipType::misc: return "miscellaneous";
+			break;
+		};
+	}
+	void setType(EquipType type) { _type = type; }
+	void description()
+	{
+		std::cout << _name;
+		switch (_type)
+		{
+		case EquipType::weapon: std::cout << ": a weapon.";
+			break;
+		case EquipType::armor: std::cout << ": an armor.";
+			break;
+		case EquipType::potion: std::cout << ": a potion.";
+			break;
+		case EquipType::gear: std::cout << ": a type of gear.";
+			break;
+		case EquipType::misc: std::cout << ": an item.";
+			break;
+		};
+		std::cout << std::endl;
+	}
+};
+
+//class Weapon : public Equipment
+//{
+//private:
+//	//std::string name;
+//	std::string _description;
+//	//int value;
+//	bool _masterwork;
+//	int _cutting;
+//	int _piercing;
+//	int _smashing;
+//	int _accuracy;
+//	std::tuple<int, int> _damage;
+//
+//public:
+//	Weapon()
+//	{
+//		_name = "";
+//		_description = "";
+//		_value = 0;
+//		_type = EquipType::weapon;
+//		_masterwork = false;
+//		_cutting = 0;
+//		_piercing = 0;
+//		_smashing = 0;
+//		_accuracy = 0;
+//		_damage = { 0, 0 };
+//	}
+//};
+//
+//class Armor : public Equipment
+//{
+//private:
+//	//std::string name;
+//	std::string _description;
+//	//int value;
+//	bool _masterwork;
+//	int _hardness;
+//	int _cutting;
+//	int _piercing;
+//	int _smashing;
+//	int _health;
+//
+//public:
+//	Armor()
+//	{
+//		_name = "";
+//		_description = "";
+//		_value = 0;
+//		_type = EquipType::armor;
+//		_masterwork = false;
+//		_hardness = 0;
+//		_cutting = 0;
+//		_piercing = 0;
+//		_smashing = 0;
+//		_health = 0;
+//	}
+//};
+
+
+//	Item() {};
+//
+//	Item(std::string name, int value, ItemType type) {
+//		_name = name;
+//		_value = value;
+//		_type = type;
 //		_allEquipment.emplace_back(this);
 //
 //		switch (_type) {
@@ -97,8 +157,8 @@ public:
 //		case misc:
 //			_allMisc.emplace_back(this);
 //			break;
-		}
-	};
+//		}
+//	};
 //
 //	std::string name() { return _name; }
 //	int value() { return _value; }
@@ -116,8 +176,14 @@ public:
 //			break;
 //		};
 //	};
+//private:
+//	std::string _name;
+//	int _value;
+//	ItemType _type;
 //};
-//
+
+//	static void init(void);
+
 //static bool initComplete = false;
 //static void init(void) {
 //	if (!initComplete) {
@@ -141,188 +207,3 @@ public:
 //		initComplete = true;
 //	};
 //};
-class Weapon : public Equipment
-{
-private:
-	std::string name;
-	std::string description;
-	int value;
-	bool masterwork;
-	int cutting;
-	int piercing;
-	int smashing;
-	int accuracy;
-	std::tuple<int, int> damage;
-
-public:
-	Weapon()
-	{
-		name = "";
-		description = "";
-		value = 0;
-		masterwork = false;
-		cutting = 0;
-		piercing = 0;
-		smashing = 0;
-		accuracy = 0;
-		damage = { 0, 0 };
-	}
-};
-
-class Armor : public Equipment
-{
-private:
-	std::string name;
-	std::string description;
-	int value;
-	bool masterwork;
-	int hardness;
-	int cutting;
-	int piercing;
-	int smashing;
-	int health;
-
-public:
-	Armor()
-	{
-		name = "";
-		description = "";
-		value = 0;
-		masterwork = false;
-		hardness = 0;
-		cutting = 0;
-		piercing = 0;
-		smashing = 0;
-		health = 0;
-	}
-};
-
-/*
-#pragma region Equipment
-enum ItemType : int { weapon = 1, armor, potion, gear, misc };
-
-class Item
-{
-public:
-	//static void init(void);
-	static std::vector<Item> allEquip()
-	{
-		return Item::_allEquipment;
-	};
-	static std::vector<Item> allWeapons()
-	{
-		return Item::_allWeapons;
-	}
-	static std::vector<Item> allArmors()
-	{
-		return Item::_allArmors;
-	}
-	static std::vector<Item> allPotions()
-	{
-		return Item::_allPotions;
-	}
-	static std::vector<Item> allGear()
-	{
-		return Item::_allGear;
-	}
-	static std::vector<Item> allMisc()
-	{
-		return Item::_allMisc;
-	}
-
-//	Item() {};
-
-	Item(std::string name, int value, ItemType type) {
-		_name = name;
-		_value = value;
-		_type = type;
-		_allEquipment.emplace_back(this);
-
-		switch (_type) {
-		case weapon:
-			_allWeapons.emplace_back(this);
-			break;
-		case armor:
-			_allArmors.emplace_back(this);
-			break;
-		case potion:
-			_allPotions.emplace_back(this);
-			break;
-		case gear:
-			_allGear.emplace_back(this);
-			break;
-		case misc:
-			_allMisc.emplace_back(this);
-			break;
-		}
-	};
-
-	std::string name() { return _name; }
-	int value() { return _value; }
-	std::string type() {
-		switch (_type) {
-		case weapon: return "weapon";
-			break;
-		case armor: return "armor";
-			break;
-		case potion: return "potion";
-			break;
-		case gear: return "gear";
-			break;
-		case misc: return "miscellaneous";
-			break;
-		};
-	};
-private:
-	std::string _name;
-	int _value;
-	ItemType _type;
-
-	static std::vector<Item> _allEquipment;
-	static std::vector<Item> _allWeapons;
-	static std::vector<Item> _allArmors;
-	static std::vector<Item> _allPotions;
-	static std::vector<Item> _allGear;
-	static std::vector<Item> _allMisc;
-
-	//static void sortEquipment(void)
-	//{
-	//	std::sort(_allWeapons.begin(), _allWeapons.end(), [](Item a, Item b) {return a._name < b._name; });
-	//	std::sort(_allArmors.begin(), _allArmors.end(), [](Item a, Item b) {return a._name < b._name; });
-	//	std::sort(_allPotions.begin(), _allPotions.end(), [](Item a, Item b) {return a._name < b._name; });
-	//	std::sort(_allGear.begin(), _allGear.end(), [](Item a, Item b) {return a._name < b._name; });
-	//	std::sort(_allMisc.begin(), _allMisc.end(), [](Item a, Item b) {return a._name < b._name; });
-	//	_allEquipment.clear();
-	//	_allEquipment.emplace_back(_allWeapons);
-	//	_allEquipment.emplace_back(_allArmors);
-	//	_allEquipment.emplace_back(_allPotions);
-	//	_allEquipment.emplace_back(_allGear);
-	//	_allEquipment.emplace_back(_allMisc);
-	//}
-};
-
-//static bool initComplete = false;
-//static void init(void) {
-//	if (!initComplete) {
-//		Item t;
-//		t = Item("Fists", 0, ItemType::misc);
-//		t = Item("Dagger", 0, ItemType::weapon);
-//		t = Item("Iron Shortsword", 0, ItemType::weapon);
-//		t = Item("Iron Longsword", 0, ItemType::weapon);
-//		t = Item("Steel Shortsword", 0, ItemType::weapon);
-//		t = Item("Steel Longsword", 0, ItemType::weapon);
-//		t = Item("Tunic", 0, ItemType::armor);
-//		t = Item("Leather", 0, ItemType::armor);
-//		t = Item("Hide", 0, ItemType::armor);
-//		t = Item("Chainmail", 0, ItemType::armor);
-//		t = Item("Scalemail", 0, ItemType::armor);
-//		t = Item("Half-Plate", 0, ItemType::armor);
-//		t = Item("Plate", 0, ItemType::armor);
-//		t = Item("Health", 0, ItemType::potion);
-//		t = Item("Spirit", 0, ItemType::potion);
-//		t = Item("Stamina", 0, ItemType::potion);
-//		initComplete = true;
-//	}
-//}
-#pragma endregion
-*/

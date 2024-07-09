@@ -66,6 +66,7 @@ namespace CSL_Line
 
     class Line
     {
+    public:
         enum LN
         {
             BR, TR, TL, BL,

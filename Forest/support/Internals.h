@@ -3,6 +3,10 @@
 #include <algorithm>
 #include <conio.h>
 
+#ifndef INTERNALS_H
+#define INTERNALS_H
+#define Print std::cout <<
+
 namespace IT
 {
 	static std::string toUpper(std::string s)
@@ -40,3 +44,4 @@ namespace IT
 		return;
 	}
 };
+#endif

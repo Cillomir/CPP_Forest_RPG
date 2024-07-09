@@ -2,194 +2,174 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <tuple>
 #include "support/Console.h"
+#include "support/Internals.h"
+#include "equipment.h"
 
-#pragma region Creatures
-class Player
+#ifndef CREATURES_H
+#define CREATURES_H
+
+namespace Creatures
 {
-protected:
-	static const int minLevel = 1;
-	static const int maxLevel = 10;
-	static const int minExp = 0;
-	static const int minGold = 0;
-	static const int maxGold = 1000000;
-	const std::vector<int> expNeeded = { 0, 100, 200, 400, 800, 1500, 2500, 4000, 6500, 10000, 15000 };
-
-private:
-	std::string _name;
-	int _level;
-	int _experience;
-	int _gold;
-	int _health;
-	int _healthMax;
-	int _strength;
-	int _defense;
-	//Item _weapon;
-	//Item _armor;
-
-	void setDefaults()
+	enum class Condition
 	{
-		_level = 1;
-		_experience = 0;
-		_gold = 100;
-		_health = 100;
-		_healthMax = 100;
-		_strength = 5;
-		_defense = 3;
-		//_weapon = Item("Fists", 0, ItemType::misc);
-		//_armor = Item("Tunic", 0, ItemType::gear);
-	}
-public:
-	static Player player;
-
-	// Constructor
-	Player() 
+		healthy, light_injury, medium_injury, heavy_injury, near_death, dead
+	};
+	class Creature
 	{
-		_name = "";
-		setDefaults();
-	}
-	Player(std::string name)
+	private:
+		std::string _name;
+		std::string _description;
+		int _level;
+		std::tuple <int, int> _health;
+		Condition _condition;
+		std::vector<Equipment> _allEquipment;
+
+		void setDefaults(int level, int health);
+		void calcCondition();
+
+	public:
+		Creature(std::string name)
+		{
+			_name = name;
+			_description = "";
+			setDefaults(1, 100);
+		}
+		Creature(std::string name, std::string description)
+		{
+			_name = name;
+			_description = description;
+			setDefaults(1, 100);
+		}
+		Creature(std::string name, std::string description, int level, int health)
+		{
+			_name = name;
+			_description = description;
+			setDefaults(level, health);
+		}
+		std::string getName() { return _name; }
+		void setName(std::string name) { _name = name; }
+		std::string getDescription() { return _description; }
+		void setDescription(std::string description) { _description = description; }
+		int getLevel() { return _level; }
+		void setLevel(int level) { _level = level; }
+		std::tuple<int, int> getHealth() { return _health; }
+		void setHealth(int health) { _health = { health, health }; }
+		void look();
+		void examine();
+		void hurt(int amount);
+		void heal(int amount);
+		bool take(Equipment item);
+	};
+
+	class Player
 	{
-		_name = name;
-		setDefaults();
-	}
+	protected:
+		static const int minLevel = 1;
+		static const int maxLevel = 10;
+		static const int minExp = 0;
+		static const int minGold = 0;
+		static const int maxGold = 1000000;
+		const std::vector<int> expNeeded = { 0, 100, 200, 400, 800, 1500, 2500, 4000, 6500, 10000, 15000 };
 
-	// Sets & Gets
-	std::string getName(void) { return _name; }
-	void setName(std::string name) { _name = name; }
+	private:
+		std::string _name;
+		int _level;
+		int _experience;
+		int _gold;
+		std::tuple <int, int> _health;
+		int _strength;
+		int _defense;
+		Equipment _curWeapon;
+		Equipment _curArmor;
+		std::vector<Equipment> _allEquipment;
+		std::vector<Equipment> _allWeapons;
+		std::vector<Equipment> _allArmors;
+		std::vector<Equipment> _allPotions;
+		std::vector<Equipment> _allGear;
+		std::vector<Equipment> _allMisc;
 
-	int getLevel(void) { return _level; }
-	void gainLevel(void) { if (_level < maxLevel) _level++; _experience = 0; }
-	void loseLevel(void) { if (_level > minLevel) _level--; _experience = 0; }
+		void setDefaults();
+		//	void sortEquipment(void)
+		//	{
+		//		std::sort(_allWeapons.begin(), _allWeapons.end(), [](equip a, equip b) {return a._name < b._name; });
+		//		std::sort(_allArmors.begin(), _allArmors.end(), [](equip a, equip b) {return a._name < b._name; });
+		//		std::sort(_allPotions.begin(), _allPotions.end(), [](equip a, equip b) {return a._name < b._name; });
+		//		std::sort(_allGear.begin(), _allGear.end(), [](equip a, equip b) {return a._name < b._name; });
+		//		std::sort(_allMisc.begin(), _allMisc.end(), [](equip a, equip b) {return a._name < b._name; });
+		//		_allEquipment.clear();
+		//		_allEquipment.emplace_back(_allWeapons);
+		//		_allEquipment.emplace_back(_allArmors);
+		//		_allEquipment.emplace_back(_allPotions);
+		//		_allEquipment.emplace_back(_allGear);
+		//		_allEquipment.emplace_back(_allMisc);
+		//	};
 
-	int getExp(void) { return _experience; }
-	int gainExp(int exp) { if (_experience + exp < expNeeded[getLevel()]) _experience += exp; else gainLevel(); }
+	public:
+		// Constructor
+		Player()
+		{
+			_name = "";
+			setDefaults();
+		}
+		Player(std::string name)
+		{
+			_name = name;
+			setDefaults();
+		}
 
-	int getGold(void) { return _gold; }
-	void setGold(int gold) { _gold = gold; }
-	void gainGold(int gold) { if (_gold + gold < maxGold) _gold += gold; }
-	void loseGold(int gold) { if (_gold - gold > minGold) _gold -= gold; }
+		// Sets & Gets
+		std::string getName(void) { return _name; }
+		void setName(std::string name) { _name = name; }
 
-	int getHealth(void) { return _health; }
-	void setHealth(int health) { _health = health; }
-	void gainHealth(int health) { if (_health + health < _healthMax) _health += health; }
-	void loseHealth(int health) { if (_health - health > 0) _health -= health; }
+		int getLevel(void) { return _level; }
+		void gainLevel(void) { if (_level < maxLevel) _level++; _experience = 0; }
+		void loseLevel(void) { if (_level > minLevel) _level--; _experience = 0; }
 
-	int getHealthMax(void) { return _healthMax; }
-	void setHealthMax(int health) { _healthMax = health; }
-	void gainHealthMax(int health) { _healthMax += health; }
-	void loseHealthMax(int health) { if (_healthMax - health > 0) _healthMax -= health; }
+		int getExp(void) { return _experience; }
+		int gainExp(int exp) { if (_experience + exp < expNeeded[getLevel()]) _experience += exp; else gainLevel(); }
 
-	int getStrength(void) { return _strength; }
-	void setStrength(int strength) { _strength = strength; }
+		int getGold(void) { return _gold; }
+		void setGold(int gold) { _gold = gold; }
+		void gainGold(int gold) { if (_gold + gold < maxGold) _gold += gold; }
+		void loseGold(int gold) { if (_gold - gold > minGold) _gold -= gold; }
 
-	int getDefense(void) { return _defense; }
-	void setDefense(int defense) { _defense = defense; }
+		int getHealth(void) { return std::get<0>(_health); }
+		void setHealth(int health) { std::get<0>(_health) = health; }
+		void gainHealth(int health) { std::get<0>(_health) += health; if (std::get<0>(_health) > std::get<1>(_health)) std::get<0>(_health) = std::get<1>(_health); }
+		void loseHealth(int health) { std::get<0>(_health) -= health; if (std::get<0>(_health) < 0) std::get<0>(_health) = 0; }
 
-	//std::string getWeapon(void) { return _weapon.name(); }
-	//void setWeapon(Item weapon) { _weapon = weapon; }
+		int getHealthMax(void) { return std::get<1>(_health); }
+		void setHealthMax(int health) { std::get<1>(_health) = health; }
+		void gainHealthMax(int health) { std::get<1>(_health) += health; }
+		void loseHealthMax(int health) { if (std::get<1>(_health) - health > 0) std::get<1>(_health) -= health; }
 
-	//std::string getArmor(void) { return _armor.name(); }
-	//void setArmor(Item armor) { _armor = armor; }
+		int getStrength(void) { return _strength; }
+		void setStrength(int strength) { _strength = strength; }
 
-	// Public Methods
-	//void viewStats(Console scrn);
-	//void Player::viewStats(Console scrn) {
-	//	scrn.clear();
-	//	scrn.cursorReset();
-	//	std::cout << this->getName() << std::endl;
-	//	std::cout << std::string(25, '~') << std::endl;
+		int getDefense(void) { return _defense; }
+		void setDefense(int defense) { _defense = defense; }
+
+		std::string getWeapon(void) { return _curWeapon.getName(); }
+		void setWeapon(Equipment weapon) { _curWeapon = weapon; }
+
+		std::string getArmor(void) { return _curArmor.getName(); }
+		void setArmor(Equipment armor) { _curArmor = armor; }
+
+		// Public Methods
+		void viewStats();
+	};
+	Player mainPlayer;
+
+	//class NPC
+	//{
+
 	//};
 
-};
-#pragma endregion
+	//class MOB
+	//{
 
-//#include "internals.h"
-
-//class creature
-//{
-//public:
-//	// Constructor
-//	creature(std::string name) {
-//		_name = name;
-//		_level = 1;
-//		_experience = 0;
-//		_gold = 100;
-//		_health = 100;
-//		_healthMax = 100;
-//		_strength = 5;
-//		_defense = 3;
-//		_weapon = equip("Fists", 0, equipType::misc);
-//		_armor = equip("Tunic", 0, equipType::gear);
-//	};
-//
-//	// Sets & Gets
-//	std::string getName(void) { return _name; }
-//	void setName(std::string name) { _name = name; }
-//
-//	int getLevel(void) { return _level; }
-//	void gainLevel(void) { if (_level < maxLevel) _level++;	}
-//	void loseLevel(void) { if (_level > minLevel) _level--;	}
-//
-//	int getExp(void) { return _experience; }
-//	
-//	int getGold(void) { return _gold; }
-//	void setGold(int gold) { _gold = gold; }
-//	void gainGold(int gold) { if (_gold + gold < maxGold) _gold += gold; }
-//	void loseGold(int gold) { if (_gold - gold > minGold) _gold -= gold; }
-//
-//	int getHealth(void) { return _health; }
-//	void setHealth(int health) { _health = health; }
-//	void gainGold(int health) { if (_health + health < _healthMax) _health += health; }
-//	void loseGold(int health) { if (_health - health > 0) _health -= health; }
-//
-//	int getHealthMax(void) { return _healthMax; }
-//	void setHealthMax(int health) { _healthMax = health; }
-//	void gainHealthMax(int health) { _healthMax += health; }
-//	void loseHealthMax(int health) { if (_healthMax - health > 0) _healthMax -= health; }
-//
-//	int getStrength(void) { return _strength; }
-//	void setStrength(int strength) { _strength = strength; }
-//	
-//	int getDefense(void) { return _defense; }
-//	void setDefense(int defense) { _defense = defense; }
-//	
-//	std::string getWeapon(void) { return _weapon.name(); }
-//	void setWeapon(equip weapon) { _weapon = weapon; }
-//	
-//	std::string getArmor(void) { return _armor.name(); }
-//	void setArmor(equip armor) { _armor = armor; }
-//
-//	// Public Methods
-//	//void viewStats(console screen);
-//	void viewStats(console screen) {
-//		screen.clear();
-//		screen.cursorReset();
-//		std::cout << this->getName() << std::endl;
-//		std::cout << std::string(25, '~') << std::endl;
-//	};
-//
-//private:
-//	std::string _name;
-//	int _level;
-//	int _experience;
-//	int _gold;
-//	int _health;
-//	int _healthMax;
-//	int _strength;
-//	int _defense;
-//	equip _weapon;
-//	equip _armor;
-//
-//protected:
-//	static const int minLevel = 1;
-//	static const int maxLevel = 10;
-//	static const int minExp = 0;
-//	static const int minGold = 0;
-//	static const int maxGold = 1000000;
-//};
-
-//class monster
-//{
-//
-//};
+	//};
+}
+#endif

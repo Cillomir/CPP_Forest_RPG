@@ -20,7 +20,6 @@ static void pressAnyKey();
 
 class Menu
 {
-#define Print std::cout <<
 protected:
 	const std::string def_Header = "Please make a selection:";
 	const std::string def_Prompt = "Your command? ";
