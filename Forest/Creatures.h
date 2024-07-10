@@ -24,7 +24,7 @@ namespace Creatures
 	};
 	class Creature
 	{
-	private:
+	protected:
 		std::string _name;
 		std::string _description;
 		int _level;
@@ -233,10 +233,56 @@ namespace Creatures
 	};
 	static Player mainPlayer;
 
-	//class NPC
-	//{
+	class NPC
+	{
+	private:
+		std::string _name;
+		std::string _description;
+		int _level;
+		std::tuple <int, int> _health;
+		Condition _condition;
+		std::vector<Equipment> _allEquipment;
 
-	//};
+		std::vector<Equipment> _inventory;
+
+	public:
+		NPC()
+		{
+			_name = "";
+			_description = "";
+			_level = 1;
+			_health = { 1, 1 };
+			_condition = Condition::healthy;
+			_allEquipment = std::vector<Equipment>();
+			_inventory = std::vector<Equipment>();
+
+		}
+		NPC(std::string name)
+		{
+			_name = name;
+			_description = "";
+			_level = 1;
+			_health = { 1, 1 };
+			_condition = Condition::healthy;
+			_allEquipment = std::vector<Equipment>();
+			_inventory = std::vector<Equipment>();
+		}
+		std::string getName() { return _name; }
+		void setName(std::string name) { _name = name; }
+		std::string getDescription() { return _description; }
+		void setDescription(std::string description) { _description = description; }
+		int getLevel() { return _level; }
+		void setLevel(int level) { _level = level; }
+		std::tuple<int, int> getHealth() { return _health; }
+		void setHealth(int health) { _health = { health, health }; }
+
+		void addItem(Equipment item) { _inventory.push_back(item); }
+		//void hasItem(Equipment item) { _inventory.??}
+		Equipment getItem(int index) { return _inventory.at(index); }
+		//void removeItem(int index) { _inventory.erase(_inventory.at(index)); }
+		std::vector<Equipment> allItems() { return _inventory; }
+
+	};
 
 	//class MOB
 	//{

@@ -51,9 +51,8 @@ using namespace CSL_Console;
 #define Print std::cout <<
 #define Input std::cin >>
 
-Creatures::Player introduction()
+static void introduction()
 {
-
 	CSL::clear();
 	std::string playerName;
     Print "Please enter your name: ";
@@ -62,17 +61,14 @@ Creatures::Player introduction()
 	Print "Welcome, " << playerName << "\n";
 	pressAnyKey();
 	Creatures::Player player = Creatures::Player(playerName);
-	//player.setMain();
 	Creatures::mainPlayer = player;
-	//Creatures::mainPlayer = Creatures::Player(playerName);
 	Creatures::mainPlayer.viewStats();
-	return player;
 }
 
 int main()
 {
 	CSL::enableVTMode();
-	Creatures::Player p = introduction();
+	introduction();
 	//Town::townInit();
 	//Item::init();
 	Town::townMain();

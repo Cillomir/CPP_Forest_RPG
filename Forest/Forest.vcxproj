@@ -104,6 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -118,6 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,19 +134,19 @@
     <ClCompile Include="dForest.cpp" />
     <ClCompile Include="support\Log.cpp" />
     <ClCompile Include="Menu.cpp" />
-	  <ClCompile Include="Equipment.cpp" />
-	  <ClCompile Include="Town.cpp" />
-	  <ClCompile Include="main.cpp" />
-	  <ClInclude Include="Abilities.h" />
+    <ClCompile Include="Equipment.cpp" />
+    <ClCompile Include="Town.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClInclude Include="Abilities.h" />
     <ClInclude Include="Creatures.h" />
-	  <ClInclude Include="Equipment.h" />
-	  <ClInclude Include="dungeons.h" />
-	  <ClInclude Include="Menu.h" />
-	  <ClInclude Include="Town.h" />
-	  <ClInclude Include="support\Locals.h" />
+    <ClInclude Include="Equipment.h" />
+    <ClInclude Include="dungeons.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Town.h" />
+    <ClInclude Include="support\Locals.h" />
     <ClInclude Include="support\Log.h" />
-	  <ClInclude Include="support\Console.h" />
-	  <ClInclude Include="support\Colors.h" />
+    <ClInclude Include="support\Console.h" />
+    <ClInclude Include="support\Colors.h" />
     <ClInclude Include="support\Internals.h" />
   </ItemGroup>
   <ItemGroup>

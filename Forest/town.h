@@ -3,22 +3,29 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <unordered_map>
 #include "support/Internals.h"
 #include "support/Console.h"
 #include "support/Locals.h"
 #include "Menu.h"
 #include "Creatures.h"
+#include "Equipment.h"
 using namespace CSL_Console;
 
 class Town
 {
 public:
+	static std::unordered_map<std::string, Creatures::NPC> shopkeepers;
+	static std::unordered_map<std::string, Menu> menus;
+
+	static void initTown();
 	static void townMain();
 
+	static void initArmorShop();
 	static void armorShop();
 	//static void buyArmor();
 	//static void sellArmor();
-	//static void listArmor();
+	static void listArmor();
 
 	static void weaponShop();
 	//static void buyWeapons() {};

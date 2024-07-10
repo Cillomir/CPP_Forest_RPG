@@ -1,7 +1,9 @@
 #pragma once
 #include "town.h"
+std::unordered_map<std::string, Creatures::NPC> Town::shopkeepers = std::unordered_map<std::string, Creatures::NPC>();
+std::unordered_map<std::string, Menu> Town::menus = std::unordered_map<std::string, Menu>();
 
-void Town::townMain()
+void Town::initTown()
 {
     std::string header = "Welcome to the town!";
     std::string prompt = "Select a destination:";
@@ -12,12 +14,18 @@ void Town::townMain()
     options.push_back(std::make_tuple('F', "orest"));
     options.push_back(std::make_tuple('V', "iew Your Stats"));
     options.push_back(std::make_tuple('Q', "uit"));
-    Menu townMenu = Menu(header, options, prompt);
-    char cmd;
+    Town::menus.emplace("town", Menu(header, options, prompt));
+}
+
+void Town::townMain()
+{
+    if (!Town::menus.contains("town"))
+        initTown();
+    unsigned char cmd;
     do {
         CSL::clear();
-        townMenu.display();
-        cmd = townMenu.select();
+        Town::menus["town"].display();
+        cmd = Town::menus["town"].select();
         switch (cmd) {
         case 'A':
             armorShop();
@@ -35,7 +43,7 @@ void Town::townMain()
             Creatures::mainPlayer.viewStats();
             break;
         }
-    } while (cmd != 'Q');
+    } while (cmd != 'Q' && cmd != CSL_Key::KEY_ESC);
 }
 
 //static void Town::armorShopInit()
@@ -55,8 +63,25 @@ void Town::townMain()
 //    // Menu::addMenu("Armor", m);
 //    // Menu::addMenu("Armor", Menu(header, options, prompt));
 //}
+void Town::initArmorShop()
+{
+    if (!Town::shopkeepers.contains("armor"))
+    {
+        Creatures::NPC shopkeep = Creatures::NPC("Angar Smithy");
+        shopkeep.addItem(Armor("Leather Jerkin", 100));
+        shopkeep.addItem(Armor("Padded Doublet", 200));
+        shopkeep.addItem(Armor("Hide Armor", 450));
+        shopkeep.addItem(Armor("Chainmail Armor", 800));
+        shopkeep.addItem(Armor("Scale Armor", 1100));
+        shopkeep.addItem(Armor("Coat of Plates", 1800));
+        shopkeep.addItem(Armor("Platemail Armor", 2500));
+        Town::shopkeepers.emplace("armor", shopkeep);
+    }
+}
+
 void Town::armorShop()
 {
+    initArmorShop();
     std::string header = "Welcome to the Armor Shop!";
     std::string prompt = "Select an Option:";
     std::vector<std::tuple<char, std::string>> options;
@@ -66,11 +91,11 @@ void Town::armorShop()
     options.push_back(std::make_tuple('V', "iew Your Stats"));
     options.push_back(std::make_tuple('R', "eturn to Town"));
     Menu armorMenu = Menu(header, options, prompt);
-    char cmd;
+    unsigned char cmd;
     do {
         CSL::clear();
         armorMenu.display();
-        cmd = IT::getKey();
+        cmd = armorMenu.select();
         switch (cmd) {
             //case 'B':
             //    buyArmor();
@@ -78,18 +103,27 @@ void Town::armorShop()
             //case 'S':
             //    sellArmor();
             //    break;
-            //case 'L':
-            //    listArmor();
-            //    break;
+            case 'L':
+                listArmor();
+                break;
             case 'V':
                 Creatures::mainPlayer.viewStats();
                 break;
             }
-    } while (cmd != 'R');
+    } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 }
 //static void buyArmor() {};
 //static void sellArmor() {};
-//static void listArmor() {};
+void Town::listArmor()
+{
+    CSL::clear();
+    std::vector<Equipment> items = Town::shopkeepers["armor"].allItems();
+    for (Equipment e : items) 
+    {
+        Print e.getName() << "   " << e.getValue() << "\n";
+    }
+    IT::pressKey();
+};
 
 //static void Town::weaponShopInit()
 //{
@@ -117,7 +151,7 @@ void Town::weaponShop()
     options.push_back(std::make_tuple('V', "iew Your Stats"));
     options.push_back(std::make_tuple('R', "eturn to Town"));
     Menu weaponMenu = Menu(header, options, prompt);
-    char cmd;
+    unsigned char cmd;
     do {
         CSL::clear();
         weaponMenu.display();
@@ -136,7 +170,7 @@ void Town::weaponShop()
             Creatures::mainPlayer.viewStats();
             break;
         }
-} while (cmd != 'R');
+} while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 }
 //static void buyWeapons() {};
 //static void sellWeapons() {};
@@ -170,7 +204,7 @@ void Town::healersHut()
     options.push_back(std::make_tuple('V', "iew Your Stats"));
     options.push_back(std::make_tuple('R', "eturn to Town"));
     Menu healersMenu = Menu(header, options, prompt);
-    char cmd;
+    unsigned char cmd;
     do {
         CSL::clear();
         healersMenu.display();
@@ -192,7 +226,7 @@ void Town::healersHut()
         //    player.viewStats();
         //    break;
         //}
-    } while (cmd != 'R');
+    } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 
 }
 //static void getHealing();
