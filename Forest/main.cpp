@@ -41,10 +41,10 @@ To-Do:
 #include "support/Console.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
-#include "menu.h"
-#include "town.h"
-#include "creature.h"
-//#include "equipment.h"
+#include "Menu.h"
+#include "Town.h"
+#include "Creatures.h"
+#include "Equipment.h"
 //#include "dungeons.h"
 using namespace CSL_Console;
 

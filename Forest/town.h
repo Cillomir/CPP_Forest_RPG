@@ -6,20 +6,21 @@
 #include "support/Internals.h"
 #include "support/Console.h"
 #include "support/Locals.h"
-#include "menu.h"
-#include "creature.h"
+#include "Menu.h"
+#include "Creatures.h"
 using namespace CSL_Console;
 
-namespace Town
+class Town
 {
-    static void townMain();
+public:
+	static void townMain();
 
-    static void armorShop();
-    //static void buyArmor();
-    //static void sellArmor();
-    //static void listArmor();
+	static void armorShop();
+	//static void buyArmor();
+	//static void sellArmor();
+	//static void listArmor();
 
-    static void weaponShop();
+	static void weaponShop();
 	//static void buyWeapons() {};
 	//static void sellWeapons() {};
 	//static void listWeapons() {};
@@ -30,4 +31,4 @@ namespace Town
 	//static void sellPotions();
 	//static void listPotions();
 
-}
+};

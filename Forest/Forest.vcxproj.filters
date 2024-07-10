@@ -15,19 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="town.cpp">
+    <ClCompile Include="Town.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="creature.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="equipment.cpp">
+    <ClCompile Include="Equipment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="dForest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="menu.cpp">
+    <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
@@ -36,15 +33,18 @@
     <ClCompile Include="support\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Creatures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Abilities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="creature.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="support\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="equipment.h">
+    <ClInclude Include="Equipment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Internals.h">
@@ -53,16 +53,25 @@
     <ClInclude Include="dungeons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="menu.h">
+    <ClInclude Include="Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="town.h">
+    <ClInclude Include="Town.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Colors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Creatures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Abilities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="support\Locals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

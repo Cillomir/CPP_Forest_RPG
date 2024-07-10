@@ -1,7 +1,6 @@
 #pragma once
 #include "town.h"
 
-#pragma region Town
 void Town::townMain()
 {
     std::string header = "Welcome to the town!";
@@ -18,7 +17,7 @@ void Town::townMain()
     do {
         CSL::clear();
         townMenu.display();
-        cmd = IT::getKey();
+        cmd = townMenu.select();
         switch (cmd) {
         case 'A':
             armorShop();
@@ -38,9 +37,7 @@ void Town::townMain()
         }
     } while (cmd != 'Q');
 }
-#pragma endregion
 
-#pragma region Armor Shop
 //static void Town::armorShopInit()
 //{
 //    std::string header = "Welcome to the Armor Shop!";
@@ -93,9 +90,7 @@ void Town::armorShop()
 //static void buyArmor() {};
 //static void sellArmor() {};
 //static void listArmor() {};
-#pragma endregion
 
-#pragma region Weapon Shop
 //static void Town::weaponShopInit()
 //{
 //    std::string header = "Welcome to the Weapon Shop!";
@@ -146,9 +141,7 @@ void Town::weaponShop()
 //static void buyWeapons() {};
 //static void sellWeapons() {};
 //static void listWeapons() {};
-#pragma endregion
 
-#pragma region Healers Hut
 //static void Town::healersHutInit()
 //{
 //    std::string header = "Welcome to the Healer's Hut!";
@@ -165,7 +158,7 @@ void Town::weaponShop()
 //    // Menu::addMenu("Healer", m);
 //    // Menu::addMenu("Healer", Menu(header, options, prompt));
 //}
-static void Town::healersHut()
+void Town::healersHut()
 {
     std::string header = "Welcome to the Healer's Hut!";
     std::string prompt = "Select an Option:";
@@ -206,4 +199,3 @@ static void Town::healersHut()
 //static void buyPotions();
 //static void sellPotions();
 //static void listPotions();
-#pragma endregion

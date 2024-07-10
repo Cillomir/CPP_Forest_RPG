@@ -5,7 +5,8 @@
 #include <algorithm>
 #include <tuple>
 #include "support/Console.h"
-//#include "internals.h"
+#include "support/Internals.h"
+#include "support/Locals.h"
 
 class Equipment
 {
@@ -14,7 +15,7 @@ public:
 		weapon, armor, potion, gear, misc
 	};
 
-private:
+protected:
 	std::string _name;
 	int _value;
 	EquipType _type;
@@ -25,6 +26,12 @@ public:
 		_name = "";
 		_value = 0;
 		_type = EquipType::misc;
+	}
+	Equipment(EquipType type)
+	{
+		_name = "";
+		_value = 0;
+		_type = type;
 	}
 	Equipment(std::string name, int value, EquipType type)
 	{
@@ -74,63 +81,197 @@ public:
 	}
 };
 
-//class Weapon : public Equipment
-//{
-//private:
-//	//std::string name;
-//	std::string _description;
-//	//int value;
-//	bool _masterwork;
-//	int _cutting;
-//	int _piercing;
-//	int _smashing;
-//	int _accuracy;
-//	std::tuple<int, int> _damage;
-//
-//public:
-//	Weapon()
-//	{
-//		_name = "";
-//		_description = "";
-//		_value = 0;
-//		_type = EquipType::weapon;
-//		_masterwork = false;
-//		_cutting = 0;
-//		_piercing = 0;
-//		_smashing = 0;
-//		_accuracy = 0;
-//		_damage = { 0, 0 };
-//	}
-//};
-//
-//class Armor : public Equipment
-//{
-//private:
-//	//std::string name;
-//	std::string _description;
-//	//int value;
-//	bool _masterwork;
-//	int _hardness;
-//	int _cutting;
-//	int _piercing;
-//	int _smashing;
-//	int _health;
-//
-//public:
-//	Armor()
-//	{
-//		_name = "";
-//		_description = "";
-//		_value = 0;
-//		_type = EquipType::armor;
-//		_masterwork = false;
-//		_hardness = 0;
-//		_cutting = 0;
-//		_piercing = 0;
-//		_smashing = 0;
-//		_health = 0;
-//	}
-//};
+class Weapon : public Equipment
+{
+private:
+	std::string _description;
+	bool _masterwork;
+	int _speed;
+	int _cutting;
+	int _stabbing;
+	int _smashing;
+	int _accuracy;
+	std::tuple<int, int> _damage;
+	int _penalty;
+
+public:
+	Weapon() : Equipment(EquipType::weapon)
+	{
+		_description = "";
+		_masterwork = false;
+		_speed = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_accuracy = 0;
+		_damage = { 0, 0 };
+		_penalty = 0;
+	}
+	Weapon(std::string name, int value) : Equipment(name, value, EquipType::weapon)
+	{
+		_description = "";
+		_masterwork = false;
+		_speed = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_accuracy = 0;
+		_damage = { 0, 0 };
+		_penalty = 0;
+	}
+	Weapon(std::string name, int value, EquipType type) : Equipment(name, value, type)
+	{
+		_description = "";
+		_masterwork = false;
+		_speed = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_accuracy = 0;
+		_damage = { 0, 0 };
+		_penalty = 0;
+	}
+
+	// Gets and Sets
+	bool getMasterwork() { return _masterwork; }
+	void setMasterwork(bool b) { _masterwork = b; }
+	int getSpeed() { return _speed; }
+	void setSpeed(int speed) { _speed = speed; }
+	int getCutting() { return _cutting; }
+	void setCutting(int cutting) { _cutting = cutting; }
+	int getStabbing() { return _stabbing; }
+	void setStabbing(int stabbing) { _stabbing = stabbing; }
+	int getSmashing() { return _smashing; }
+	void setSmashing(int smashing) { _smashing = smashing; }
+	int getAccuracy() { return _accuracy; }
+	void setAccuracy(int accuracy) { _accuracy = accuracy; }
+	std::tuple<int, int> getDamage() { return _damage; }
+	void setDamage(int damage, int dice) { _damage = { damage, dice }; }
+	int getPenalty() { return _penalty; }
+	void setPenalty(int penalty) { _penalty = penalty; }
+};
+
+class Armor : public Equipment
+{
+private:
+	std::string _description;
+	bool _masterwork;
+	int _health;
+	int _hardness;
+	int _cutting;
+	int _stabbing;
+	int _smashing;
+	int _penalty;
+
+public:
+	Armor() : Equipment(EquipType::armor)
+	{
+		_description = "";
+		_masterwork = false;
+		_health = 0;
+		_hardness = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_penalty = 0;
+	}
+	Armor(std::string name, int value) : Equipment(name, value, EquipType::armor)
+	{
+		_description = "";
+		_masterwork = false;
+		_health = 0;
+		_hardness = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_penalty = 0;
+	}
+	Armor(std::string name, int value, EquipType type) : Equipment(name, value, type)
+	{
+		_description = "";
+		_masterwork = false;
+		_health = 0;
+		_hardness = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_penalty = 0;
+	}
+
+	// Gets and Sets
+	bool getMasterwork() { return _masterwork; }
+	void setMasterwork(bool b) { _masterwork = b; }
+	int getHealth() { return _health; }
+	void setHealth(int health) { _health = health; }
+	int getHardness() { return _hardness; }
+	void setHardness(int hardness) { _hardness = hardness; }
+	int getCutting() { return _cutting; }
+	void setCutting(int cutting) { _cutting = cutting; }
+	int getStabbing() { return _stabbing; }
+	void setStabing(int stabbing) { _stabbing = stabbing; }
+	int getSmashing() { return _smashing; }
+	void setSmashing(int smashing) { _smashing = smashing; }
+	int getPenalty() { return _penalty; }
+	void setPenalty(int penalty) { _penalty = penalty; }
+};
+
+class Shield : public Equipment
+{
+private:
+	std::string _description;
+	bool _masterwork;
+	int _defense;
+	int _cutting;
+	int _stabbing;
+	int _smashing;
+	int _penalty;
+
+public:
+	Shield() : Equipment(EquipType::armor)
+	{
+		_description = "";
+		_masterwork = false;
+		_defense = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_penalty = 0;
+	}
+	Shield(std::string name, int value) : Equipment(name, value, EquipType::armor)
+	{
+		_description = "";
+		_masterwork = false;
+		_defense = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_penalty = 0;
+	}
+	Shield(std::string name, int value, EquipType type) : Equipment(name, value, type)
+	{
+		_description = "";
+		_masterwork = false;
+		_defense = 0;
+		_cutting = 0;
+		_stabbing = 0;
+		_smashing = 0;
+		_penalty = 0;
+	}
+	// Gets and Sets
+	bool getMasterwork() { return _masterwork; }
+	void setMasterwork(bool b) { _masterwork = b; }
+	int getDefense() { return _defense; }
+	void setDefense(int defense) { _defense = defense; }
+	int getCutting() { return _cutting; }
+	void setCutting(int cutting) { _cutting = cutting; }
+	int getStabbing() { return _stabbing; }
+	void setStabbing(int stabbing) { _stabbing = stabbing; }
+	int getSmashing() { return _smashing; }
+	void setSmashing(int smashing) { _smashing = smashing; }
+	int getPenalty() { return _penalty; }
+	void setPenalty(int penalty) { _penalty = penalty; }
+};
+
 
 
 //	Item() {};

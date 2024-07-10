@@ -3,10 +3,11 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <cstdio>
 #include "support/Console.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
-#include "equipment.h"
+#include "Equipment.h"
 
 #ifndef CREATURES_H
 #define CREATURES_H
@@ -16,6 +17,10 @@ namespace Creatures
 	enum class Condition
 	{
 		healthy, light_injury, medium_injury, heavy_injury, near_death, dead
+	};
+	enum class Title
+	{
+		none, fledgling, novice, adventurer, expert, master
 	};
 	class Creature
 	{
@@ -81,32 +86,25 @@ namespace Creatures
 		int _experience;
 		int _gold;
 		std::tuple <int, int> _health;
+		std::tuple <int, int> _spirit;
+		std::tuple <int, int> _stamina;
 		int _strength;
-		int _defense;
-		Equipment _curWeapon;
-		Equipment _curArmor;
+		int _fortitude;
+		int _agility;
+		int _intellect;
+		Weapon _curWeapon;
+		Armor _curArmor;
+		Shield _curShield;
 		std::vector<Equipment> _allEquipment;
-		std::vector<Equipment> _allWeapons;
-		std::vector<Equipment> _allArmors;
+		std::vector<Weapon> _allWeapons;
+		std::vector<Armor> _allArmors;
+		std::vector<Shield> _allShields;
 		std::vector<Equipment> _allPotions;
 		std::vector<Equipment> _allGear;
 		std::vector<Equipment> _allMisc;
 
 		void setDefaults();
-		//	void sortEquipment(void)
-		//	{
-		//		std::sort(_allWeapons.begin(), _allWeapons.end(), [](equip a, equip b) {return a._name < b._name; });
-		//		std::sort(_allArmors.begin(), _allArmors.end(), [](equip a, equip b) {return a._name < b._name; });
-		//		std::sort(_allPotions.begin(), _allPotions.end(), [](equip a, equip b) {return a._name < b._name; });
-		//		std::sort(_allGear.begin(), _allGear.end(), [](equip a, equip b) {return a._name < b._name; });
-		//		std::sort(_allMisc.begin(), _allMisc.end(), [](equip a, equip b) {return a._name < b._name; });
-		//		_allEquipment.clear();
-		//		_allEquipment.emplace_back(_allWeapons);
-		//		_allEquipment.emplace_back(_allArmors);
-		//		_allEquipment.emplace_back(_allPotions);
-		//		_allEquipment.emplace_back(_allGear);
-		//		_allEquipment.emplace_back(_allMisc);
-		//	};
+		void sortEquipment();
 
 	public:
 		// Constructor
@@ -121,11 +119,6 @@ namespace Creatures
 			setDefaults();
 		}
 
-		// Sets & Gets
-		//void setMain()
-		//{
-		//	mainPlayer = *this;
-		//}
 		Player& operator=(Player& obj)
 		{
 			if (this != &obj)
@@ -136,10 +129,15 @@ namespace Creatures
 				_experience = obj._experience;
 				_gold = obj._gold;
 				_health = obj._health;
+				_spirit = obj._spirit;
+				_stamina = obj._stamina;
 				_strength = obj._strength;
-				_defense = obj._defense;
+				_fortitude = obj._fortitude;
+				_agility = obj._agility;
+				_intellect = obj._intellect;
 				_curWeapon = obj._curWeapon;
 				_curArmor = obj._curArmor;
+				_curShield = obj._curShield;
 				_allEquipment = obj._allEquipment;
 				_allWeapons = obj._allWeapons;
 				_allArmors = obj._allArmors;
@@ -149,6 +147,7 @@ namespace Creatures
 			}
 			return *this;
 		}
+		// Sets & Gets
 
 		std::string getName(void) { return _name; }
 		void setName(std::string name) { _name = name; }
@@ -178,20 +177,59 @@ namespace Creatures
 		void gainHealthMax(int health) { std::get<1>(_health) += health; }
 		void loseHealthMax(int health) { if (std::get<1>(_health) - health > 0) std::get<1>(_health) -= health; }
 
+		int getSpirit(void) { return std::get<0>(_spirit); }
+		void setSpirit(int spirit) { std::get<0>(_spirit) = spirit; }
+		void gainSpirit(int spirit) { std::get<0>(_spirit) += spirit; if (std::get<0>(_spirit) > std::get<1>(_spirit)) std::get<0>(_spirit) = std::get<1>(_spirit); }
+		void loseSpirit(int spirit) { std::get<0>(_spirit) -= spirit; if (std::get<0>(_spirit) < 0) std::get<0>(_spirit) = 0; }
+
+		int getSpiritMax(void) { return std::get<1>(_spirit); }
+		void setSpiritMax(int spirit) { std::get<1>(_spirit) = spirit; }
+		void gainSpiritMax(int spirit) { std::get<1>(_spirit) += spirit; }
+		void loseSpiritMax(int spirit) { if (std::get<1>(_spirit) - spirit > 0) std::get<1>(_spirit) -= spirit; }
+
+		int getStamina(void) { return std::get<0>(_stamina); }
+		void setStamina(int stamina) { std::get<0>(_stamina) = stamina; }
+		void gainStamina(int stamina) { std::get<0>(_stamina) += stamina; if (std::get<0>(_stamina) > std::get<1>(_stamina)) std::get<0>(_stamina) = std::get<1>(_stamina); }
+		void loseStamina(int stamina) { std::get<0>(_stamina) -= stamina; if (std::get<0>(_stamina) < 0) std::get<0>(_stamina) = 0; }
+
+		int getStaminaMax(void) { return std::get<1>(_stamina); }
+		void setStaminaMax(int stamina) { std::get<1>(_stamina) = stamina; }
+		void gainStaminaMax(int stamina) { std::get<1>(_stamina) += stamina; }
+		void loseStaminaMax(int stamina) { if (std::get<1>(_stamina) - stamina > 0) std::get<1>(_stamina) -= stamina; }
+
 		int getStrength(void) { return _strength; }
 		void setStrength(int strength) { _strength = strength; }
 
-		int getDefense(void) { return _defense; }
-		void setDefense(int defense) { _defense = defense; }
+		int getFortitude(void) { return _fortitude; }
+		void setFortitude(int fortitude) { _fortitude = fortitude; }
+
+		int getAgility(void) { return _agility; }
+		void setAgility(int agility) { _agility = agility; }
+
+		int getIntellect(void) { return _intellect; }
+		void setIntellect(int intellect) { _intellect = intellect; }
 
 		std::string getWeapon(void) { return _curWeapon.getName(); }
-		void setWeapon(Equipment weapon) { _curWeapon = weapon; }
+		void setWeapon(Weapon weapon) { _curWeapon = weapon; }
 
 		std::string getArmor(void) { return _curArmor.getName(); }
-		void setArmor(Equipment armor) { _curArmor = armor; }
+		void setArmor(Armor armor) { _curArmor = armor; }
+
+		std::string getShield(void) { return _curShield.getName(); }
+		void setShield(Shield shield) { _curShield = shield; }
+
+		int getAccuracy();
+		int getDamCutting();
+		int getDamStabbing();
+		int getDamSmashing();
+		int getDodge();
+		int getResCutting();
+		int getResStabbing();
+		int getResSmashing();
 
 		// Public Methods
 		void viewStats();
+		void statLine();
 	};
 	static Player mainPlayer;
 
