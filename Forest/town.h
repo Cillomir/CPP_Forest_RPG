@@ -22,6 +22,7 @@ public:
 	static void townMain();
 
 	static void initArmorShop();
+	static void initWeaponShop();
 	static void armorShop();
 	//static void buyArmor();
 	//static void sellArmor();
@@ -37,5 +38,7 @@ public:
 	//static void buyPotions();
 	//static void sellPotions();
 	//static void listPotions();
+
+	static void listItems(Creatures::NPC shopkeep);
 
 };
