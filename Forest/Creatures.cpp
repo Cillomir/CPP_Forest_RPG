@@ -6,16 +6,6 @@ using namespace CSL_Console;
 using namespace CSL_Cursor;
 using namespace CSL_Line;
 
-//Creatures::mainPlayer = Player();
-
-void Creature::setDefaults(int level, int health)
-{
-	_level = level;
-	_health = { health, health };
-	_condition = Condition::healthy;
-	_allEquipment = std::vector<Equipment>();
-};
-
 void Player::setDefaults()
 {
 	_title = "the fledgling";
@@ -60,74 +50,6 @@ void Player::sortEquipment()
 //		_allEquipment.emplace_back(_allMisc);
 	};
 
-void Creature::calcCondition()
-{
-	if (std::get<0>(_health) <= 0)
-	{
-		std::get<0>(_health) = 0;
-		_condition = Condition::dead;
-	}
-	float percent = (float)std::get<0>(_health) / (float)std::get<1>(_health);
-	percent *= 100;
-	if (percent >= 100)
-		_condition = Condition::healthy;
-	else if (percent >= 80)
-		_condition = Condition::light_injury;
-	else if (percent >= 50)
-		_condition = Condition::medium_injury;
-	else if (percent >= 20)
-		_condition = Condition::heavy_injury;
-	else if (percent > 0)
-		_condition = Condition::near_death;
-	else
-		_condition = Condition::dead;
-}
-void Creature::look()
-{
-	std::cout << _description << std::endl;;
-}
-void Creature::examine()
-{
-	std::cout << _name << ": " << _description << std::endl;
-	std::cout << "Level: " << _level << std::endl;
-	std::cout << "Health: " << std::get<0>(_health) << "/" << std::get<1>(_health) << std::endl;
-	for (Equipment e : _allEquipment)
-	{
-		e.description();
-	}
-}
-void Creature::hurt(int amount)
-{
-	std::get<0>(_health) -= amount;
-	if (std::get<0>(_health) < 0)
-		std::get<0>(_health) = 0;
-	calcCondition();
-}
-void Creature::heal(int amount)
-{
-	std::get<0>(_health) += amount;
-	if (std::get<0>(_health) > std::get<1>(_health))
-		std::get<0>(_health) = std::get<1>(_health);
-	calcCondition();
-}
-bool Creature::take(Equipment item)
-{
-	int i = 0;
-	bool has = false;
-	for (Equipment e : _allEquipment)
-	{
-		if (e.getName() == item.getName())
-		{
-			has = true;
-			break;
-		}
-		i++;
-	}
-	if (has)
-		_allEquipment.erase(_allEquipment.begin() + i);
-	return has;
-}
-
 int Player::getAccuracy()
 {
 	int acc = _agility + _curWeapon.getSpeed() - _curArmor.getPenalty() - _curShield.getPenalty();
@@ -169,7 +91,7 @@ int Player::getResSmashing()
 	return res;
 }
 
-void Player::viewStats() 
+void Player::viewStats()
 {
 	CSL::clear();
 	Line::lineDrawingOn();
@@ -241,12 +163,12 @@ void Player::viewStats()
 
 	Cursor::setPos(5, 2);
 	Print FG_AZURE1 << getName() << FG_CYAN1 << ", " << getTitle() << FG_GRAY2;
-	
+
 	Cursor::setPos(5, 4);
 	Print "Level: " << FG_SPRING1 << getLevel() << FG_GRAY2;
 	Cursor::setHor(23);
 	Print "Experience: " << FG_SPRING1 << getExp() << FG_GRAY2;
-	
+
 	char health[5], spirit[5], stamina[5] = { 0 };
 	sprintf_s(health, 5, "% 4d", getHealth());
 	sprintf_s(spirit, 5, "% 4d", getSpirit());
@@ -257,7 +179,7 @@ void Player::viewStats()
 	Print "Spirit:  " << FG_RED1 << spirit << FG_GRAY1 << "/" << FG_RED1 << getSpiritMax() << FG_GRAY2;
 	Cursor::setPos(5, 8);
 	Print "Stamina: " << FG_RED1 << stamina << FG_GRAY1 << "/" << FG_RED1 << getStaminaMax() << FG_GRAY2;
-	
+
 	Cursor::setPos(5, 10);
 	Print "Strength: " << FG_ORANGE1 << getStrength() << FG_GRAY2;
 	Cursor::setHor(23);
@@ -266,7 +188,7 @@ void Player::viewStats()
 	Print "Agility: " << FG_GREEN1 << getAgility() << FG_GRAY2;
 	Cursor::setHor(59);
 	Print "Intellect: " << FG_CYAN1 << getIntellect() << FG_GRAY2;
-	
+
 	Cursor::setPos(5, 12);
 	Print "Gold: " << FG_GOLD1 << getGold() << FG_GRAY2;
 	Cursor::setPos(5, 13);
@@ -317,3 +239,125 @@ void Player::statLine()
 	Print getStaminaMax() << FG_GRAY2 << ">: " << SGR_RESET << CUR_SHAPE_BAR_B;
 
 }
+
+void Creature::setDefaults(std::string name, std::string description, int level, int health)
+{
+	_name = name;
+	_description = description;
+	_level = level;
+	_health = { health, health };
+	_condition = Condition::healthy;
+	_equipment = std::vector<Equipment>();
+};
+
+void Creature::calcCondition()
+{
+	if (std::get<0>(_health) <= 0)
+	{
+		std::get<0>(_health) = 0;
+		_condition = Condition::dead;
+	}
+	float percent = (float)std::get<0>(_health) / (float)std::get<1>(_health);
+	percent *= 100;
+	if (percent >= 100)
+		_condition = Condition::healthy;
+	else if (percent >= 80)
+		_condition = Condition::light_injury;
+	else if (percent >= 50)
+		_condition = Condition::medium_injury;
+	else if (percent >= 20)
+		_condition = Condition::heavy_injury;
+	else if (percent > 0)
+		_condition = Condition::near_death;
+	else
+		_condition = Condition::dead;
+}
+void Creature::look()
+{
+	std::cout << _description << std::endl;;
+}
+void Creature::examine()
+{
+	std::cout << _name << ": " << _description << std::endl;
+	std::cout << "Level: " << _level << std::endl;
+	std::cout << "Health: " << std::get<0>(_health) << "/" << std::get<1>(_health) << std::endl;
+	for (Equipment e : _equipment)
+	{
+		e.description();
+	}
+}
+void Creature::hurt(int amount)
+{
+	std::get<0>(_health) -= amount;
+	if (std::get<0>(_health) < 0)
+		std::get<0>(_health) = 0;
+	calcCondition();
+}
+void Creature::heal(int amount)
+{
+	std::get<0>(_health) += amount;
+	if (std::get<0>(_health) > std::get<1>(_health))
+		std::get<0>(_health) = std::get<1>(_health);
+	calcCondition();
+}
+bool Creature::has(Equipment item)
+{
+	bool has = false;
+	for (Equipment e : _equipment)
+	{
+		if (e.getName() == item.getName())
+		{
+			has = true;
+			break;
+		}
+	}
+	return has;
+}
+bool Creature::take(Equipment item)
+{
+	int i = 0;
+	bool has = false;
+	for (Equipment e : _equipment)
+	{
+		if (e.getName() == item.getName())
+		{
+			has = true;
+			break;
+		}
+		i++;
+	}
+	if (has)
+		_equipment.erase(_equipment.begin() + i);
+	return has;
+}
+
+void NPC::addItem(Equipment item)
+{
+	_inventory.push_back(item);
+}
+bool NPC::hasItem(Equipment item)
+{
+	bool has = false;
+	for (Equipment e : _inventory)
+	{
+		if (e.getName() == item.getName())
+		{
+			has = true;
+			break;
+		}
+	}
+	return has;
+}
+Equipment NPC::getItem(int index)
+{ 
+	return _inventory.at(index);
+}
+void NPC::removeItem(int index)
+{ 
+	_inventory.erase(_inventory.begin() + index);
+}
+std::vector<Equipment> NPC::allItems()
+{ 
+	return _inventory; 
+}
+

@@ -22,52 +22,6 @@ namespace Creatures
 	{
 		none, fledgling, novice, adventurer, expert, master
 	};
-	class Creature
-	{
-	protected:
-		std::string _name;
-		std::string _description;
-		int _level;
-		std::tuple <int, int> _health;
-		Condition _condition;
-		std::vector<Equipment> _allEquipment;
-
-		void setDefaults(int level, int health);
-		void calcCondition();
-
-	public:
-		Creature(std::string name)
-		{
-			_name = name;
-			_description = "";
-			setDefaults(1, 100);
-		}
-		Creature(std::string name, std::string description)
-		{
-			_name = name;
-			_description = description;
-			setDefaults(1, 100);
-		}
-		Creature(std::string name, std::string description, int level, int health)
-		{
-			_name = name;
-			_description = description;
-			setDefaults(level, health);
-		}
-		std::string getName() { return _name; }
-		void setName(std::string name) { _name = name; }
-		std::string getDescription() { return _description; }
-		void setDescription(std::string description) { _description = description; }
-		int getLevel() { return _level; }
-		void setLevel(int level) { _level = level; }
-		std::tuple<int, int> getHealth() { return _health; }
-		void setHealth(int health) { _health = { health, health }; }
-		void look();
-		void examine();
-		void hurt(int amount);
-		void heal(int amount);
-		bool take(Equipment item);
-	};
 
 	class Player
 	{
@@ -233,39 +187,35 @@ namespace Creatures
 	};
 	static Player mainPlayer;
 
-	class NPC
+	class Creature
 	{
-	private:
+	protected:
 		std::string _name;
 		std::string _description;
 		int _level;
 		std::tuple <int, int> _health;
 		Condition _condition;
-		std::vector<Equipment> _allEquipment;
+		std::vector<Equipment> _equipment;
 
-		std::vector<Equipment> _inventory;
+		void setDefaults(std::string name, std::string description, int level, int health);
+		void calcCondition();
 
 	public:
-		NPC()
+		Creature()
 		{
-			_name = "";
-			_description = "";
-			_level = 1;
-			_health = { 1, 1 };
-			_condition = Condition::healthy;
-			_allEquipment = std::vector<Equipment>();
-			_inventory = std::vector<Equipment>();
-
+			setDefaults("", "", 1, 100);
 		}
-		NPC(std::string name)
+		Creature(std::string name)
 		{
-			_name = name;
-			_description = "";
-			_level = 1;
-			_health = { 1, 1 };
-			_condition = Condition::healthy;
-			_allEquipment = std::vector<Equipment>();
-			_inventory = std::vector<Equipment>();
+			setDefaults(name, "", 1, 100);
+		}
+		Creature(std::string name, std::string description)
+		{
+			setDefaults(name, description, 1, 100);
+		}
+		Creature(std::string name, std::string description, int level, int health)
+		{
+			setDefaults(name, description, level, health);
 		}
 		std::string getName() { return _name; }
 		void setName(std::string name) { _name = name; }
@@ -275,12 +225,53 @@ namespace Creatures
 		void setLevel(int level) { _level = level; }
 		std::tuple<int, int> getHealth() { return _health; }
 		void setHealth(int health) { _health = { health, health }; }
+		void look();
+		void examine();
+		void hurt(int amount);
+		void heal(int amount);
+		bool has(Equipment item);
+		bool take(Equipment item);
+	};
 
-		void addItem(Equipment item) { _inventory.push_back(item); }
-		//void hasItem(Equipment item) { _inventory.??}
-		Equipment getItem(int index) { return _inventory.at(index); }
-		//void removeItem(int index) { _inventory.erase(_inventory.at(index)); }
-		std::vector<Equipment> allItems() { return _inventory; }
+	class NPC : public Creature
+	{
+	protected:
+		//std::string _name;
+		//std::string _description;
+		//int _level;
+		//std::tuple <int, int> _health;
+		//Condition _condition;
+		//std::vector<Equipment> _allEquipment;
+
+	private:
+		std::vector<Equipment> _inventory;
+
+	public:
+		NPC()
+		{
+			setDefaults("", "", 1, 100);
+			_inventory = std::vector<Equipment>();
+
+		}
+		NPC(std::string name)
+		{
+			setDefaults(name, "", 1, 100);
+			_inventory = std::vector<Equipment>();
+		}
+		//std::string getName() { return _name; }
+		//void setName(std::string name) { _name = name; }
+		//std::string getDescription() { return _description; }
+		//void setDescription(std::string description) { _description = description; }
+		//int getLevel() { return _level; }
+		//void setLevel(int level) { _level = level; }
+		//std::tuple<int, int> getHealth() { return _health; }
+		//void setHealth(int health) { _health = { health, health }; }
+
+		void addItem(Equipment item);
+		bool hasItem(Equipment item);
+		Equipment getItem(int index);
+		void removeItem(int index);
+		std::vector<Equipment> allItems();
 
 	};
 

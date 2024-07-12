@@ -194,8 +194,8 @@ void Town::weaponShop()
     do {
         CSL::clear();
         Town::menus["weapon"].display();
-        Town::menus["weapon"].select();
-        switch (cmd) {
+        cmd = Town::menus["weapon"].select();
+        switch(cmd) {
         //case 'B':
         //    buyWeapons();
         //    break;
