@@ -23,10 +23,11 @@ public:
 
 	static void initArmorShop();
 	static void initWeaponShop();
+	static void initHealersHut();
 	static void armorShop();
 	//static void buyArmor();
 	//static void sellArmor();
-	static void listArmor();
+//	static void listArmor();
 
 	static void weaponShop();
 	//static void buyWeapons() {};
@@ -40,5 +41,7 @@ public:
 	//static void listPotions();
 
 	static void listItems(Creatures::NPC shopkeep);
+	static void buyItem(Creatures::NPC shopkeep);
+	static void sellItem(Creatures::NPC shopkeep);
 
 };

@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <tuple>
+#include <functional>
 #include "support/Console.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
@@ -272,7 +273,50 @@ public:
 	void setPenalty(int penalty) { _penalty = penalty; }
 };
 
+class Potion : public Equipment
+{
+private:
+	std::string _description;
+//	std::function<void(Creatures::Creature)> _action;
+	std::tuple<int, int> _power;
 
+public:
+	Potion() 
+		: Equipment(EquipType::potion)
+	{
+		_description = "";
+		//_action = {};
+		_power = { 0, 0 };
+	}
+	Potion(std::string name, int value) 
+		: Equipment(name, value, EquipType::potion)
+	{
+		_description = "";
+		//_action = {};
+		_power = { 0, 0 };
+	}
+	//Potion(std::string name, int value, std::function<void(Creatures::Creature)> action) 
+	//	: Equipment(name, value, EquipType::potion)
+	//{
+	//	_description = "";
+	//	_action = action;
+	//	_power = { 0, 0 };
+	//}
+	//Potion(std::string name, int value, std::tuple<int, int> power, std::function<void(Creatures::Creature)> action) 
+	//	: Equipment(name, value, EquipType::potion)
+	//{
+	//	_description = "";
+	//	_action = action;
+	//	_power = power;
+	//}
+	//Potion(std::string name, int value, std::string description, std::tuple<int, int> power, std::function<void(Creatures::Creature)> action) 
+	//	: Equipment(name, value, EquipType::potion)
+	//{
+	//	_description = description;
+	//	_action = action;
+	//	_power = power;
+	//}
+};
 
 //	Item() {};
 //
@@ -323,28 +367,3 @@ public:
 //	ItemType _type;
 //};
 
-//	static void init(void);
-
-//static bool initComplete = false;
-//static void init(void) {
-//	if (!initComplete) {
-//		equip t;
-//		t = equip("Fists", 0, equipType::misc);
-//		t = equip("Dagger", 0, equipType::weapon);
-//		t = equip("Iron Shortsword", 0, equipType::weapon);
-//		t = equip("Iron Longsword", 0, equipType::weapon);
-//		t = equip("Steel Shortsword", 0, equipType::weapon);
-//		t = equip("Steel Longsword", 0, equipType::weapon);
-//		t = equip("Tunic", 0, equipType::armor);
-//		t = equip("Leather", 0, equipType::armor);
-//		t = equip("Hide", 0, equipType::armor);
-//		t = equip("Chainmail", 0, equipType::armor);
-//		t = equip("Scalemail", 0, equipType::armor);
-//		t = equip("Half-Plate", 0, equipType::armor);
-//		t = equip("Plate", 0, equipType::armor);
-//		t = equip("Health", 0, equipType::potion);
-//		t = equip("Spirit", 0, equipType::potion);
-//		t = equip("Stamina", 0, equipType::potion);
-//		initComplete = true;
-//	};
-//};

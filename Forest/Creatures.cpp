@@ -6,7 +6,7 @@ using namespace CSL_Console;
 using namespace CSL_Cursor;
 using namespace CSL_Line;
 
-void Player::setDefaults()
+void PC::init()
 {
 	_title = "the fledgling";
 	_level = 1;
@@ -22,20 +22,20 @@ void Player::setDefaults()
 	_curWeapon = Weapon("Fists", 0, Equipment::EquipType::misc);
 	_curArmor = Armor("Tunic", 0, Equipment::EquipType::gear);
 	_curShield = Shield("none", 0, Equipment::EquipType::misc);
-	_allEquipment = std::vector<Equipment>();
-	_allWeapons = std::vector<Weapon>();
-	_allArmors = std::vector<Armor>();
-	_allShields = std::vector<Shield>();
-	_allPotions = std::vector<Equipment>();
-	_allGear = std::vector<Equipment>();
-	_allMisc = std::vector<Equipment>();
-	_allWeapons.push_back(_curWeapon);
-	_allEquipment.push_back(_curWeapon);
-	_allArmors.push_back(_curArmor);
-	_allEquipment.push_back(_curArmor);
+	_inventory = std::vector<Equipment>();
+	_weapons = std::vector<Weapon>();
+	_armors = std::vector<Armor>();
+	_shields = std::vector<Shield>();
+	_potions = std::vector<Potion>();
+	_gear = std::vector<Equipment>();
+	_miscItems = std::vector<Equipment>();
+	_weapons.push_back(_curWeapon);
+	_inventory.push_back(_curWeapon);
+	_armors.push_back(_curArmor);
+	_inventory.push_back(_curArmor);
 };
 
-void Player::sortEquipment()
+void PC::sortEquipment()
 	{
 //		std::sort(_allWeapons.begin(), _allWeapons.end(), [](equip a, equip b) {return a._name < b._name; });
 //		std::sort(_allArmors.begin(), _allArmors.end(), [](equip a, equip b) {return a._name < b._name; });
@@ -50,48 +50,48 @@ void Player::sortEquipment()
 //		_allEquipment.emplace_back(_allMisc);
 	};
 
-int Player::getAccuracy()
+int PC::getAccuracy()
 {
 	int acc = _agility + _curWeapon.getSpeed() - _curArmor.getPenalty() - _curShield.getPenalty();
 	return acc;
 }
-int Player::getDamCutting()
+int PC::getDamCutting()
 {
 	int dam = _strength + (int)floor(_fortitude / 3) + (int)floor(_agility / 3) + _curWeapon.getCutting();
 	return dam;
 }
-int Player::getDamStabbing()
+int PC::getDamStabbing()
 {
 	int dam = _strength + (int)floor(_agility / 2) + _curWeapon.getStabbing();
 	return dam;
 }
-int Player::getDamSmashing()
+int PC::getDamSmashing()
 {
 	int dam = _strength + (int)floor(_fortitude / 2) + _curWeapon.getSmashing();
 	return dam;
 }
-int Player::getDodge()
+int PC::getDodge()
 {
 	int dodge = _agility + (int)floor(_curWeapon.getSpeed() / 2) - _curArmor.getPenalty() + _curShield.getDefense();
 	return dodge;
 }
-int Player::getResCutting()
+int PC::getResCutting()
 {
 	int res = _fortitude + _curArmor.getCutting() + _curShield.getCutting();
 	return res;
 }
-int Player::getResStabbing()
+int PC::getResStabbing()
 {
 	int res = _fortitude + _curArmor.getStabbing() + _curShield.getStabbing();
 	return res;
 }
-int Player::getResSmashing()
+int PC::getResSmashing()
 {
 	int res = _fortitude + _curArmor.getSmashing() + _curShield.getSmashing();
 	return res;
 }
 
-void Player::viewStats()
+void PC::viewStats()
 {
 	CSL::clear();
 	Line::lineDrawingOn();
@@ -219,7 +219,7 @@ void Player::viewStats()
 	pressAnyKey();
 }
 
-void Player::statLine()
+void PC::statLine()
 {
 	COORD size = CSL::getWindowSize();
 	Cursor::setPos(1, size.Y - 1);
@@ -240,7 +240,7 @@ void Player::statLine()
 
 }
 
-void Creature::setDefaults(std::string name, std::string description, int level, int health)
+void MOB::init(std::string name, std::string description, int level, int health)
 {
 	_name = name;
 	_description = description;
@@ -250,7 +250,7 @@ void Creature::setDefaults(std::string name, std::string description, int level,
 	_equipment = std::vector<Equipment>();
 };
 
-void Creature::calcCondition()
+void MOB::calcCondition()
 {
 	if (std::get<0>(_health) <= 0)
 	{
@@ -272,11 +272,11 @@ void Creature::calcCondition()
 	else
 		_condition = Condition::dead;
 }
-void Creature::look()
+void MOB::look()
 {
 	std::cout << _description << std::endl;;
 }
-void Creature::examine()
+void MOB::examine()
 {
 	std::cout << _name << ": " << _description << std::endl;
 	std::cout << "Level: " << _level << std::endl;
@@ -286,21 +286,21 @@ void Creature::examine()
 		e.description();
 	}
 }
-void Creature::hurt(int amount)
+void MOB::hurt(int amount)
 {
 	std::get<0>(_health) -= amount;
 	if (std::get<0>(_health) < 0)
 		std::get<0>(_health) = 0;
 	calcCondition();
 }
-void Creature::heal(int amount)
+void MOB::heal(int amount)
 {
 	std::get<0>(_health) += amount;
 	if (std::get<0>(_health) > std::get<1>(_health))
 		std::get<0>(_health) = std::get<1>(_health);
 	calcCondition();
 }
-bool Creature::has(Equipment item)
+bool MOB::has(Equipment item)
 {
 	bool has = false;
 	for (Equipment e : _equipment)
@@ -313,7 +313,7 @@ bool Creature::has(Equipment item)
 	}
 	return has;
 }
-bool Creature::take(Equipment item)
+bool MOB::take(Equipment item)
 {
 	int i = 0;
 	bool has = false;

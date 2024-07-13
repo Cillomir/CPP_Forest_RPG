@@ -53,13 +53,16 @@ void Town::initArmorShop()
     if (!Town::shopkeepers.contains("armor"))
     {
         Creatures::NPC shopkeep = Creatures::NPC("Angar Smithy");
+        shopkeep.addItem(Armor("Cloth Tunic", 20));
         shopkeep.addItem(Armor("Leather Jerkin", 100));
         shopkeep.addItem(Armor("Padded Doublet", 200));
         shopkeep.addItem(Armor("Hide Armor", 450));
         shopkeep.addItem(Armor("Chainmail Armor", 800));
         shopkeep.addItem(Armor("Scale Armor", 1100));
+        shopkeep.addItem(Armor("Breastplate", 1450));
         shopkeep.addItem(Armor("Coat of Plates", 1800));
-        shopkeep.addItem(Armor("Platemail Armor", 2500));
+        shopkeep.addItem(Armor("Half-Plate Armor", 2500));
+        shopkeep.addItem(Armor("Platemail Armor", 4000));
         Town::shopkeepers.emplace("armor", shopkeep);
     }
     if (!Town::menus.contains("armor"))
@@ -105,6 +108,36 @@ void Town::initWeaponShop()
     }
 }
 
+void Town::initHealersHut()
+{
+    if (!Town::shopkeepers.contains("healer"))
+    {
+        Creatures::NPC shopkeep("Francine Surger");
+        shopkeep.addItem(Potion("Health Potion", 40));
+        shopkeep.addItem(Potion("Greater Health Potion", 150));
+        shopkeep.addItem(Potion("Spirit Potion", 60));
+        shopkeep.addItem(Potion("Greater Spirit Potion", 200));
+        shopkeep.addItem(Potion("Stamina Potion", 35));
+        shopkeep.addItem(Potion("Greater Stamina Potion", 125));
+        shopkeep.addItem(Potion("Elixer of Protection", 90));
+        Town::shopkeepers.emplace("healer", shopkeep);
+    }
+    if (!Town::menus.contains("healer"))
+    {
+        std::string header = "Welcome to the Healer's Hut!";
+        std::string prompt = "Select an Option:";
+        std::vector<std::tuple<char, std::string>> options;
+        options.push_back(std::make_tuple('H', "ealing"));
+        options.push_back(std::make_tuple('B', "uy Potions"));
+        options.push_back(std::make_tuple('S', "ell Potions"));
+        options.push_back(std::make_tuple('L', "ist Potions"));
+        options.push_back(std::make_tuple('V', "iew Your Stats"));
+        options.push_back(std::make_tuple('R', "eturn to Town"));
+        Menu healersMenu = Menu(header, options, prompt);
+
+    }
+}
+
 void Town::armorShop()
 {
     initArmorShop();
@@ -113,7 +146,8 @@ void Town::armorShop()
         CSL::clear();
         Town::menus["armor"].display();
         cmd = Town::menus["armor"].select();
-        switch (cmd) {
+        switch (cmd) 
+        {
             //case 'B':
             //    buyArmor();
             //    break;
@@ -121,71 +155,71 @@ void Town::armorShop()
             //    sellArmor();
             //    break;
             case 'L':
-                listArmor();
+                listItems(Town::shopkeepers["armor"]);
                 break;
             case 'V':
                 Creatures::mainPlayer.viewStats();
                 break;
-            }
+        }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 }
 //static void buyArmor() {};
 //static void sellArmor() {};
-void Town::listArmor()
-{
-    CSL::clear();
-    //Cursor::setHor(3);
-    //Print CSL_Line::SETTAB;
-    //Cursor::setHor(5);
-    //Print CSL_Line::SETTAB;
-    //Cursor::setHor(30);
-    //Print CSL_Line::SETTAB;
-
-    CSL_Line::Line::lineDrawingOn();
-    Cursor::setPos(2, 2);
-    CSL_Line::Line::lineDraw(CSL_Line::Line::TL);
-    for (int x = 3; x < 40; ++x)
-        CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
-    CSL_Line::Line::lineDraw(CSL_Line::Line::TR);
-    for (int y = 4; y < 15; ++y)
-    {
-        Print "\n";
-        Cursor::setHor(2);
-        CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
-        Cursor::setHor(40);
-        CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
-    }
-    Print "\n";
-    Cursor::setHor(2);
-    CSL_Line::Line::lineDraw(CSL_Line::Line::BL);
-    for (int x = 3; x < 40; ++x)
-        CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
-    CSL_Line::Line::lineDraw(CSL_Line::Line::BR);
-    CSL_Line::Line::lineDrawingOff();
-    
-    Cursor::setPos(1, 4);
-    std::vector<Equipment> items = Town::shopkeepers["armor"].allItems();
-    bool newPage = false;
-    int i = 0;
-    for (Equipment e : items) 
-    {
-        if (i > 9)
-        {
-            newPage = true;
-            break;
-        }
-        Cursor::setHor(4);
-        Print i;
-        Cursor::setHor(8);
-        Print e.getName();
-        char str[9] = { 0 };
-        sprintf_s(str, 9, "% 5d gp", e.getValue());
-        Cursor::setHor(30);
-        Print str << "\n";
-        i++;
-    }
-    IT::pressKey();
-};
+//void Town::listArmor()
+//{
+//    CSL::clear();
+//    //Cursor::setHor(3);
+//    //Print CSL_Line::SETTAB;
+//    //Cursor::setHor(5);
+//    //Print CSL_Line::SETTAB;
+//    //Cursor::setHor(30);
+//    //Print CSL_Line::SETTAB;
+//
+//    CSL_Line::Line::lineDrawingOn();
+//    Cursor::setPos(2, 2);
+//    CSL_Line::Line::lineDraw(CSL_Line::Line::TL);
+//    for (int x = 3; x < 40; ++x)
+//        CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
+//    CSL_Line::Line::lineDraw(CSL_Line::Line::TR);
+//    for (int y = 4; y < 15; ++y)
+//    {
+//        Print "\n";
+//        Cursor::setHor(2);
+//        CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
+//        Cursor::setHor(40);
+//        CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
+//    }
+//    Print "\n";
+//    Cursor::setHor(2);
+//    CSL_Line::Line::lineDraw(CSL_Line::Line::BL);
+//    for (int x = 3; x < 40; ++x)
+//        CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
+//    CSL_Line::Line::lineDraw(CSL_Line::Line::BR);
+//    CSL_Line::Line::lineDrawingOff();
+//    
+//    Cursor::setPos(1, 4);
+//    std::vector<Equipment> items = Town::shopkeepers["armor"].allItems();
+//    bool newPage = false;
+//    int i = 0;
+//    for (Equipment e : items) 
+//    {
+//        if (i > 9)
+//        {
+//            newPage = true;
+//            break;
+//        }
+//        Cursor::setHor(4);
+//        Print i;
+//        Cursor::setHor(8);
+//        Print e.getName();
+//        char str[9] = { 0 };
+//        sprintf_s(str, 9, "% 5d gp", e.getValue());
+//        Cursor::setHor(30);
+//        Print str << "\n";
+//        i++;
+//    }
+//    IT::pressKey();
+//};
 
 void Town::weaponShop()
 {
@@ -215,56 +249,32 @@ void Town::weaponShop()
 //static void sellWeapons() {};
 //static void listWeapons() {};
 
-//static void Town::healersHutInit()
-//{
-//    std::string header = "Welcome to the Healer's Hut!";
-//    std::string prompt = "Select an Option:";
-//    std::vector<std::tuple<char, std::string>> options;
-//    options.push_back(std::make_tuple('H', "ealing"));
-//    options.push_back(std::make_tuple('B', "uy Potions"));
-//    options.push_back(std::make_tuple('S', "ell Potions"));
-//    options.push_back(std::make_tuple('L', "ist Potions"));
-//    options.push_back(std::make_tuple('V', "iew Your Stats"));
-//    options.push_back(std::make_tuple('R', "eturn to Town"));
-//    Menu healersMenu1 = Menu(header, options, prompt);
-//    // Menu m = Menu(header, options, prompt);
-//    // Menu::addMenu("Healer", m);
-//    // Menu::addMenu("Healer", Menu(header, options, prompt));
-//}
 void Town::healersHut()
 {
-    std::string header = "Welcome to the Healer's Hut!";
-    std::string prompt = "Select an Option:";
-    std::vector<std::tuple<char, std::string>> options;
-    options.push_back(std::make_tuple('H', "ealing"));
-    options.push_back(std::make_tuple('B', "uy Potions"));
-    options.push_back(std::make_tuple('S', "ell Potions"));
-    options.push_back(std::make_tuple('L', "ist Potions"));
-    options.push_back(std::make_tuple('V', "iew Your Stats"));
-    options.push_back(std::make_tuple('R', "eturn to Town"));
-    Menu healersMenu = Menu(header, options, prompt);
+    initHealersHut();
     unsigned char cmd;
     do {
         CSL::clear();
-        healersMenu.display();
-        std::cin >> cmd;
-        //switch (cmd) {
-        //case 'H':
-        //    getHealing();
-        //    break;
-        //case 'B':
-        //    buyPotions();
-        //    break;
-        //case 'S':
-        //    sellPotions();
-        //    break;
-        //case 'L':
-        //    listPotions();
-        //    break;
-        //case 'V':
-        //    player.viewStats();
-        //    break;
-        //}
+        Town::menus["healer"].display();
+        cmd = Town::menus["healer"].select();
+        switch (cmd) 
+        {
+            //case 'H':
+            //    getHealing();
+            //    break;
+            //case 'B':
+            //    buyPotions();
+            //    break;
+            //case 'S':
+            //    sellPotions();
+            //    break;
+            case 'L':
+                listItems(Town::shopkeepers["healer"]);
+                break;
+            case 'V':
+                Creatures::mainPlayer.viewStats();
+                break;
+        }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 
 }
@@ -319,5 +329,16 @@ void Town::listItems(Creatures::NPC shopkeep)
         i++;
     }
     IT::pressKey();
+}
+
+void Town::buyItem(Creatures::NPC shopkeep)
+{
+    Print "What would you like to buy?";
+
+};
+
+void Town::sellItem(Creatures::NPC shopkeep)
+{
+    Print "What would you like to sell?";
 };
 

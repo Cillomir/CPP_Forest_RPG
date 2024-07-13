@@ -4,6 +4,8 @@
 #include <vector>
 #include <tuple>
 #include <cstdio>
+#include <cstdlib>
+#include <time.h>
 #include "support/Console.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
@@ -22,8 +24,13 @@ namespace Creatures
 	{
 		none, fledgling, novice, adventurer, expert, master
 	};
+	enum class DamageType
+	{
+		cutting, stabbing, smashing, fire, water, earth, air, dark, light
+	};
 
-	class Player
+
+	class PC
 	{
 	protected:
 		static const int minLevel = 1;
@@ -49,31 +56,30 @@ namespace Creatures
 		Weapon _curWeapon;
 		Armor _curArmor;
 		Shield _curShield;
-		std::vector<Equipment> _allEquipment;
-		std::vector<Weapon> _allWeapons;
-		std::vector<Armor> _allArmors;
-		std::vector<Shield> _allShields;
-		std::vector<Equipment> _allPotions;
-		std::vector<Equipment> _allGear;
-		std::vector<Equipment> _allMisc;
+		std::vector<Equipment> _inventory;
+		std::vector<Weapon> _weapons;
+		std::vector<Armor> _armors;
+		std::vector<Shield> _shields;
+		std::vector<Equipment> _potions;
+		std::vector<Equipment> _gear;
+		std::vector<Equipment> _miscItems;
 
-		void setDefaults();
+		void init();
 		void sortEquipment();
 
 	public:
 		// Constructor
-		Player()
+		PC()
 		{
-			_name = "";
-			setDefaults();
+			init();
 		}
-		Player(std::string name)
+		PC(std::string name)
 		{
+			init();
 			_name = name;
-			setDefaults();
 		}
 
-		Player& operator=(Player& obj)
+		PC& operator=(PC& obj)
 		{
 			if (this != &obj)
 			{
@@ -92,17 +98,18 @@ namespace Creatures
 				_curWeapon = obj._curWeapon;
 				_curArmor = obj._curArmor;
 				_curShield = obj._curShield;
-				_allEquipment = obj._allEquipment;
-				_allWeapons = obj._allWeapons;
-				_allArmors = obj._allArmors;
-				_allPotions = obj._allPotions;
-				_allGear = obj._allGear;
-				_allMisc = obj._allMisc;
+				_inventory = obj._inventory;
+				_weapons = obj._weapons;
+				_armors = obj._armors;
+				_shields = obj._shields;
+				_potions = obj._potions;
+				_gear = obj._gear;
+				_miscItems = obj._miscItems;
 			}
 			return *this;
 		}
-		// Sets & Gets
 
+		// Sets & Gets
 		std::string getName(void) { return _name; }
 		void setName(std::string name) { _name = name; }
 
@@ -185,9 +192,9 @@ namespace Creatures
 		void viewStats();
 		void statLine();
 	};
-	static Player mainPlayer;
+	static PC player;
 
-	class Creature
+	class MOB
 	{
 	protected:
 		std::string _name;
@@ -197,25 +204,25 @@ namespace Creatures
 		Condition _condition;
 		std::vector<Equipment> _equipment;
 
-		void setDefaults(std::string name, std::string description, int level, int health);
+		void init(std::string name, std::string description, int level, int health);
 		void calcCondition();
 
 	public:
-		Creature()
+		MOB()
 		{
-			setDefaults("", "", 1, 100);
+			init("", "", 1, 100);
 		}
-		Creature(std::string name)
+		MOB(std::string name)
 		{
-			setDefaults(name, "", 1, 100);
+			init(name, "", 1, 100);
 		}
-		Creature(std::string name, std::string description)
+		MOB(std::string name, std::string description)
 		{
-			setDefaults(name, description, 1, 100);
+			init(name, description, 1, 100);
 		}
-		Creature(std::string name, std::string description, int level, int health)
+		MOB(std::string name, std::string description, int level, int health)
 		{
-			setDefaults(name, description, level, health);
+			init(name, description, level, health);
 		}
 		std::string getName() { return _name; }
 		void setName(std::string name) { _name = name; }
@@ -233,51 +240,71 @@ namespace Creatures
 		bool take(Equipment item);
 	};
 
-	class NPC : public Creature
+	class NPC : public MOB
 	{
-	protected:
-		//std::string _name;
-		//std::string _description;
-		//int _level;
-		//std::tuple <int, int> _health;
-		//Condition _condition;
-		//std::vector<Equipment> _allEquipment;
-
 	private:
 		std::vector<Equipment> _inventory;
 
 	public:
 		NPC()
 		{
-			setDefaults("", "", 1, 100);
+			init("", "", 1, 100);
 			_inventory = std::vector<Equipment>();
 
 		}
 		NPC(std::string name)
 		{
-			setDefaults(name, "", 1, 100);
+			init(name, "", 1, 100);
 			_inventory = std::vector<Equipment>();
 		}
-		//std::string getName() { return _name; }
-		//void setName(std::string name) { _name = name; }
-		//std::string getDescription() { return _description; }
-		//void setDescription(std::string description) { _description = description; }
-		//int getLevel() { return _level; }
-		//void setLevel(int level) { _level = level; }
-		//std::tuple<int, int> getHealth() { return _health; }
-		//void setHealth(int health) { _health = { health, health }; }
 
 		void addItem(Equipment item);
 		bool hasItem(Equipment item);
 		Equipment getItem(int index);
 		void removeItem(int index);
 		std::vector<Equipment> allItems();
-
 	};
 
-	//class MOB
-	//{
+	class Beast : public MOB
+	{
+	private:
+		int _attack;
+		std::tuple<int, int> _damage;
+		DamageType _damageType;
+		int _experience;
+		std::tuple<int, int> _gold;
+		std::vector<Equipment> _loot;
 
-	//};
+	public:
+		Beast() : MOB()
+		{
+			init();
+		}
+		Beast(std::string name)
+			: MOB(name)
+		{
+			init();
+		}
+		Beast(std::string name, int level, int health, int attack, std::tuple<int, int> damage, int experience, std::tuple<int, int> gold)
+			: MOB(name, "", level, health)
+		{
+			init(attack, damage, experience, gold);
+		}
+
+		// Gets & Sets
+		int getAttack() { return _attack; }
+		void setAttack(int attack) { _attack = attack; }
+		std::tuple<int, int> getDamage() { return _damage; }
+		int rollDamage()
+		{
+			int damage = 0;
+			for (int i = 0; i < std::get<0>(_damage); ++i)
+			{
+				damage += rand() % std::get<1>(_damage) + 1;
+			}
+			return damage;
+		}
+
+	};
 }
 #endif
