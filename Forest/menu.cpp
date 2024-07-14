@@ -9,7 +9,7 @@ int Menu::_promptCol = Menu::def_PromptColumn;
 COORD Menu::_screenSize = { 120, 30 };
 std::map<std::string, Menu> Menu::_allMenus;
 
-void Menu::setDefaults()
+void Menu::init()
 {
 	_header = Menu::def_Header;
 	_prompt = Menu::def_Prompt;

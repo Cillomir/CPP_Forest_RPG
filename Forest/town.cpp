@@ -42,7 +42,7 @@ void Town::townMain()
             //    Forest::menu();
             //    break;
         case 'V':
-            Creatures::mainPlayer.viewStats();
+            Creatures::player.viewStats();
             break;
         }
     } while (cmd != 'Q' && cmd != CSL_Key::KEY_ESC);
@@ -158,7 +158,7 @@ void Town::armorShop()
                 listItems(Town::shopkeepers["armor"]);
                 break;
             case 'V':
-                Creatures::mainPlayer.viewStats();
+                Creatures::player.viewStats();
                 break;
         }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
@@ -240,7 +240,7 @@ void Town::weaponShop()
             listItems(Town::shopkeepers["weapon"]);
             break;
         case 'V':
-            Creatures::mainPlayer.viewStats();
+            Creatures::player.viewStats();
             break;
         }
 } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
@@ -272,7 +272,7 @@ void Town::healersHut()
                 listItems(Town::shopkeepers["healer"]);
                 break;
             case 'V':
-                Creatures::mainPlayer.viewStats();
+                Creatures::player.viewStats();
                 break;
         }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
@@ -311,7 +311,7 @@ void Town::listItems(Creatures::NPC shopkeep)
     Cursor::setPos(1, 4);
     bool newPage = false;
     int i = 0;
-    for (Equipment e : shopkeep.allItems())
+    for (Item e : shopkeep.allItems())
     {
         if (i > 9)
         {

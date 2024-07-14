@@ -9,7 +9,8 @@
 #include "support/Console.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
-#include "Equipment.h"
+#include "Items.h"
+using namespace Items;
 
 #ifndef CREATURES_H
 #define CREATURES_H
@@ -26,13 +27,14 @@ namespace Creatures
 	};
 	enum class DamageType
 	{
-		cutting, stabbing, smashing, fire, water, earth, air, dark, light
+		none, cutting, stabbing, smashing, fire, water, earth, air, dark, light
 	};
 
 
 	class PC
 	{
-	protected:
+	private:
+		// Constants
 		static const int minLevel = 1;
 		static const int maxLevel = 10;
 		static const int minExp = 0;
@@ -40,12 +42,14 @@ namespace Creatures
 		static const int maxGold = 1000000;
 		const std::vector<int> expNeeded = { 0, 100, 200, 400, 800, 1500, 2500, 4000, 6500, 10000, 15000 };
 
-	private:
+		// General
 		std::string _name;
 		std::string _title;
 		int _level;
 		int _experience;
 		int _gold;
+
+		// Stats
 		std::tuple <int, int> _health;
 		std::tuple <int, int> _spirit;
 		std::tuple <int, int> _stamina;
@@ -53,30 +57,32 @@ namespace Creatures
 		int _fortitude;
 		int _agility;
 		int _intellect;
+
+		// Equipment
 		Weapon _curWeapon;
 		Armor _curArmor;
 		Shield _curShield;
-		std::vector<Equipment> _inventory;
+		std::vector<Item> _inventory;
 		std::vector<Weapon> _weapons;
 		std::vector<Armor> _armors;
 		std::vector<Shield> _shields;
-		std::vector<Equipment> _potions;
-		std::vector<Equipment> _gear;
-		std::vector<Equipment> _miscItems;
+		std::vector<Potion> _potions;
+		std::vector<Item> _gear;
+		std::vector<Item> _miscItems;
 
-		void init();
-		void sortEquipment();
+		// Methods
+		void init(std::string name);
+		void sortInventory();
 
 	public:
 		// Constructor
 		PC()
 		{
-			init();
+			init("");
 		}
 		PC(std::string name)
 		{
-			init();
-			_name = name;
+			init(name);
 		}
 
 		PC& operator=(PC& obj)
@@ -202,27 +208,27 @@ namespace Creatures
 		int _level;
 		std::tuple <int, int> _health;
 		Condition _condition;
-		std::vector<Equipment> _equipment;
+		std::vector<Item> _equipment;
 
-		void init(std::string name, std::string description, int level, int health);
+		void baseinit(std::string name, std::string description, int level, int health);
 		void calcCondition();
 
 	public:
 		MOB()
 		{
-			init("", "", 1, 100);
+			baseinit("", "", 1, 100);
 		}
 		MOB(std::string name)
 		{
-			init(name, "", 1, 100);
+			baseinit(name, "", 1, 100);
 		}
 		MOB(std::string name, std::string description)
 		{
-			init(name, description, 1, 100);
+			baseinit(name, description, 1, 100);
 		}
 		MOB(std::string name, std::string description, int level, int health)
 		{
-			init(name, description, level, health);
+			baseinit(name, description, level, health);
 		}
 		std::string getName() { return _name; }
 		void setName(std::string name) { _name = name; }
@@ -236,75 +242,76 @@ namespace Creatures
 		void examine();
 		void hurt(int amount);
 		void heal(int amount);
-		bool has(Equipment item);
-		bool take(Equipment item);
+		bool has(Item item);
+		bool take(Item item);
 	};
 
 	class NPC : public MOB
 	{
 	private:
-		std::vector<Equipment> _inventory;
+		std::vector<Item> _inventory;
 
+		void init();
 	public:
 		NPC()
+			: MOB()
 		{
-			init("", "", 1, 100);
-			_inventory = std::vector<Equipment>();
-
+			init();
 		}
 		NPC(std::string name)
+			: MOB(name)
 		{
-			init(name, "", 1, 100);
-			_inventory = std::vector<Equipment>();
+			init();
 		}
 
-		void addItem(Equipment item);
-		bool hasItem(Equipment item);
-		Equipment getItem(int index);
+		void addItem(Item item);
+		bool hasItem(Item item);
+		Item getItem(int index);
 		void removeItem(int index);
-		std::vector<Equipment> allItems();
+		std::vector<Item> allItems();
 	};
 
 	class Beast : public MOB
 	{
 	private:
 		int _attack;
-		std::tuple<int, int> _damage;
+		std::tuple<int, Dice::die> _damage;
 		DamageType _damageType;
 		int _experience;
-		std::tuple<int, int> _gold;
-		std::vector<Equipment> _loot;
+		std::tuple<int, Dice::die> _gold;
+		std::vector<Item> _loot;
+
+		void init(int attack, std::tuple<int, Dice::die> damage, DamageType damageType,
+			int experience, std::tuple<int, Dice::die> gold);
 
 	public:
 		Beast() : MOB()
 		{
-			init();
+			init(0, { 0, Dice::d0 }, DamageType::none, 0, { 0, Dice::d0 });
 		}
 		Beast(std::string name)
 			: MOB(name)
 		{
-			init();
+			init(0, { 0, Dice::d0 }, DamageType::none, 0, { 0, Dice::d0 });
 		}
-		Beast(std::string name, int level, int health, int attack, std::tuple<int, int> damage, int experience, std::tuple<int, int> gold)
+		Beast(std::string name, int level, int health, int attack, std::tuple<int, Dice::die> damage, DamageType damageType,
+			int experience, std::tuple<int, Dice::die> gold)
 			: MOB(name, "", level, health)
 		{
-			init(attack, damage, experience, gold);
+			init(attack, damage, damageType, experience, gold);
 		}
 
 		// Gets & Sets
-		int getAttack() { return _attack; }
-		void setAttack(int attack) { _attack = attack; }
-		std::tuple<int, int> getDamage() { return _damage; }
-		int rollDamage()
-		{
-			int damage = 0;
-			for (int i = 0; i < std::get<0>(_damage); ++i)
-			{
-				damage += rand() % std::get<1>(_damage) + 1;
-			}
-			return damage;
-		}
-
+		int getAttack();
+		void setAttack(int attack);
+		std::tuple<int, Dice::die> getDamage();
+		int rollDamage();
+		void setDamage(std::tuple<int, Dice::die> damage);
+		int getExperience();
+		void setExperience(int experience);
+		std::tuple<int, Dice::die> getGold();
+		int rollGold();
+		void setGold(std::tuple<int, Dice::die> gold);
 	};
 }
 #endif

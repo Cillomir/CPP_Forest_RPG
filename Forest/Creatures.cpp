@@ -6,8 +6,10 @@ using namespace CSL_Console;
 using namespace CSL_Cursor;
 using namespace CSL_Line;
 
-void PC::init()
+#pragma region Player
+void PC::init(std::string name)
 {
+	_name = name;
 	_title = "the fledgling";
 	_level = 1;
 	_experience = 0;
@@ -19,23 +21,23 @@ void PC::init()
 	_fortitude = 3;
 	_agility = 3;
 	_intellect = 5;
-	_curWeapon = Weapon("Fists", 0, Equipment::EquipType::misc);
-	_curArmor = Armor("Tunic", 0, Equipment::EquipType::gear);
-	_curShield = Shield("none", 0, Equipment::EquipType::misc);
-	_inventory = std::vector<Equipment>();
+	_curWeapon = Weapon("Fists", 0, ItemType::misc);
+	_curArmor = Armor("Tunic", 0, ItemType::gear);
+	_curShield = Shield("none", 0, ItemType::misc);
+	_inventory = std::vector<Item>();
 	_weapons = std::vector<Weapon>();
 	_armors = std::vector<Armor>();
 	_shields = std::vector<Shield>();
 	_potions = std::vector<Potion>();
-	_gear = std::vector<Equipment>();
-	_miscItems = std::vector<Equipment>();
+	_gear = std::vector<Item>();
+	_miscItems = std::vector<Item>();
 	_weapons.push_back(_curWeapon);
 	_inventory.push_back(_curWeapon);
 	_armors.push_back(_curArmor);
 	_inventory.push_back(_curArmor);
 };
 
-void PC::sortEquipment()
+void PC::sortInventory()
 	{
 //		std::sort(_allWeapons.begin(), _allWeapons.end(), [](equip a, equip b) {return a._name < b._name; });
 //		std::sort(_allArmors.begin(), _allArmors.end(), [](equip a, equip b) {return a._name < b._name; });
@@ -49,6 +51,7 @@ void PC::sortEquipment()
 //		_allEquipment.emplace_back(_allGear);
 //		_allEquipment.emplace_back(_allMisc);
 	};
+
 
 int PC::getAccuracy()
 {
@@ -239,15 +242,17 @@ void PC::statLine()
 	Print getStaminaMax() << FG_GRAY2 << ">: " << SGR_RESET << CUR_SHAPE_BAR_B;
 
 }
+#pragma endregion
 
-void MOB::init(std::string name, std::string description, int level, int health)
+#pragma region Mobile
+void MOB::baseinit(std::string name, std::string description, int level, int health)
 {
 	_name = name;
 	_description = description;
 	_level = level;
 	_health = { health, health };
 	_condition = Condition::healthy;
-	_equipment = std::vector<Equipment>();
+	_equipment = std::vector<Item>();
 };
 
 void MOB::calcCondition()
@@ -281,9 +286,9 @@ void MOB::examine()
 	std::cout << _name << ": " << _description << std::endl;
 	std::cout << "Level: " << _level << std::endl;
 	std::cout << "Health: " << std::get<0>(_health) << "/" << std::get<1>(_health) << std::endl;
-	for (Equipment e : _equipment)
+	for (Item e : _equipment)
 	{
-		e.description();
+		e.getShortDesc();
 	}
 }
 void MOB::hurt(int amount)
@@ -300,10 +305,10 @@ void MOB::heal(int amount)
 		std::get<0>(_health) = std::get<1>(_health);
 	calcCondition();
 }
-bool MOB::has(Equipment item)
+bool MOB::has(Item item)
 {
 	bool has = false;
-	for (Equipment e : _equipment)
+	for (Item e : _equipment)
 	{
 		if (e.getName() == item.getName())
 		{
@@ -313,11 +318,11 @@ bool MOB::has(Equipment item)
 	}
 	return has;
 }
-bool MOB::take(Equipment item)
+bool MOB::take(Item item)
 {
 	int i = 0;
 	bool has = false;
-	for (Equipment e : _equipment)
+	for (Item e : _equipment)
 	{
 		if (e.getName() == item.getName())
 		{
@@ -330,15 +335,21 @@ bool MOB::take(Equipment item)
 		_equipment.erase(_equipment.begin() + i);
 	return has;
 }
+#pragma endregion
 
-void NPC::addItem(Equipment item)
+#pragma region NPC
+void NPC::init()
+{
+	_inventory = std::vector<Item>();
+}
+void NPC::addItem(Item item)
 {
 	_inventory.push_back(item);
 }
-bool NPC::hasItem(Equipment item)
+bool NPC::hasItem(Item item)
 {
 	bool has = false;
-	for (Equipment e : _inventory)
+	for (Item e : _inventory)
 	{
 		if (e.getName() == item.getName())
 		{
@@ -348,7 +359,7 @@ bool NPC::hasItem(Equipment item)
 	}
 	return has;
 }
-Equipment NPC::getItem(int index)
+Item NPC::getItem(int index)
 { 
 	return _inventory.at(index);
 }
@@ -356,8 +367,72 @@ void NPC::removeItem(int index)
 { 
 	_inventory.erase(_inventory.begin() + index);
 }
-std::vector<Equipment> NPC::allItems()
+std::vector<Item> NPC::allItems()
 { 
 	return _inventory; 
 }
+#pragma endregion
+
+#pragma region Beast
+void Beast::init(int attack, std::tuple<int, Dice::die> damage, DamageType damageType,
+	int experience, std::tuple<int, Dice::die> gold)
+{
+	_attack = attack;
+	_damage = damage;
+	_damageType = damageType;
+	_experience = experience;
+	_gold = gold;
+	_loot = std::vector<Item>();
+}
+int Beast::getAttack() 
+{ 
+	return _attack; 
+}
+void Beast::setAttack(int attack)
+{ 
+	_attack = attack; 
+}
+std::tuple<int, Dice::die> Beast::getDamage()
+{ 
+	return _damage;
+}
+int Beast::rollDamage()
+{
+	int damage = 0;
+	for (int i = 0; i < std::get<0>(_damage); ++i)
+	{
+		damage += Dice::Roll(std::get<1>(_damage));
+	}
+	return damage;
+}
+void Beast::setDamage(std::tuple<int, Dice::die> damage)
+{
+	_damage = damage;
+}
+int Beast::getExperience()
+{
+	return _experience;
+}
+void Beast::setExperience(int experience)
+{
+	_experience = experience;
+}
+std::tuple<int, Dice::die> Beast::getGold()
+{
+	return _gold;
+}
+int Beast::rollGold()
+{
+	int gold = 0;
+	for (int i = 0; i < std::get<0>(_gold); ++i)
+	{
+		gold += Dice::Roll(std::get<1>(_gold));
+	}
+	return gold;
+}
+void Beast::setGold(std::tuple<int, Dice::die> gold)
+{
+	_gold = gold;
+}
+#pragma endregion
 

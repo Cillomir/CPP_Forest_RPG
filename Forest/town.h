@@ -9,7 +9,7 @@
 #include "support/Locals.h"
 #include "Menu.h"
 #include "Creatures.h"
-#include "Equipment.h"
+#include "Items.h"
 using namespace CSL_Console;
 
 class Town

@@ -44,7 +44,7 @@ To-Do:
 #include "Menu.h"
 #include "Town.h"
 #include "Creatures.h"
-#include "Equipment.h"
+#include "Items.h"
 //#include "dungeons.h"
 using namespace CSL_Console;
 
@@ -60,9 +60,9 @@ static void introduction()
 	playerName = IT::toCapitalize(playerName);
 	Print "Welcome, " << playerName << "\n";
 	pressAnyKey();
-	Creatures::Player player = Creatures::Player(playerName);
-	Creatures::mainPlayer = player;
-	Creatures::mainPlayer.viewStats();
+	Creatures::PC player = Creatures::PC(playerName);
+	Creatures::player = player;
+	Creatures::player.viewStats();
 }
 
 int main()

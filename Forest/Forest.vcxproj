@@ -134,12 +134,12 @@
     <ClCompile Include="dForest.cpp" />
     <ClCompile Include="support\Log.cpp" />
     <ClCompile Include="Menu.cpp" />
-    <ClCompile Include="Equipment.cpp" />
+    <ClCompile Include="Items.cpp" />
     <ClCompile Include="Town.cpp" />
     <ClCompile Include="main.cpp" />
     <ClInclude Include="Abilities.h" />
     <ClInclude Include="Creatures.h" />
-    <ClInclude Include="Equipment.h" />
+    <ClInclude Include="Items.h" />
     <ClInclude Include="dungeons.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Town.h" />
