@@ -41,8 +41,8 @@ To-Do:
 #include "support/Internals.h"
 #include "support/Console.h"
 #include "menu.h"
-#include "town.h"
-#include "creature.h"
+#include "A_Areas/town.h"
+#include "C_Classes/creature.h"
 //#include "equipment.h"
 //#include "dungeons.h"
 using namespace CSL_Console;

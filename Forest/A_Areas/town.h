@@ -3,10 +3,10 @@
 #include <string>
 #include <tuple>
 #include <vector>
-#include "support/Internals.h"
-#include "support/Console.h"
-#include "menu.h"
-#include "creature.h"
+#include "../support/Internals.h"
+#include "../support/Console.h"
+#include "../menu.h"
+#include "../C_Classes/creature.h"
 using namespace CSL_Console;
 
 namespace Town

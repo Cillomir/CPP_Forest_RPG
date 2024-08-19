@@ -127,24 +127,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="creature.cpp" />
-    <ClCompile Include="dForest.cpp" />
+    <ClCompile Include="C_Classes\creature.cpp" />
+    <ClCompile Include="A_Areas\dForest.cpp" />
     <ClCompile Include="support\Log.cpp" />
     <ClCompile Include="menu.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClInclude Include="dungeons.h" />
+    <ClInclude Include="A_Areas\dungeons.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="support\Log.h" />
     <ClInclude Include="support\Colors.h" />
     <ClInclude Include="support\Internals.h" />
-    <ClCompile Include="equipment.cpp" />
-    <ClCompile Include="town.cpp" />
+    <ClCompile Include="C_Classes\equipment.cpp" />
+    <ClCompile Include="A_Areas\town.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="creature.h" />
+    <ClInclude Include="C_Classes\creature.h" />
     <ClInclude Include="support\Console.h" />
-    <ClInclude Include="equipment.h" />
+    <ClInclude Include="C_Classes\equipment.h" />
     <ClInclude Include="menu.h" />
-    <ClInclude Include="town.h" />
+    <ClInclude Include="A_Areas\town.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="resources\ArtTown.txt" />

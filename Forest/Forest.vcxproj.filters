@@ -15,16 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="town.cpp">
+    <ClCompile Include="A_Areas\town.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="creature.cpp">
+    <ClCompile Include="C_Classes\creature.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="equipment.cpp">
+    <ClCompile Include="C_Classes\equipment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="dForest.cpp">
+    <ClCompile Include="A_Areas\dForest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="menu.cpp">
@@ -38,31 +38,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="creature.h">
+    <ClInclude Include="C_Classes\creature.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Console.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="equipment.h">
+    <ClInclude Include="C_Classes\equipment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Internals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="dungeons.h">
+    <ClInclude Include="A_Areas\dungeons.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="town.h">
+    <ClInclude Include="A_Areas\town.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Colors.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="support\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
