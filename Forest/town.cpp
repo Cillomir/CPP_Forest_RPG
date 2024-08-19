@@ -16,7 +16,8 @@ void Town::initTown()
     options.push_back(std::make_tuple('Q', "uit"));
     Town::menus.emplace("town", Menu(header, options, prompt));
     initArmorShop();
-
+    initWeaponShop();
+    initHealersHut();
 }
 
 void Town::townMain()
@@ -134,17 +135,18 @@ void Town::initHealersHut()
         options.push_back(std::make_tuple('V', "iew Your Stats"));
         options.push_back(std::make_tuple('R', "eturn to Town"));
         Menu healersMenu = Menu(header, options, prompt);
-
     }
 }
 
 void Town::armorShop()
 {
     initArmorShop();
+    std::string message = "Welcome to Angar's Armor Shop. This is a test string to see if the string parsing will work for an armor shop description.";
     unsigned char cmd;
     do {
         CSL::clear();
         Town::menus["armor"].display();
+        textBox({ 36, 10 }, 40, 7, message, true);
         cmd = Town::menus["armor"].select();
         switch (cmd) 
         {
@@ -163,63 +165,7 @@ void Town::armorShop()
         }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 }
-//static void buyArmor() {};
-//static void sellArmor() {};
-//void Town::listArmor()
-//{
-//    CSL::clear();
-//    //Cursor::setHor(3);
-//    //Print CSL_Line::SETTAB;
-//    //Cursor::setHor(5);
-//    //Print CSL_Line::SETTAB;
-//    //Cursor::setHor(30);
-//    //Print CSL_Line::SETTAB;
-//
-//    CSL_Line::Line::lineDrawingOn();
-//    Cursor::setPos(2, 2);
-//    CSL_Line::Line::lineDraw(CSL_Line::Line::TL);
-//    for (int x = 3; x < 40; ++x)
-//        CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
-//    CSL_Line::Line::lineDraw(CSL_Line::Line::TR);
-//    for (int y = 4; y < 15; ++y)
-//    {
-//        Print "\n";
-//        Cursor::setHor(2);
-//        CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
-//        Cursor::setHor(40);
-//        CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
-//    }
-//    Print "\n";
-//    Cursor::setHor(2);
-//    CSL_Line::Line::lineDraw(CSL_Line::Line::BL);
-//    for (int x = 3; x < 40; ++x)
-//        CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
-//    CSL_Line::Line::lineDraw(CSL_Line::Line::BR);
-//    CSL_Line::Line::lineDrawingOff();
-//    
-//    Cursor::setPos(1, 4);
-//    std::vector<Equipment> items = Town::shopkeepers["armor"].allItems();
-//    bool newPage = false;
-//    int i = 0;
-//    for (Equipment e : items) 
-//    {
-//        if (i > 9)
-//        {
-//            newPage = true;
-//            break;
-//        }
-//        Cursor::setHor(4);
-//        Print i;
-//        Cursor::setHor(8);
-//        Print e.getName();
-//        char str[9] = { 0 };
-//        sprintf_s(str, 9, "% 5d gp", e.getValue());
-//        Cursor::setHor(30);
-//        Print str << "\n";
-//        i++;
-//    }
-//    IT::pressKey();
-//};
+
 
 void Town::weaponShop()
 {
@@ -245,9 +191,6 @@ void Town::weaponShop()
         }
 } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 }
-//static void buyWeapons() {};
-//static void sellWeapons() {};
-//static void listWeapons() {};
 
 void Town::healersHut()
 {
@@ -259,9 +202,9 @@ void Town::healersHut()
         cmd = Town::menus["healer"].select();
         switch (cmd) 
         {
-            //case 'H':
-            //    getHealing();
-            //    break;
+            case 'H':
+                getHealing();
+                break;
             //case 'B':
             //    buyPotions();
             //    break;
@@ -278,10 +221,34 @@ void Town::healersHut()
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
 
 }
-//static void getHealing();
-//static void buyPotions();
-//static void sellPotions();
-//static void listPotions();
+void Town::getHealing()
+{
+    int missing = Creatures::player.getHealthMax() - Creatures::player.getHealth();
+    Print "You are currently missing " << std::to_string(missing) << "health.\n";
+    Print "It costs 2 gp per health point recovered.";
+    Print "How much healing do you want? ";
+    int healing;
+    std::string input;
+    std::cin >> input;
+    if (std::isdigit(input[0]))
+        healing = std::stoi(input);
+    else
+        healing = 0;
+    if (healing > missing)
+        healing = missing;
+    if (healing < 0)
+        healing = 0;
+    if (healing * 2 > Creatures::player.getGold())
+    {
+        Print "You don't have enough gold to heal for that much.\n";
+    }
+    else
+    {
+        Print "Alright, healing you for " << std::to_string(healing) << " health points.\n";
+        Creatures::player.loseGold(healing * 2);
+        Creatures::player.gainHealth(healing);
+    }
+}
 
 void Town::listItems(Creatures::NPC shopkeep)
 {

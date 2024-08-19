@@ -128,41 +128,10 @@ void PC::viewStats()
 	for (int i = 3; i < 80 - 2; ++i)
 		Line::lineDraw(Line::HOR);
 	Line::lineDraw(Line::BR);
-
-	Cursor::setPos(5, 14);
-	Line::lineDraw(Line::TL);
-	for (int x = 6; x < 25; ++x)
-		Line::lineDraw(Line::HOR);
-	Line::lineDraw(Line::TR);
-	Cursor::setHor(32);
-	Line::lineDraw(Line::TL);
-	for (int x = 33; x < 52; ++x)
-		Line::lineDraw(Line::HOR);
-	Line::lineDraw(Line::TR);
-	for (int y = 15; y < 19; ++y)
-	{
-		Print "\n";
-		Cursor::setHor(5);
-		Line::lineDraw(Line::VER);
-		Cursor::setHor(25);
-		Line::lineDraw(Line::VER);
-		Cursor::setHor(32);
-		Line::lineDraw(Line::VER);
-		Cursor::setHor(52);
-		Line::lineDraw(Line::VER);
-	}
-	Cursor::setPos(5, 19);
-	Line::lineDraw(Line::BL);
-	for (int x = 6; x < 25; ++x)
-		Line::lineDraw(Line::HOR);
-	Line::lineDraw(Line::BR);
-	Cursor::setHor(32);
-	Line::lineDraw(Line::BL);
-	for (int x = 33; x < 52; ++x)
-		Line::lineDraw(Line::HOR);
-	Line::lineDraw(Line::BR);
-
 	Line::lineDrawingOff();
+
+	textBoxBorder(5, 14, 20, 6);
+	textBoxBorder(30, 14, 20, 6);
 
 	Cursor::setPos(5, 2);
 	Print FG_AZURE1 << getName() << FG_CYAN1 << ", " << getTitle() << FG_GRAY2;
@@ -203,19 +172,19 @@ void PC::viewStats()
 
 	Cursor::setPos(7, 15);
 	Print "Accuracy: " << FG_VIOLET1 << getAccuracy() << FG_GRAY2;
-	Cursor::setHor(34);
+	Cursor::setHor(32);
 	Print "Dodge:    " << FG_AZURE1 << getDodge() << FG_GRAY2;
 	Cursor::setPos(7, 16);
 	Print "Cutting:  " << FG_VIOLET1 << getDamCutting() << FG_GRAY2;
-	Cursor::setHor(34);
+	Cursor::setHor(32);
 	Print "Cutting:  " << FG_AZURE1 << getResCutting() << FG_GRAY2;
 	Cursor::setPos(7, 17);
 	Print "Stabbing: " << FG_VIOLET1 << getDamStabbing() << FG_GRAY2;
-	Cursor::setHor(34);
+	Cursor::setHor(32);
 	Print "Stabbing: " << FG_AZURE1 << getResStabbing() << FG_GRAY2;
 	Cursor::setPos(7, 18);
 	Print "Smashing: " << FG_VIOLET1 << getDamSmashing() << FG_GRAY2;
-	Cursor::setHor(34);
+	Cursor::setHor(32);
 	Print "Smashing: " << FG_AZURE1 << getResSmashing() << FG_GRAY2;
 
 	Print SGR_RESET;

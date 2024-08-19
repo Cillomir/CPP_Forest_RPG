@@ -63,6 +63,7 @@ std::string Item::getTypeString()
 		break;
 	case ItemType::misc: return "miscellaneous";
 		break;
+	default: return "";
 	};
 }
 void Item::setType(ItemType type)

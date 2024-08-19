@@ -28,6 +28,7 @@ To-Do:
 		(e.g. second wind, boost, protection, etc.)
 	Add spellcasting (per class, e.g. mage, cleric) that use spirit/mana
 		(e.g. dart, missile, healing, protection, weakening, etc.)
+	Add SQLLite (for character / game state storage)
     
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */

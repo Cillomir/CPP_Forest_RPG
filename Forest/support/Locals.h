@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <vector>
 #include <random>
 #include <chrono>
 #include "support/Console.h"
@@ -39,6 +40,7 @@ static void pressAnyKey()
 	Print WHITE << message;
 	IT::pressKey();
 }
+
 class Dice
 {
 public:
@@ -98,4 +100,106 @@ public:
 		}
 	}
 };
+
+static std::vector<std::string> splitText(std::string text, char delim = ' ')
+{
+	std::stringstream str(text);
+	std::string s;
+	std::vector<std::string> v;
+	while (std::getline(str, s, delim))
+	{
+		v.push_back(s);
+	}
+	return v;
+}
+
+
+static void textBoxBorder(int x, int y, int width, int height)
+{
+	CSL_Line::Line::lineDrawingOn();
+	CSL_Cursor::Cursor::setPos(x, y);
+	CSL_Line::Line::lineDraw(CSL_Line::Line::TL);
+	for (int i = 1; i < width - 1; ++i)
+		CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
+	CSL_Line::Line::lineDraw(CSL_Line::Line::TR);
+	for (int i = 1; i < height; ++i)
+	{
+		CSL_Cursor::Cursor::setPos(x, y + i);
+		CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
+		CSL_Cursor::Cursor::setHor(x + width - 1);
+		CSL_Line::Line::lineDraw(CSL_Line::Line::VER);
+	}
+	CSL_Cursor::Cursor::setPos(x, y + height - 1);
+	CSL_Line::Line::lineDraw(CSL_Line::Line::BL);
+	for (int i = 1; i < width - 1; ++i)
+		CSL_Line::Line::lineDraw(CSL_Line::Line::HOR);
+	CSL_Line::Line::lineDraw(CSL_Line::Line::BR);
+	CSL_Line::Line::lineDrawingOff();
+}
+static void textBoxBorder(COORD pos, int width, int height)
+{
+	textBoxBorder(pos.X, pos.Y, width, height);
+}
+
+static void tbNewLine(COORD pos, int &width, int &height)
+{
+	width = 0;
+	height++;
+	CSL_Cursor::Cursor::setPos(pos.X, pos.Y + height);
+}
+static void textBox(COORD pos, int maxWidth, int maxHeight, std::string text, bool border = false)
+{
+	std::vector<std::string> words = splitText(text);
+	if (border) textBoxBorder(pos.X - 1, pos.Y - 1, maxWidth + 1, maxHeight + 1);
+	CSL_Cursor::Cursor::setPos(pos.X, pos.Y);
+	int curWidth = 0;
+	int curHeight = 0;
+	for (std::string w : words)
+	{
+		if ((int)w.length() + curWidth < maxWidth)
+		{
+			curWidth += (int)w.length();
+			Print w;
+			if (curWidth + 1 < maxWidth)
+			{
+				curWidth++;
+				Print " ";
+			}
+			else tbNewLine(pos, curWidth, curHeight);
+		}
+		else
+		{
+			if (curHeight >= maxHeight)
+				break;
+			else
+			{
+				if ((int)w.length() < (int)std::floor(maxWidth / 4))
+				{
+					curHeight++;
+					CSL_Cursor::Cursor::setPos(pos.X, pos.Y + curHeight);
+					curWidth = (int)w.length();
+					Print w;
+					if (curWidth + 1 < maxWidth)
+					{
+						curWidth++;
+						Print " ";
+					}
+					else tbNewLine(pos, curWidth, curHeight);
+				}
+				else
+				{
+					int max = maxWidth - curWidth - 2;
+					if (max < (int)std::ceil(maxWidth / 10))
+					for (int i = 0; i < max; ++i)
+						Print w[i];
+					Print "-";
+					tbNewLine(pos, curWidth, curHeight);
+					for (int i = max; i < w.length(); ++i)
+						Print w[i];
+				}
+			}
+		}
+	}
+};
+
 #endif
