@@ -5,23 +5,20 @@
 #include <tuple>
 #include <vector>
 #include <map>
-//#include <unordered_map>
-//#include <unordered_set>
 #include <algorithm>
 #include <conio.h>
 #include <ctype.h>
 #include "support/Console.h"
 #include "support/Internals.h"
+#include "support/Locals.h"
 using namespace CSL_Color;
 using namespace CSL_Console;
 using namespace CSL_Cursor;
 
-static void pressAnyKey();
-
 class Menu
 {
-#define Print std::cout <<
-protected:
+private:
+	// Constants
 	const std::string def_Header = "Please make a selection:";
 	const std::string def_Prompt = "Your command? ";
 	const std::vector<std::tuple<char, std::string>> def_Option;
@@ -35,12 +32,12 @@ protected:
 	static const int def_OptionColumn = 9;
 	static const int def_PromptColumn = 5;
 
-
-private:
+	// Menu Fields
 	std::string _header;
 	std::string _prompt;
 	std::vector<std::tuple<char, std::string>> _options;
 
+	// Internal Fields
 	int _numColumns;
 	int _startRow;
 	int _optionWidth;
@@ -49,6 +46,7 @@ private:
 	std::vector<int> _colBreaks;
 	std::vector<int> _optionPerCol;
 
+	// Helper Fields
 	static int _headerFromBottom;
 	static int _promptFromBottom;
 	static int _headerCol;
@@ -57,37 +55,38 @@ private:
 	static COORD _screenSize;
 	static std::map<std::string, Menu> _allMenus;
 
-	void setDefaults();
+	// Internal Functions
+	void init();
 	void calcOptionColumns();
 
 public:
 	Menu()
 	{
-		Menu::setDefaults();
+		Menu::init();
 	};
 	Menu(std::vector<std::tuple<char, std::string>> vOptions)
 	{
-		Menu::setDefaults();
+		Menu::init();
 		_options = vOptions;
 		calcOptionColumns();
 	}
 	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions)
 	{
-		Menu::setDefaults();
+		Menu::init();
 		_header = sHeader;
 		_options = vOptions;
 		calcOptionColumns();
 	}
 	Menu(std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
 	{
-		Menu::setDefaults();
+		Menu::init();
 		_prompt = sPrompt;
 		_options = vOptions;
 		calcOptionColumns();
 	}
 	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
 	{
-		Menu::setDefaults();
+		Menu::init();
 		_header = sHeader;
 		_prompt = sPrompt;
 		_options = vOptions;

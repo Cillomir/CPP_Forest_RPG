@@ -24,13 +24,13 @@ namespace CSL_Line
     const std::string CLR_LINE_AFTER(CSI"0K");    // Erase in Line (after cursor)
     const std::string CLR_LINE_BEFORE(CSI"1K");   // Erase in Line (before cursor)
 
+    const std::string SETTAB(CSI"H");             // Sets a tab stop in the current column the cursor is in
+    const std::string CLEARTAB(CSI"0g");          // Clears the tab stop in the current column, if there is one
+    const std::string CLEARTAB_ALL(CSI"3g");      // Clears all currently set tab stops
+
     class Tab
     {
     public:
-        const std::string SETTAB = CSI"H";             // Sets a tab stop in the current column the cursor is in
-        const std::string CLEARTAB = CSI"0g";          // Clears the tab stop in the current column, if there is one
-        const std::string CLEARTAB_ALL = CSI"3g";      // Clears all currently set tab stops
-
         /// <summary>
         /// Advance the cursor to the next column (in the same row) with a tab stop
         /// </summary>
@@ -66,6 +66,7 @@ namespace CSL_Line
 
     class Line
     {
+    public:
         enum LN
         {
             BR, TR, TL, BL,

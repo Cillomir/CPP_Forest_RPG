@@ -9,17 +9,7 @@ int Menu::_promptCol = Menu::def_PromptColumn;
 COORD Menu::_screenSize = { 120, 30 };
 std::map<std::string, Menu> Menu::_allMenus;
 
-static void pressAnyKey()
-{
-	Print CSL_Cursor::CUR_HIDE;
-	std::string message = "Press any key to continue...";
-	COORD size = CSL_Console::CSL::getWindowSize();
-	CSL_Cursor::Cursor::setPos(size.X - (int)message.size() - 2, size.Y - 1);
-	Print WHITE << message;
-	IT::pressKey();
-}
-
-void Menu::setDefaults()
+void Menu::init()
 {
 	_header = Menu::def_Header;
 	_prompt = Menu::def_Prompt;
@@ -86,7 +76,7 @@ void Menu::display()
 
 void Menu::arrUp()
 {
-	if (_selIndex < 0) {
+	if (_selIndex <= _options.size() - 1) {
 		_selIndex--;
 	}
 	else {
@@ -95,7 +85,7 @@ void Menu::arrUp()
 }
 void Menu::arrDown()
 {
-	if (_selIndex == _options.size() - 1) {
+	if (_selIndex >= _options.size()) {
 		_selIndex = 0;
 	}
 	else {
@@ -146,20 +136,34 @@ void Menu::arrRight()
 }
 char Menu::select()
 {
-	char cmd;
+	unsigned char cmd;
 	do
 	{
-		cmd = IT::getKey();
-		if (cmd == CSL_Key::KEY_ARR_UP)
-			arrUp(); cmd = ' ';
-		if (cmd == CSL_Key::KEY_ARR_DOWN)
-			arrDown(); cmd = ' ';
-		if (cmd == CSL_Key::KEY_ARR_LEFT)
-			arrLeft(); cmd = ' ';
-		if (cmd == CSL_Key::KEY_ARR_RIGHT)
-			arrRight(); cmd = ' ';
-		if (cmd == CSL_Key::KEY_RETURN)
+		cmd = IT::getCommand();
+		if (cmd == CSL_Key::KEY_ARR_UP + 128)
+		{
+			arrUp(); 
+			cmd = ' ';
+		}
+		if (cmd == CSL_Key::KEY_ARR_DOWN + 128)
+		{
+			arrDown(); 
+			cmd = ' ';
+		}
+		if (cmd == CSL_Key::KEY_ARR_LEFT + 128)
+		{
+			arrLeft(); 
+			cmd = ' ';
+		}
+		if (cmd == CSL_Key::KEY_ARR_RIGHT + 128)
+		{
+			arrRight(); 
+			cmd = ' ';
+		}
+		if (cmd == CSL_Key::KEY_RETURN + 128)
+		{
 			cmd = std::get<0>(_options[_selIndex]);
-	} while (cmd != ' ');
-	return cmd;
+		}
+	} while (cmd == ' ' && cmd != CSL_Key::KEY_ESC);
+	return toupper(cmd);
 }

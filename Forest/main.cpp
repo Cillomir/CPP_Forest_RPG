@@ -38,37 +38,41 @@ To-Do:
 #include <unordered_map>
 #include <algorithm>
 #include <windows.h>
-#include "support/Internals.h"
 #include "support/Console.h"
 #include "menu.h"
 #include "A_Areas/town.h"
 #include "C_Classes/creature.h"
 //#include "equipment.h"
+#include "support/Internals.h"
+#include "support/Locals.h"
+#include "Menu.h"
+#include "Town.h"
+#include "Creatures.h"
+#include "Items.h"
 //#include "dungeons.h"
 using namespace CSL_Console;
 
 #define Print std::cout <<
 #define Input std::cin >>
 
-Player introduction() 
+static void introduction()
 {
-
 	CSL::clear();
 	std::string playerName;
     Print "Please enter your name: ";
     Input playerName;
 	playerName = IT::toCapitalize(playerName);
 	Print "Welcome, " << playerName << "\n";
-	Player player = Player(playerName);
-	Player::player.setName(playerName);
-	//player.viewStats();
-	return player;
+	pressAnyKey();
+	Creatures::PC player = Creatures::PC(playerName);
+	Creatures::player = player;
+	Creatures::player.viewStats();
 }
 
 int main()
 {
 	CSL::enableVTMode();
-	Player p = introduction();
+	introduction();
 	//Town::townInit();
 	//Item::init();
 	Town::townMain();
