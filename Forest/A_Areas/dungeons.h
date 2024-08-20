@@ -1,17 +1,14 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include <windows.h>
-#include "../support/Console.h"
-//#include "menu.h"
-//#include "creature.h"
 #include <unordered_map>
+#include <windows.h>
 #include "support/Internals.h"
 #include "support/Console.h"
 #include "support/Locals.h"
-#include "Menu.h"
-#include "Creatures.h"
-#include "Items.h"
+#include "../Menu.h"
+#include "../C_Classes/Creatures.h"
+#include "../C_Classes/Items.h"
 
 class Forest 
 {

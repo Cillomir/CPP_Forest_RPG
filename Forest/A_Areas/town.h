@@ -12,8 +12,10 @@
 #include "Items.h"
 #include "../support/Internals.h"
 #include "../support/Console.h"
-#include "../menu.h"
-#include "../C_Classes/creature.h"
+#include "../Menu.h"
+#include "../C_Classes/Creature.h"
+#include "../C_Classes/Items.h"
+#include "../C_Classes/Abilities.h"
 using namespace CSL_Console;
 
 class Town

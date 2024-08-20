@@ -1,5 +1,5 @@
 #pragma once
-#include "menu.h"
+#include "Menu.h"
 
 int Menu::_headerFromBottom = Menu::def_HeaderFromBottom;
 int Menu::_promptFromBottom = Menu::def_PromptFromBottom;

@@ -40,17 +40,11 @@ To-Do:
 #include <algorithm>
 #include <windows.h>
 #include "support/Console.h"
-#include "menu.h"
-#include "A_Areas/town.h"
-#include "C_Classes/creature.h"
-//#include "equipment.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
 #include "Menu.h"
-#include "Town.h"
-#include "Creatures.h"
-#include "Items.h"
-//#include "dungeons.h"
+#include "A_Areas/Town.h"
+#include "C_Classes/Creatures.h"
 using namespace CSL_Console;
 
 #define Print std::cout <<

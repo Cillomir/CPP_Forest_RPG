@@ -1,4 +1,7 @@
 #pragma once
+#ifndef CREATURES_H
+#define CREATURES_H
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,9 +14,6 @@
 #include "support/Locals.h"
 #include "Items.h"
 using namespace Items;
-
-#ifndef CREATURES_H
-#define CREATURES_H
 
 namespace Creatures
 {

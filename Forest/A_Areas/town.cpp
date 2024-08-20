@@ -1,5 +1,5 @@
 #pragma once
-#include "town.h"
+#include "Town.h"
 std::unordered_map<std::string, Creatures::NPC> Town::shopkeepers = std::unordered_map<std::string, Creatures::NPC>();
 std::unordered_map<std::string, Menu> Town::menus = std::unordered_map<std::string, Menu>();
 
