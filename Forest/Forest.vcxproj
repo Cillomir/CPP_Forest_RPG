@@ -132,6 +132,8 @@
     <ClCompile Include="Abilities.cpp" />
     <ClCompile Include="Creatures.cpp" />
     <ClCompile Include="dForest.cpp" />
+    <ClCompile Include="C_Classes\creature.cpp" />
+    <ClCompile Include="A_Areas\dForest.cpp" />
     <ClCompile Include="support\Log.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Items.cpp" />
@@ -141,6 +143,8 @@
     <ClInclude Include="Creatures.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="dungeons.h" />
+    <ClInclude Include="A_Areas\dungeons.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Town.h" />
     <ClInclude Include="support\Locals.h" />
@@ -148,9 +152,18 @@
     <ClInclude Include="support\Console.h" />
     <ClInclude Include="support\Colors.h" />
     <ClInclude Include="support\Internals.h" />
+    <ClCompile Include="equipment.cpp" />
+    <ClCompile Include="town.cpp" />
+  </ItemGroup>
+    <ClCompile Include="C_Classes\equipment.cpp" />
+    <ClCompile Include="A_Areas\town.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="resources\ArtTown.txt" />
+    <ClInclude Include="C_Classes\creature.h" />
+    <ClInclude Include="support\Console.h" />
+    <ClInclude Include="C_Classes\equipment.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="A_Areas\town.h" />
     <Text Include="resources\Creatures.txt" />
     <Text Include="resources\Items.txt" />
   </ItemGroup>

@@ -1,6 +1,10 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include <windows.h>
+#include "../support/Console.h"
+//#include "menu.h"
+//#include "creature.h"
 #include <unordered_map>
 #include "support/Internals.h"
 #include "support/Console.h"

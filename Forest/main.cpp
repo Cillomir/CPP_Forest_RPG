@@ -40,6 +40,10 @@ To-Do:
 #include <algorithm>
 #include <windows.h>
 #include "support/Console.h"
+#include "menu.h"
+#include "A_Areas/town.h"
+#include "C_Classes/creature.h"
+//#include "equipment.h"
 #include "support/Internals.h"
 #include "support/Locals.h"
 #include "Menu.h"
