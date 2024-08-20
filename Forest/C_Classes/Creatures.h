@@ -17,6 +17,15 @@ using namespace Items;
 
 namespace Creatures
 {
+	enum class Gender
+	{
+		male, female, other
+	};
+
+	enum class Race
+	{
+		Human, Elf, Dwarf, Gnome, Orc
+	};
 	enum class Condition
 	{
 		healthy, light_injury, medium_injury, heavy_injury, near_death, dead
@@ -29,9 +38,170 @@ namespace Creatures
 	{
 		none, cutting, stabbing, smashing, fire, water, earth, air, dark, light
 	};
+	enum class EquipLocation
+	{
+		head, neck, body, arms, hands, waist, legs, feet, mainHand, offHand
+	};
 
+	struct StatPoints
+	{
+		std::string name;
+		int current;
+		int max;
+		float GetPercent() {
+			return (current / max) * 100;
+		}
+		std::string GetString() {
+			return std::sprintf("%s: %d/%d", name, current, max);
+		}
+	};
 
-	class PC
+	struct DamageType
+	{
+		std::string name;
+		int power;
+		int resist;
+	};
+
+	struct Equipped
+	{
+		std::string name;
+		EquipLocation location;
+		Item item;
+	};
+
+	class Creature
+	{
+	protected:
+		// General
+		std::string _name;
+		std::string _gender;
+		std::string _race;
+		std::string _shortDesc;
+		std::string _longDesc;
+		
+		int _level;
+		int _experience;
+		int _gold;
+		int _silver;
+		int _copper;
+
+		// Stats
+		StatPoints _health;
+		StatPoints _spirit;
+		StatPoints _stamina;
+		int _strength;
+		int _agility;
+		int _fortitude;
+		int _intellect;
+		int _wisdom;
+
+		int _armor;
+		int _accuracy;
+		int _evasion;
+		int _magic;
+
+		DamageType _cutting;
+		DamageType _stabbing;
+		DamageType _bashing;
+		DamageType _fire;
+		DamageType _water;
+		DamageType _earth;
+		DamageType _air;
+		DamageType _poison;
+
+		std::vector<Item> _inventory
+
+	public:
+		Creature(std::string name)
+			: _name(name), _level(0), _experience(0), _gold(0),
+			_health({ "Health", 0, 0 }), _spirit("Spirit", 0, 0), _stamina("Stamina", 0, 0),
+			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0)
+		{};
+
+		std::string GetName() { return _name; }
+		void SetName(std::string name) { _name = name; }
+		std::string GetGender() { return _gender; }
+		void SetGender(Gender gender)
+		{
+			switch (gender) {
+			case Gender::male: _gender = "Male";
+				break;
+			case Gender::female: _gender = "Female";
+				break;
+			case Gender::other: _gender = "Other";
+				break;
+			}
+		}
+		std::string GetRace() { return _race; }
+		void SetRace(Race race)
+		{
+			switch (race) {
+			case Race::Human: _race = "Human";
+				break;
+			case Race::Elf: _race = "Elf";
+				break;
+			case Race::Dwarf: _race = "Dwarf";
+				break;
+			case Race::Gnome: _race = "Gnome";
+				break;
+			case Race::Orc: _race = "Orc";
+				break;
+			}
+		}
+		std::string GetShortDesc() { return _shortDesc; }
+		void SetShortDesc(std::string desc) { _longDesc = desc; }
+		std::string GetLongDesc() { return _shortDesc; }
+		void SetLongDesc(std::string desc) { _longDesc = desc; }
+
+		int GetLevel() { return _level; }
+		void SetLevel(int level) { _level = level; }
+		int GetExperience() { return _experience; }
+		void SetExperience(int experience) { _experience = experience; }
+		int GetGold() { return _gold; }
+		void SetGold(int gold) { _gold = gold; }
+		int GetSilver() { return _silver; }
+		void SetSilver(int silver) { _silver = silver; }
+		int GetCopper() { return _copper; }
+		void SetCopper(int copper) { _copper = copper; }
+
+		int GetCurHealth() { return _health.current; }
+		int GetCurSpirit() { return _spirit.current; }
+		int GetCurStamina() { return _stamina.current; }
+		int GetMaxHealth() { return _health.max; }
+		int GetMaxSpirit() { return _spirit.max; }
+		int GetMaxStamina() { return _stamina.max; }
+		float GetHealthPercent() { return _health.GetPercent(); }
+		float GetSpiritPercent() { return _spirit.GetPercent(); }
+		float GetStaminaPercent() { return _stamina.GetPercent(); }
+		std::string ShowHealth() { return "Health: " + GetCurHealth() + "/" + GetMaxHealth(); }
+		std::string ShowSpirit() { return "Spirit: " + GetCurSpirit() + "/" + GetMaxSpirit(); }
+		std::string ShowStamina() { return "Stamina: " + GetCurStamina() + "/" + GetMaxStamina(); }
+
+		int GetStrength() { return _strength; }
+		void SetStrength(int strength) { _strength = strength; }
+		int GetAgility() { return _agility; }
+		void SetAgility(int agility) { _agility = agility; }
+		int GetFortitude() { return _fortitude; }
+		void SetFortitude(int Fortitude) { _fortitude = fortitude}
+		int GetIntellect() { return _intellect; }
+		void SetIntellect(int intellect) { _intellect = intellect; }
+		int GetWisdom() { return _wisdom; }
+		void SetWisdom(int wisdom) { _wisdom = wisdom; }
+
+		std::vector<Item> GetInventory() { return _inventory; }
+		void AddItem(Item item) { _inventory.emplace_back(item); }
+		bool CheckItem(Item item) 
+		{
+			for (Item i : _inventory)
+				if (i == item)
+					return true;
+			return false;
+		}
+		void RemoveItem(Item item) { _inventory.erase(item); }
+	};
+
+	class PC : public Creature
 	{
 	private:
 		// Constants
@@ -43,26 +213,13 @@ namespace Creatures
 		const std::vector<int> expNeeded = { 0, 100, 200, 400, 800, 1500, 2500, 4000, 6500, 10000, 15000 };
 
 		// General
-		std::string _name;
 		std::string _title;
-		int _level;
-		int _experience;
-		int _gold;
-
-		// Stats
-		std::tuple <int, int> _health;
-		std::tuple <int, int> _spirit;
-		std::tuple <int, int> _stamina;
-		int _strength;
-		int _fortitude;
-		int _agility;
-		int _intellect;
 
 		// Equipment
 		Weapon _curWeapon;
 		Armor _curArmor;
 		Shield _curShield;
-		std::vector<Item> _inventory;
+		std::vector<Item> _items;
 		std::vector<Weapon> _weapons;
 		std::vector<Armor> _armors;
 		std::vector<Shield> _shields;
