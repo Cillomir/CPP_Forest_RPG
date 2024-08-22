@@ -70,18 +70,43 @@ static void CharacterCreation()
 	Print "Select a Race: ";
 	Print "Human - the most common and most balanced. A human has an easier time learning skills and spells.";
 	Print "Elf - long lived and wise. An elf has enhanced magic power with boosted agility and wisdom.";
-	Print "Dwarf - sturdy and enduring. ";
-	Print "Gnome - ";
-	Print "Orc - ";
+	Print "Dwarf - sturdy and enduring. A dwarf has increased physical power with boosted strength and fortitude.";
+	Print "Gnome - spiritual and energetic. A gnome has the highest magic power, but low physical abilities.";
+	Print "Orc - fierce and well-built. An orc has the highest combative power, but low magical abilities.";
+
+	std::vector<Menus::Option> options;
+	options.push_back({ 'H', "Human" });
+	options.push_back({ 'E', "Elf" });
+	options.push_back({ 'D', "Dwarf" });
+	options.push_back({ 'G', "Gnome" });
+	options.push_back({ 'O', "Orc" });
+	Menus::Menu create("Select a Race: ", options, "Your decision?");
+
+	create.display();
+	char cmd = create.select();
+	switch (cmd) {
+	case 'H': Creatures::player.SetRace(Creatures::Race::Human);
+		break;
+	case 'E': Creatures::player.SetRace(Creatures::Race::Elf);
+		break;
+	case 'D': Creatures::player.SetRace(Creatures::Race::Dwarf);
+		break;
+	case 'G': Creatures::player.SetRace(Creatures::Race::Gnome);
+		break;
+	case 'O': Creatures::player.SetRace(Creatures::Race::Orc);
+		break;
+	}
+
 }
 
 int main()
 {
 	CSL::enableVTMode();
 	introduction();
+	CharacterCreation();
 	//Town::townInit();
 	//Item::init();
-	Town::townMain();
+	RPG::Town::townMain();
 	
 	//Console::screen.restore();
 }

@@ -1,4 +1,7 @@
 #pragma once
+#ifndef TOWN_H
+#define TOWN_H
+
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -13,27 +16,32 @@
 #include "../C_Classes/Abilities.h"
 using namespace CSL_Console;
 
-class Town
+namespace RPG
 {
-public:
-	static std::unordered_map<std::string, Creatures::NPC> shopkeepers;
-	static std::unordered_map<std::string, Menus::Menu> menus;
+	class Town
+	{
+	public:
+		static std::unordered_map<std::string, Creatures::NPC> shopkeepers;
+		static std::unordered_map<std::string, Menus::Menu> menus;
 
-	static void initTown();
-	static void townMain();
+		static void initTown();
+		static void townMain();
 
-	static void initArmorShop();
-	static void initWeaponShop();
-	static void initHealersHut();
-	static void armorShop();
+		static void initArmorShop();
+		static void initWeaponShop();
+		static void initHealersHut();
+		static void armorShop();
 
-	static void weaponShop();
+		static void weaponShop();
 
-	static void healersHut();
-	static void getHealing();
+		static void healersHut();
+		static void getHealing();
 
-	static void listItems(Creatures::NPC shopkeep);
-	static void buyItem(Creatures::NPC shopkeep);
-	static void sellItem(Creatures::NPC shopkeep);
+		static void listItems(Creatures::NPC shopkeep);
+		static void buyItem(Creatures::NPC shopkeep);
+		static void sellItem(Creatures::NPC shopkeep);
 
-};
+	};
+}
+
+#endif

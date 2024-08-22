@@ -3,6 +3,7 @@
 #include "Dungeons.h"
 
 using namespace Menus;
+using namespace RPG;
 
 void Forest::init()
 {

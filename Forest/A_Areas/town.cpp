@@ -2,6 +2,7 @@
 #include "Town.h"
 
 using namespace Menus;
+using namespace RPG;
 
 std::unordered_map<std::string, Creatures::NPC> Town::shopkeepers = std::unordered_map<std::string, Creatures::NPC>();
 std::unordered_map<std::string, Menu> Town::menus = std::unordered_map<std::string, Menu>();
