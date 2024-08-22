@@ -1,6 +1,8 @@
 #pragma once
 #include "Menu.h"
 
+using namespace Menus;
+
 int Menu::_headerFromBottom = Menu::def_HeaderFromBottom;
 int Menu::_promptFromBottom = Menu::def_PromptFromBottom;
 int Menu::_headerCol = Menu::def_HeaderColumn;
@@ -13,7 +15,7 @@ void Menu::init()
 {
 	_header = Menu::def_Header;
 	_prompt = Menu::def_Prompt;
-	_options = Menu::def_Option;
+	//_options = Menu::def_Option;
 
 	_numColumns = Menu::def_NumColumns;
 	_startRow = Menu::_screenSize.Y - Menu::_headerFromBottom;
@@ -59,15 +61,15 @@ void Menu::display()
 	Cursor::setPos(_headerCol, size.Y - _headerFromBottom);
 	Print WHITE << _header << std::endl;
 	int idx = 0;
-	for (std::tuple<char, std::string> tup : _options)
+	for (Option opt : _options)
 	{
 		Cursor::setHor(_optionCol);
 		if (idx == _selIndex) 
 			Print B_YELLOW << BOLD;
 		Print BLUE << "[";
-		Print CYAN << std::get<0>(tup);
+		Print CYAN << opt.key;
 		Print BLUE << "]";
-		Print BLUE_BR << std::get<1>(tup) << SGR_RESET << std::endl;
+		Print BLUE_BR << opt.name << SGR_RESET << std::endl;
 		idx++;
 	}
 	Cursor::setPos(_promptCol, size.Y - _promptFromBottom);
@@ -162,7 +164,7 @@ char Menu::select()
 		}
 		if (cmd == CSL_Key::KEY_RETURN + 128)
 		{
-			cmd = std::get<0>(_options[_selIndex]);
+			cmd = _options[_selIndex].key;
 		}
 	} while (cmd == ' ' && cmd != CSL_Key::KEY_ESC);
 	return toupper(cmd);

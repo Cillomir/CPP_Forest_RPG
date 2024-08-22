@@ -14,9 +14,9 @@ void PC::init(std::string name)
 	_level = 1;
 	_experience = 0;
 	_gold = 100;
-	_health = { 100, 100 };
-	_spirit = { 20, 20 };
-	_stamina = { 100, 100 };
+	_health = { "Health", 100, 100};
+	_spirit = { "Spirit", 20, 20 };
+	_stamina = { "Stamina", 100, 100};
 	_strength = 5;
 	_fortitude = 3;
 	_agility = 3;

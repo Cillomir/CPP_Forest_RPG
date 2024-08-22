@@ -9,9 +9,11 @@
 #include <cstdio>
 #include <cstdlib>
 #include <time.h>
-#include "support/Console.h"
-#include "support/Internals.h"
-#include "support/Locals.h"
+#include <format>
+#include "../support/Console.h"
+#include "../support/Internals.h"
+#include "../support/Locals.h"
+#include "Abilities.h"
 #include "Items.h"
 using namespace Items;
 
@@ -21,7 +23,6 @@ namespace Creatures
 	{
 		male, female, other
 	};
-
 	enum class Race
 	{
 		Human, Elf, Dwarf, Gnome, Orc
@@ -34,14 +35,6 @@ namespace Creatures
 	{
 		none, fledgling, novice, adventurer, expert, master
 	};
-	enum class DamageType
-	{
-		none, cutting, stabbing, smashing, fire, water, earth, air, dark, light
-	};
-	enum class EquipLocation
-	{
-		head, neck, body, arms, hands, waist, legs, feet, mainHand, offHand
-	};
 
 	struct StatPoints
 	{
@@ -49,20 +42,29 @@ namespace Creatures
 		int current;
 		int max;
 		float GetPercent() {
-			return (current / max) * 100;
+			return ((float)current / (float)max) * 100;
 		}
 		std::string GetString() {
-			return std::sprintf("%s: %d/%d", name, current, max);
+			return std::format("{}: {}/{}", name, current, max);
 		}
 	};
 
+	enum class DamType
+	{
+		none, cutting, stabbing, bashing, fire, water, earth, air, poison, lightning, sonic
+	};
 	struct DamageType
 	{
+		DamType type;
 		std::string name;
 		int power;
 		int resist;
 	};
 
+	enum class EquipLocation
+	{
+		head, neck, body, arms, hands, waist, legs, feet, mainHand, offHand
+	};
 	struct Equipped
 	{
 		std::string name;
@@ -79,7 +81,7 @@ namespace Creatures
 		std::string _race;
 		std::string _shortDesc;
 		std::string _longDesc;
-		
+
 		int _level;
 		int _experience;
 		int _gold;
@@ -109,14 +111,46 @@ namespace Creatures
 		DamageType _earth;
 		DamageType _air;
 		DamageType _poison;
+		DamageType _lightning;
+		DamageType _sonic;
 
-		std::vector<Item> _inventory
+		std::vector<Item> _inventory;
 
 	public:
+		Creature()
+			: _name(""), _gender(""), _race(""), _shortDesc(""), _longDesc(""),
+			_level(0), _experience(0), _gold(0), _silver(0), _copper(0),
+			_health({ "Health", 0, 0 }), _spirit({ "Spirit", 0, 0 }), _stamina({ "Stamina", 0, 0 }),
+			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0),
+			_armor(0), _accuracy(0), _evasion(0), _magic(0),
+			_cutting({ DamType::cutting, "Cutting", 0, 0 }),
+			_stabbing({ DamType::stabbing, "Stabbing", 0, 0 }),
+			_bashing({ DamType::bashing, "Bashing", 0, 0 }),
+			_fire({ DamType::fire, "Fire", 0, 0 }),
+			_water({ DamType::water, "Water", 0,0 }),
+			_earth({ DamType::earth, "Earth", 0,0 }),
+			_air({ DamType::air, "Air", 0,0 }),
+			_poison({ DamType::poison, "Poison", 0,0 }),
+			_lightning({ DamType::lightning, "Lightning", 0,0 }),
+			_sonic({ DamType::sonic, "Sonic", 0,0 })
+		{};
+
 		Creature(std::string name)
-			: _name(name), _level(0), _experience(0), _gold(0),
-			_health({ "Health", 0, 0 }), _spirit("Spirit", 0, 0), _stamina("Stamina", 0, 0),
-			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0)
+			: _name(name), _gender(""), _race(""), _shortDesc(""), _longDesc(""),
+			_level(0), _experience(0), _gold(0), _silver(0), _copper(0),
+			_health({ "Health", 0, 0 }), _spirit({ "Spirit", 0, 0 }), _stamina({ "Stamina", 0, 0 }),
+			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0),
+			_armor(0), _accuracy(0), _evasion(0), _magic(0),
+			_cutting({ DamType::cutting, "Cutting", 0, 0 }),
+			_stabbing({ DamType::stabbing, "Stabbing", 0, 0 }),
+			_bashing({ DamType::bashing, "Bashing", 0, 0 }),
+			_fire({ DamType::fire, "Fire", 0, 0 }),
+			_water({ DamType::water, "Water", 0,0 }),
+			_earth({ DamType::earth, "Earth", 0,0 }),
+			_air({ DamType::air, "Air", 0,0 }),
+			_poison({ DamType::poison, "Poison", 0,0 }),
+			_lightning({ DamType::lightning, "Lightning", 0,0 }),
+			_sonic({ DamType::sonic, "Sonic", 0,0 })
 		{};
 
 		std::string GetName() { return _name; }
@@ -174,16 +208,16 @@ namespace Creatures
 		float GetHealthPercent() { return _health.GetPercent(); }
 		float GetSpiritPercent() { return _spirit.GetPercent(); }
 		float GetStaminaPercent() { return _stamina.GetPercent(); }
-		std::string ShowHealth() { return "Health: " + GetCurHealth() + "/" + GetMaxHealth(); }
-		std::string ShowSpirit() { return "Spirit: " + GetCurSpirit() + "/" + GetMaxSpirit(); }
-		std::string ShowStamina() { return "Stamina: " + GetCurStamina() + "/" + GetMaxStamina(); }
+		std::string ShowHealth() { return std::format("Health: {}/{}", GetCurHealth(), GetMaxHealth()); }
+		std::string ShowSpirit() { return std::format("Spirit: {}/{}", GetCurSpirit(), GetMaxSpirit()); }
+		std::string ShowStamina() { return std::format("Stamina: {}/{}", GetCurStamina(), GetMaxStamina()); }
 
 		int GetStrength() { return _strength; }
 		void SetStrength(int strength) { _strength = strength; }
 		int GetAgility() { return _agility; }
 		void SetAgility(int agility) { _agility = agility; }
 		int GetFortitude() { return _fortitude; }
-		void SetFortitude(int Fortitude) { _fortitude = fortitude}
+		void SetFortitude(int fortitude) { _fortitude = fortitude; }
 		int GetIntellect() { return _intellect; }
 		void SetIntellect(int intellect) { _intellect = intellect; }
 		int GetWisdom() { return _wisdom; }
@@ -194,11 +228,11 @@ namespace Creatures
 		bool CheckItem(Item item) 
 		{
 			for (Item i : _inventory)
-				if (i == item)
+				if (i.getName() == item.getName())
 					return true;
 			return false;
 		}
-		void RemoveItem(Item item) { _inventory.erase(item); }
+		//void RemoveItem(Item item) { _inventory.erase(item); }
 	};
 
 	class PC : public Creature
@@ -236,11 +270,11 @@ namespace Creatures
 		PC()
 		{
 			init("");
-		}
+		};
 		PC(std::string name)
 		{
 			init(name);
-		}
+		};
 
 		PC& operator=(PC& obj)
 		{
@@ -291,35 +325,35 @@ namespace Creatures
 		void gainGold(int gold) { if (_gold + gold < maxGold) _gold += gold; }
 		void loseGold(int gold) { if (_gold - gold > minGold) _gold -= gold; }
 
-		int getHealth(void) { return std::get<0>(_health); }
-		void setHealth(int health) { std::get<0>(_health) = health; }
-		void gainHealth(int health) { std::get<0>(_health) += health; if (std::get<0>(_health) > std::get<1>(_health)) std::get<0>(_health) = std::get<1>(_health); }
-		void loseHealth(int health) { std::get<0>(_health) -= health; if (std::get<0>(_health) < 0) std::get<0>(_health) = 0; }
+		int getHealth(void) { return _health.current; }
+		void setHealth(int health) { _health.current = health; }
+		void gainHealth(int health) { _health.current += health; if (_health.current > _health.max) _health.current = _health.max; }
+		void loseHealth(int health) { _health.current -= health; if (_health.current < 0) _health.current = 0; }
 
-		int getHealthMax(void) { return std::get<1>(_health); }
-		void setHealthMax(int health) { std::get<1>(_health) = health; }
-		void gainHealthMax(int health) { std::get<1>(_health) += health; }
-		void loseHealthMax(int health) { if (std::get<1>(_health) - health > 0) std::get<1>(_health) -= health; }
+		int getHealthMax(void) { return _health.max; }
+		void setHealthMax(int health) { _health.max = health; }
+		void gainHealthMax(int health) { _health.max += health; }
+		void loseHealthMax(int health) { if (_health.max - health > 0) _health.max -= health; }
 
-		int getSpirit(void) { return std::get<0>(_spirit); }
-		void setSpirit(int spirit) { std::get<0>(_spirit) = spirit; }
-		void gainSpirit(int spirit) { std::get<0>(_spirit) += spirit; if (std::get<0>(_spirit) > std::get<1>(_spirit)) std::get<0>(_spirit) = std::get<1>(_spirit); }
-		void loseSpirit(int spirit) { std::get<0>(_spirit) -= spirit; if (std::get<0>(_spirit) < 0) std::get<0>(_spirit) = 0; }
+		int getSpirit(void) { return _spirit.current; }
+		void setSpirit(int spirit) { _spirit.current = spirit; }
+		void gainSpirit(int spirit) { _spirit.current += spirit; if (_spirit.current > _spirit.max) _spirit.current = _spirit.max; }
+		void loseSpirit(int spirit) { _spirit.current -= spirit; if (_spirit.current < 0) _spirit.current = 0; }
 
-		int getSpiritMax(void) { return std::get<1>(_spirit); }
-		void setSpiritMax(int spirit) { std::get<1>(_spirit) = spirit; }
-		void gainSpiritMax(int spirit) { std::get<1>(_spirit) += spirit; }
-		void loseSpiritMax(int spirit) { if (std::get<1>(_spirit) - spirit > 0) std::get<1>(_spirit) -= spirit; }
+		int getSpiritMax(void) { return _spirit.max; }
+		void setSpiritMax(int spirit) { _spirit.max = spirit; }
+		void gainSpiritMax(int spirit) { _spirit.max += spirit; }
+		void loseSpiritMax(int spirit) { if (_spirit.max - spirit > 0) _spirit.max -= spirit; }
 
-		int getStamina(void) { return std::get<0>(_stamina); }
-		void setStamina(int stamina) { std::get<0>(_stamina) = stamina; }
-		void gainStamina(int stamina) { std::get<0>(_stamina) += stamina; if (std::get<0>(_stamina) > std::get<1>(_stamina)) std::get<0>(_stamina) = std::get<1>(_stamina); }
-		void loseStamina(int stamina) { std::get<0>(_stamina) -= stamina; if (std::get<0>(_stamina) < 0) std::get<0>(_stamina) = 0; }
+		int getStamina(void) { return _stamina.current; }
+		void setStamina(int stamina) { _stamina.current = stamina; }
+		void gainStamina(int stamina) { _stamina.current += stamina; if (_stamina.current > _stamina.max) _stamina.current = _stamina.max; }
+		void loseStamina(int stamina) { _stamina.current -= stamina; if (_stamina.current < 0) _stamina.current = 0; }
 
-		int getStaminaMax(void) { return std::get<1>(_stamina); }
-		void setStaminaMax(int stamina) { std::get<1>(_stamina) = stamina; }
-		void gainStaminaMax(int stamina) { std::get<1>(_stamina) += stamina; }
-		void loseStaminaMax(int stamina) { if (std::get<1>(_stamina) - stamina > 0) std::get<1>(_stamina) -= stamina; }
+		int getStaminaMax(void) { return _stamina.max; }
+		void setStaminaMax(int stamina) { _stamina.max = stamina; }
+		void gainStaminaMax(int stamina) { _stamina.max += stamina; }
+		void loseStaminaMax(int stamina) { if (_stamina.max - stamina > 0) _stamina.max -= stamina; }
 
 		int getStrength(void) { return _strength; }
 		void setStrength(int strength) { _strength = strength; }
@@ -444,12 +478,12 @@ namespace Creatures
 	public:
 		Beast() : MOB()
 		{
-			init(0, { 0, Dice::d0 }, DamageType::none, 0, { 0, Dice::d0 });
+			init(0, { 0, Dice::d0 }, { DamType::none, "none", 0, 0}, 0, {0, Dice::d0});
 		}
 		Beast(std::string name)
 			: MOB(name)
 		{
-			init(0, { 0, Dice::d0 }, DamageType::none, 0, { 0, Dice::d0 });
+			init(0, { 0, Dice::d0 }, { DamType::none, "none", 0 , 0}, 0, { 0, Dice::d0 });
 		}
 		Beast(std::string name, int level, int health, int attack, std::tuple<int, Dice::die> damage, DamageType damageType,
 			int experience, std::tuple<int, Dice::die> gold)

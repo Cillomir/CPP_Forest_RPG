@@ -1,11 +1,11 @@
 ﻿#pragma once
+#ifndef CONSOLE_DEFS_H
+#define CONSOLE_DEFS_H
+
 #include <string>
 #include <windows.h>
 #include <wchar.h>
 #include "Colors.h"
-
-#ifndef CONSOLE_DEFS_H
-#define CONSOLE_DEFS_H
 
 #define ESC     "\x1B"      // Standard escape sequence
 #define CSI     "\x1B["     // Control Sequence Introducer

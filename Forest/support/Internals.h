@@ -1,11 +1,12 @@
 #pragma once
+#ifndef INTERNALS_H
+#define INTERNALS_H
+
 #include <string>
 #include <algorithm>
 #include <conio.h>
 #include "Console.h"
 
-#ifndef INTERNALS_H
-#define INTERNALS_H
 #define Print std::cout <<
 
 namespace IT

@@ -8,20 +8,38 @@
 #include <algorithm>
 #include <conio.h>
 #include <ctype.h>
-#include "../support/Console.h"
-#include "../support/Internals.h"
-#include "../support/Locals.h"
+#include <format>
+#include "support/Console.h"
+#include "support/Internals.h"
+#include "support/Locals.h"
 using namespace CSL_Color;
 using namespace CSL_Console;
 using namespace CSL_Cursor;
 
+namespace Menus
+{
+	struct Option
+	{
+		char key;
+		std::string name;
+		//std::function call;
+		Option(char k, std::string n)
+		{
+			key = k;
+			name = n;
+		}
+		std::string Output()
+		{
+			return std::format("[{}] {}", key, name);
+		}
+	};
 class Menu
 {
 private:
 	// Constants
 	const std::string def_Header = "Please make a selection:";
 	const std::string def_Prompt = "Your command? ";
-	const std::vector<std::tuple<char, std::string>> def_Option;
+	static const Option def_Option;
 	static const int def_NumColumns = 1;
 	static const int def_OptionWidth = 30;
 	static const int def_MaxOptionRows = 10;
@@ -35,7 +53,7 @@ private:
 	// Menu Fields
 	std::string _header;
 	std::string _prompt;
-	std::vector<std::tuple<char, std::string>> _options;
+	std::vector<Option> _options;
 
 	// Internal Fields
 	int _numColumns;
@@ -64,27 +82,27 @@ public:
 	{
 		Menu::init();
 	};
-	Menu(std::vector<std::tuple<char, std::string>> vOptions)
+	Menu(std::vector<Option> vOptions)
 	{
 		Menu::init();
 		_options = vOptions;
 		calcOptionColumns();
 	}
-	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions)
+	Menu(std::string sHeader, std::vector<Option> vOptions)
 	{
 		Menu::init();
 		_header = sHeader;
 		_options = vOptions;
 		calcOptionColumns();
 	}
-	Menu(std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
+	Menu(std::vector<Option> vOptions, std::string sPrompt)
 	{
 		Menu::init();
 		_prompt = sPrompt;
 		_options = vOptions;
 		calcOptionColumns();
 	}
-	Menu(std::string sHeader, std::vector<std::tuple<char, std::string>> vOptions, std::string sPrompt)
+	Menu(std::string sHeader, std::vector<Option> vOptions, std::string sPrompt)
 	{
 		Menu::init();
 		_header = sHeader;
@@ -99,6 +117,8 @@ public:
 	std::string getPrompt() { return _prompt; }
 	void setPrompt(std::string sPrompt) { _prompt = sPrompt; }
 
+	void AddOption(Option option) { _options.emplace_back(option); }
+
 	void display();
 
 	void arrUp();
@@ -107,3 +127,5 @@ public:
 	void arrRight();
 	char select();
 };
+}
+

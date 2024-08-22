@@ -1,7 +1,8 @@
 #pragma once
-#include <iostream>
 #ifndef LOG_H
 #define LOG_H
+
+#include <iostream>
 
 class Log
 {

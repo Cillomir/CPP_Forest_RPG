@@ -2,28 +2,33 @@
 #pragma once
 #include "Dungeons.h"
 
+using namespace Menus;
+
 void Forest::init()
 {
     std::string header = "You enter the edge of the forest.";
     std::string prompt = "What would you like to do?";
-    std::vector<std::tuple<char, std::string>> options;
-    options.push_back(std::make_tuple('E', "xplore the Forest"));
-    options.push_back(std::make_tuple('V', "iew Your Stats"));
-    options.push_back(std::make_tuple('R', "eturn to Town"));
+    std::vector<Option> options;
+    options.push_back({ 'E', "Explore the Forest" });
+    options.push_back({ 'V', "View Your Stats" });
+    options.push_back({ 'R', "Return to Town" });
     Forest::menus.emplace("main", Menu(header, options, prompt));
     
     header = "You have encountered something!";
     options.clear();
-    options.push_back(std::make_tuple('V', "iew Your Stats"));
-    options.push_back(std::make_tuple('R', "un Away"));
+    options.push_back({ 'I', "Interact with it" });
+    options.push_back({ 'V', "View Your Stats" });
+    options.push_back({ 'R', "Run Away" });
     Forest::menus.emplace("encounter", Menu(header, options, prompt));
 
     header = "You enter into combat!";
     options.clear();
-    options.push_back(std::make_tuple('A', "ttack the Creature"));
-    options.push_back(std::make_tuple('D', "efend Yourself"));
-    options.push_back(std::make_tuple('V', "iew Your Stats"));
-    options.push_back(std::make_tuple('R', "un Away"));
+    options.push_back({ 'A', "Attack the Creature" });
+    options.push_back({ 'D', "Defend Yourself" });
+    options.push_back({ 'S', "Use a Skill" });
+    options.push_back({ 'C', "Cast a Spell" });
+    options.push_back({ 'V', "View Your Stats" });
+    options.push_back({ 'R', "Run Away" });
     Forest::menus.emplace("battle", Menu(header, options, prompt));
 }
 void Forest::generate()

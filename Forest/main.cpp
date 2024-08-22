@@ -64,6 +64,17 @@ static void introduction()
 	Creatures::player.viewStats();
 }
 
+static void CharacterCreation()
+{
+	CSL::clear();
+	Print "Select a Race: ";
+	Print "Human - the most common and most balanced. A human has an easier time learning skills and spells.";
+	Print "Elf - long lived and wise. An elf has enhanced magic power with boosted agility and wisdom.";
+	Print "Dwarf - sturdy and enduring. ";
+	Print "Gnome - ";
+	Print "Orc - ";
+}
+
 int main()
 {
 	CSL::enableVTMode();

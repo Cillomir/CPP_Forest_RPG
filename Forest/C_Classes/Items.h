@@ -5,9 +5,9 @@
 #include <algorithm>
 #include <tuple>
 #include <functional>
-#include "support/Console.h"
-#include "support/Internals.h"
-#include "support/Locals.h"
+#include "../support/Console.h"
+#include "../support/Internals.h"
+#include "../support/Locals.h"
 
 namespace Items
 {

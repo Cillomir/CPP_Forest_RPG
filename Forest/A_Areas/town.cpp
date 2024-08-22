@@ -1,5 +1,8 @@
 #pragma once
 #include "Town.h"
+
+using namespace Menus;
+
 std::unordered_map<std::string, Creatures::NPC> Town::shopkeepers = std::unordered_map<std::string, Creatures::NPC>();
 std::unordered_map<std::string, Menu> Town::menus = std::unordered_map<std::string, Menu>();
 
@@ -7,13 +10,13 @@ void Town::initTown()
 {
     std::string header = "Welcome to the town!";
     std::string prompt = "Select a destination:";
-    std::vector<std::tuple<char, std::string>> options;
-    options.push_back(std::make_tuple('A', "rmor Shop"));
-    options.push_back(std::make_tuple('W', "eapon Shop"));
-    options.push_back(std::make_tuple('H', "ealer's Hut"));
-    options.push_back(std::make_tuple('F', "orest"));
-    options.push_back(std::make_tuple('V', "iew Your Stats"));
-    options.push_back(std::make_tuple('Q', "uit"));
+    std::vector<Option> options;
+    options.push_back({ 'A', "Armor Shop" });
+    options.push_back({ 'W', "Weapon Shop" });
+    options.push_back({ 'H', "Healer's Hut" });
+    options.push_back({ 'F', "Forest" });
+    options.push_back({ 'V', "View Your Stats" });
+    options.push_back({ 'Q', "Quit" });
     Town::menus.emplace("town", Menu(header, options, prompt));
     initArmorShop();
     initWeaponShop();
@@ -70,12 +73,12 @@ void Town::initArmorShop()
     {
         std::string header = "Welcome to the Armor Shop!";
         std::string prompt = "Select an Option:";
-        std::vector<std::tuple<char, std::string>> options;
-        options.push_back(std::make_tuple('B', "uy Armor"));
-        options.push_back(std::make_tuple('S', "ell Armor"));
-        options.push_back(std::make_tuple('L', "ist Armor"));
-        options.push_back(std::make_tuple('V', "iew Your Stats"));
-        options.push_back(std::make_tuple('R', "eturn to Town"));
+        std::vector<Option> options;
+        options.push_back({ 'B', "uy Armor" });
+        options.push_back({ 'S', "ell Armor" });
+        options.push_back({ 'L', "ist Armor" });
+        options.push_back({ 'V', "iew Your Stats" });
+        options.push_back({ 'R', "eturn to Town" });
         Town::menus.emplace("armor", Menu(header, options, prompt));
     }
 }
@@ -99,12 +102,12 @@ void Town::initWeaponShop()
     {
         std::string header = "Welcome to the Weapon Shop!";
         std::string prompt = "Select an Option:";
-        std::vector<std::tuple<char, std::string>> options;
-        options.push_back(std::make_tuple('B', "uy Weapons"));
-        options.push_back(std::make_tuple('S', "ell Weapons"));
-        options.push_back(std::make_tuple('L', "ist Weapons"));
-        options.push_back(std::make_tuple('V', "iew Your Stats"));
-        options.push_back(std::make_tuple('R', "eturn to Town"));
+        std::vector<Option> options;
+        options.push_back({ 'B', "uy Weapons" });
+        options.push_back({ 'S', "ell Weapons" });
+        options.push_back({ 'L', "ist Weapons" });
+        options.push_back({ 'V', "iew Your Stats" });
+        options.push_back({ 'R', "eturn to Town" });
         Town::menus.emplace("weapon", Menu(header, options, prompt));
     }
 }
@@ -127,13 +130,13 @@ void Town::initHealersHut()
     {
         std::string header = "Welcome to the Healer's Hut!";
         std::string prompt = "Select an Option:";
-        std::vector<std::tuple<char, std::string>> options;
-        options.push_back(std::make_tuple('H', "ealing"));
-        options.push_back(std::make_tuple('B', "uy Potions"));
-        options.push_back(std::make_tuple('S', "ell Potions"));
-        options.push_back(std::make_tuple('L', "ist Potions"));
-        options.push_back(std::make_tuple('V', "iew Your Stats"));
-        options.push_back(std::make_tuple('R', "eturn to Town"));
+        std::vector<Option> options;
+        options.push_back({ 'H', "ealing" });
+        options.push_back({ 'B', "uy Potions" });
+        options.push_back({ 'S', "ell Potions" });
+        options.push_back({ 'L', "ist Potions" });
+        options.push_back({ 'V', "iew Your Stats" });
+        options.push_back({ 'R', "eturn to Town" });
         Menu healersMenu = Menu(header, options, prompt);
     }
 }

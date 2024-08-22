@@ -1,8 +1,9 @@
 #pragma once
-#include <string>
-
 #ifndef CSL_COLORS_DEF_H
 #define CSL_COLORS_DEF_H
+
+#include <string>
+
 namespace CSL_Color
 {
 	// ----------------------------------------------------------------------------

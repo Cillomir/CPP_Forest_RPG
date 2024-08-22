@@ -1,17 +1,16 @@
 #pragma once
+#ifndef LOCALS_H
+#define LOCALS_H
+
 #include <iostream>
 #include <string>
 #include <vector>
 #include <random>
 #include <chrono>
-#include "support/Console.h"
-#include "support/Internals.h"
+#include "Console.h"
+#include "Internals.h"
 using namespace CSL_Color;
 
-#ifndef LOCALS_H
-#define LOCALS_H
-
-#define Print std::cout <<
 #define RND_DIST std::uniform_int_distribution<std::mt19937::result_type>
 
 static unsigned int timeSeed = (unsigned int)std::chrono::system_clock::now().time_since_epoch().count();

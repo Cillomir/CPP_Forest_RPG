@@ -1,11 +1,14 @@
 #pragma once
+#ifndef DUNGEONS_H
+#define DUNGEONS_H
+
 #include <iostream>
 #include <string>
 #include <unordered_map>
 #include <windows.h>
-#include "support/Internals.h"
-#include "support/Console.h"
-#include "support/Locals.h"
+#include "../support/Internals.h"
+#include "../support/Console.h"
+#include "../support/Locals.h"
 #include "../Menu.h"
 #include "../C_Classes/Creatures.h"
 #include "../C_Classes/Items.h"
@@ -21,7 +24,7 @@ private:
 	static void generateLevel5();
 
 public:
-	static std::unordered_map<std::string, Menu> menus;
+	static std::unordered_map<std::string, Menus::Menu> menus;
 	static std::unordered_map<std::string, Creatures::Beast> beasts;
 
 	static void init();
@@ -32,3 +35,4 @@ public:
 	static void battleMenu();
 };
 
+#endif
