@@ -60,66 +60,72 @@ static void introduction()
 	playerName = IT::toCapitalize(playerName);
 	Print "Welcome, " << playerName << "\n";
 	pressAnyKey();
-	PC pc = Creatures::PC(playerName);
+	PC pc = Creatures::PC();
 	player = pc;
-	player.viewStats();
+	player.setName(playerName);
 }
 
 static void CharacterCreation()
 {
-	CSL::clear();
-	Print "Select a Race: ";
-	Print "Human - the most common and most balanced. A human has an easier time learning skills and spells.";
-	Print "Elf - long lived and wise. An elf has enhanced magic power with boosted agility and wisdom.";
-	Print "Dwarf - sturdy and enduring. A dwarf has increased physical power with boosted strength and fortitude.";
-	Print "Gnome - spiritual and energetic. A gnome has the highest magic power, but low physical abilities.";
-	Print "Orc - fierce and well-built. An orc has the highest combative power, but low magical abilities.";
-
-	std::vector<Menus::Option> options;
-	options.push_back({ 'H', "Human" });
-	options.push_back({ 'E', "Elf" });
-	options.push_back({ 'D', "Dwarf" });
-	options.push_back({ 'G', "Gnome" });
-	options.push_back({ 'O', "Orc" });
-	Menus::Menu createRace("Select a Race: ", options, "Your decision?");
 	char cmd = ' ';
-	createRace.display();
 	do {
-		cmd = createRace.select();
-		switch (cmd) {
-		case 'H': player.SetRace(Race::Human);
-			break;
-		case 'E': player.SetRace(Race::Elf);
-			break;
-		case 'D': player.SetRace(Race::Dwarf);
-			break;
-		case 'G': player.SetRace(Race::Gnome);
-			break;
-		case 'O': player.SetRace(Race::Orc);
-			break;
-		}
-	} while (cmd != 'H' && cmd != 'E' && cmd != 'D' && cmd != 'G' && cmd != 'O');
+		CSL::clear();
+		Print "Select a Race: ";
+		Print "Human - the most common and most balanced. A human has an easier time learning skills and spells.";
+		Print "Elf - long lived and wise. An elf has enhanced magic power with boosted agility and wisdom.";
+		Print "Dwarf - sturdy and enduring. A dwarf has increased physical power with boosted strength and fortitude.";
+		Print "Gnome - spiritual and energetic. A gnome has the highest magic power, but low physical abilities.";
+		Print "Orc - fierce and well-built. An orc has the highest combative power, but low magical abilities.";
 
-	options.clear();
-	options.push_back({ 'F', "Fighter" });
-	options.push_back({ 'R', "Rogue" });
-	options.push_back({ 'W', "Wizard" });
-	Menus::Menu createClass("Select a Class: ", options, "Your decision?");
-	cmd = ' ';
-	createClass.display();
-	do {
-		cmd = createClass.select();
-		switch (cmd) {
-		case 'F': player.SetSchool(School::Fighter);
-			break;
-		case 'R': player.SetSchool(School::Rogue);
-			break;
-		case 'W': player.SetSchool(School::Wizard);
-			break;
-		}
-	} while (cmd != 'F' && cmd != 'R' && cmd != 'W');
+		std::vector<Menus::Option> options;
+		options.push_back({ 'H', "Human" });
+		options.push_back({ 'E', "Elf" });
+		options.push_back({ 'D', "Dwarf" });
+		options.push_back({ 'G', "Gnome" });
+		options.push_back({ 'O', "Orc" });
+		Menus::Menu createRace("Select a Race: ", options, "Your decision?");
+		cmd = ' ';
+		do {
+			cmd = createRace.select();
+			switch (cmd) {
+			case 'H': player.SetRace(Race::Human);
+				break;
+			case 'E': player.SetRace(Race::Elf);
+				break;
+			case 'D': player.SetRace(Race::Dwarf);
+				break;
+			case 'G': player.SetRace(Race::Gnome);
+				break;
+			case 'O': player.SetRace(Race::Orc);
+				break;
+			}
+		} while (cmd != 'H' && cmd != 'E' && cmd != 'D' && cmd != 'G' && cmd != 'O');
 
+		options.clear();
+		options.push_back({ 'F', "Fighter" });
+		options.push_back({ 'R', "Rogue" });
+		options.push_back({ 'W', "Wizard" });
+		Menus::Menu createClass("Select a Class: ", options, "Your decision?");
+		cmd = ' ';
+		do {
+			cmd = createClass.select();
+			switch (cmd) {
+			case 'F': player.SetSchool(School::Fighter);
+				break;
+			case 'R': player.SetSchool(School::Rogue);
+				break;
+			case 'W': player.SetSchool(School::Wizard);
+				break;
+			}
+		} while (cmd != 'F' && cmd != 'R' && cmd != 'W');
 
+		options.clear();
+		options.push_back({ 'Y', "Yes" });
+		options.push_back({ 'N', "No" });
+		Menus::Menu YesNo("Is this correct? ", options, "Your answer?");
+		cmd = ' ';
+		cmd = YesNo.select();
+	} while (cmd != 'Y');
 }
 
 int main()
@@ -127,6 +133,8 @@ int main()
 	CSL::enableVTMode();
 	introduction();
 	CharacterCreation();
+	player.viewStats();
+
 	//Town::townInit();
 	//Item::init();
 	RPG::Town::townMain();

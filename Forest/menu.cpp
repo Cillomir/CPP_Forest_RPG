@@ -65,7 +65,7 @@ void Menu::display()
 	{
 		Cursor::setHor(_optionCol);
 		if (idx == _selIndex) 
-			Print B_YELLOW << BOLD;
+			Print B_YELLOW_BR << BOLD;
 		Print BLUE << "[";
 		Print CYAN << opt.key;
 		Print BLUE << "]";
@@ -78,21 +78,13 @@ void Menu::display()
 
 void Menu::arrUp()
 {
-	if (_selIndex <= _options.size() - 1) {
-		_selIndex--;
-	}
-	else {
+	if (--_selIndex < 0)
 		_selIndex = (int)_options.size() - 1;
-	}
 }
 void Menu::arrDown()
 {
-	if (_selIndex >= _options.size()) {
+	if (++_selIndex >= _options.size())
 		_selIndex = 0;
-	}
-	else {
-		_selIndex++;
-	}
 }
 void Menu::arrLeft()
 {
@@ -141,6 +133,7 @@ char Menu::select()
 	unsigned char cmd;
 	do
 	{
+		this->display();
 		cmd = IT::getCommand();
 		if (cmd == CSL_Key::KEY_ARR_UP + 128)
 		{
@@ -162,7 +155,7 @@ char Menu::select()
 			arrRight(); 
 			cmd = ' ';
 		}
-		if (cmd == CSL_Key::KEY_RETURN + 128)
+		if (cmd == CSL_Key::KEY_RETURN)
 		{
 			cmd = _options[_selIndex].key;
 		}

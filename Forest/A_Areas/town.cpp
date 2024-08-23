@@ -30,8 +30,6 @@ void Town::townMain()
         initTown();
     unsigned char cmd;
     do {
-        CSL::clear();
-        Town::menus["town"].display();
         cmd = Town::menus["town"].select();
         switch (cmd) {
         case 'A':
@@ -148,9 +146,7 @@ void Town::armorShop()
     std::string message = "Welcome to Angar's Armor Shop. This is a test string to see if the string parsing will work for an armor shop description.";
     unsigned char cmd;
     do {
-        CSL::clear();
-        Town::menus["armor"].display();
-        textBox({ 36, 10 }, 40, 7, message, true);
+        Creatures::player.statLine();
         cmd = Town::menus["armor"].select();
         switch (cmd) 
         {
@@ -176,8 +172,6 @@ void Town::weaponShop()
     initWeaponShop();
     unsigned char cmd;
     do {
-        CSL::clear();
-        Town::menus["weapon"].display();
         cmd = Town::menus["weapon"].select();
         switch(cmd) {
         //case 'B':
@@ -201,8 +195,6 @@ void Town::healersHut()
     initHealersHut();
     unsigned char cmd;
     do {
-        CSL::clear();
-        Town::menus["healer"].display();
         cmd = Town::menus["healer"].select();
         switch (cmd) 
         {

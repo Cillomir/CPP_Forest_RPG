@@ -1,100 +1,34 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
+    <ClCompile Include="A_Areas\dForest.cpp" />
+    <ClCompile Include="A_Areas\Town.cpp" />
+    <ClCompile Include="C_Classes\Abilities.cpp" />
+    <ClCompile Include="C_Classes\Creatures.cpp" />
+    <ClCompile Include="C_Classes\Items.cpp" />
+    <ClCompile Include="C_Classes\Player.cpp" />
+    <ClCompile Include="support\Log.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="A_Areas\town.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C_Classes\creature.cpp">
-    <ClCompile Include="Items.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C_Classes\equipment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="A_Areas\dForest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="support\Log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Creatures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Abilities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="A_Areas\dungeons.h" />
+    <ClInclude Include="A_Areas\Town.h" />
+    <ClInclude Include="C_Classes\Abilities.h" />
+    <ClInclude Include="C_Classes\Creatures.h" />
+    <ClInclude Include="C_Classes\Items.h" />
+    <ClInclude Include="config.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="C_Classes\Player.h" />
+    <ClInclude Include="support\Locals.h" />
+    <ClInclude Include="support\Log.h" />
+    <ClInclude Include="support\Console.h" />
+    <ClInclude Include="support\Colors.h" />
+    <ClInclude Include="support\Internals.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="C_Classes\creature.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="support\Console.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C_Classes\equipment.h">
-    <ClInclude Include="Items.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="support\Internals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="A_Areas\dungeons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="A_Areas\town.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="support\Colors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="support\Log.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Creatures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Abilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="support\Locals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="resources\Creatures.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resources\Items.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="resources\ArtTown.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
+    <Text Include="resources\ArtTown.txt" />
+    <Text Include="resources\Creatures.txt" />
+    <Text Include="resources\Items.txt" />
   </ItemGroup>
 </Project>

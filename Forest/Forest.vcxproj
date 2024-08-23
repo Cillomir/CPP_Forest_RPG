@@ -134,7 +134,7 @@
     <ClCompile Include="C_Classes\Abilities.cpp" />
     <ClCompile Include="C_Classes\Creatures.cpp" />
     <ClCompile Include="C_Classes\Items.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="C_Classes\Player.cpp" />
     <ClCompile Include="support\Log.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="main.cpp" />
@@ -145,7 +145,7 @@
     <ClInclude Include="C_Classes\Items.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="C_Classes\Player.h" />
     <ClInclude Include="support\Locals.h" />
     <ClInclude Include="support\Log.h" />
     <ClInclude Include="support\Console.h" />

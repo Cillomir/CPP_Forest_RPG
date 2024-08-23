@@ -33,7 +33,7 @@ namespace IT
 	{
 		unsigned char key;
 		key = _getch();
-		if (key > 0)
+		if ((char)key > 0)
 		{
 			return key;
 		}
