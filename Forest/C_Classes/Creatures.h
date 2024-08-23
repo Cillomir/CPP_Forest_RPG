@@ -27,6 +27,11 @@ namespace Creatures
 	{
 		Human, Elf, Dwarf, Gnome, Orc
 	};
+	enum class School
+	{
+		none, Fighter, Rogue, Wizard
+	};
+
 	enum class Condition
 	{
 		healthy, light_injury, medium_injury, heavy_injury, near_death, dead
@@ -79,6 +84,7 @@ namespace Creatures
 		std::string _name;
 		std::string _gender;
 		std::string _race;
+		std::string _school;
 		std::string _shortDesc;
 		std::string _longDesc;
 
@@ -118,7 +124,7 @@ namespace Creatures
 
 	public:
 		Creature()
-			: _name(""), _gender(""), _race(""), _shortDesc(""), _longDesc(""),
+			: _name(""), _gender(""), _race(""), _school(""), _shortDesc(""), _longDesc(""),
 			_level(0), _experience(0), _gold(0), _silver(0), _copper(0),
 			_health({ "Health", 0, 0 }), _spirit({ "Spirit", 0, 0 }), _stamina({ "Stamina", 0, 0 }),
 			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0),
@@ -136,7 +142,7 @@ namespace Creatures
 		{};
 
 		Creature(std::string name)
-			: _name(name), _gender(""), _race(""), _shortDesc(""), _longDesc(""),
+			: _name(name), _gender(""), _race(""), _school(""), _shortDesc(""), _longDesc(""),
 			_level(0), _experience(0), _gold(0), _silver(0), _copper(0),
 			_health({ "Health", 0, 0 }), _spirit({ "Spirit", 0, 0 }), _stamina({ "Stamina", 0, 0 }),
 			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0),
@@ -183,6 +189,19 @@ namespace Creatures
 				break;
 			}
 		}
+		std::string GetSchool() { return _school; }
+		void SetSchool(School school)
+		{
+			switch (school) {
+			case School::Fighter: _school = "Fighter";
+				break;
+			case School::Rogue: _school = "Rogue";
+				break;
+			case School::Wizard: _school = "Wizard";
+				break;
+			}
+		}
+
 		std::string GetShortDesc() { return _shortDesc; }
 		void SetShortDesc(std::string desc) { _longDesc = desc; }
 		std::string GetLongDesc() { return _shortDesc; }
