@@ -87,7 +87,7 @@ namespace Creatures
 
 		// Stats
 		StatPoints _health, _spirit, _stamina;
-		int _strength, _agility, _fortitude, _intellect, _wisdom;
+		int _strength, _agility, _fortitude, _intellect, _wisdom, _luck;
 		int _armor, _accuracy, _evasion, _magic;
 
 		DamageType _cutting, _stabbing, _bashing;
@@ -101,7 +101,7 @@ namespace Creatures
 			: _name(""), _gender(""), _race(""), _school(""), _shortDesc(""), _longDesc(""),
 			_level(0), _experience(0), _gold(0), _silver(0), _copper(0),
 			_health({ "Health", 0, 0 }), _spirit({ "Spirit", 0, 0 }), _stamina({ "Stamina", 0, 0 }),
-			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0),
+			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0), _luck(0),
 			_armor(0), _accuracy(0), _evasion(0), _magic(0),
 			_cutting({ DamType::cutting, "Cutting", 0, 0 }),
 			_stabbing({ DamType::stabbing, "Stabbing", 0, 0 }),
@@ -167,6 +167,7 @@ namespace Creatures
 		void SetLevel(int level) { _level = level; }
 		int GetExperience() { return _experience; }
 		void SetExperience(int experience) { _experience = experience; }
+
 		int GetGold() { return _gold; }
 		void SetGold(int gold) { _gold = gold; }
 		int GetSilver() { return _silver; }
@@ -197,6 +198,8 @@ namespace Creatures
 		void SetIntellect(int intellect) { _intellect = intellect; }
 		int GetWisdom() { return _wisdom; }
 		void SetWisdom(int wisdom) { _wisdom = wisdom; }
+		int GetLuck() { return _luck; }
+		void SetLuck(int luck) { _luck = luck; }
 
 		int GetArmor() { return _armor; }
 		void SetArmor(int armor) { _armor = armor; }
@@ -240,15 +243,12 @@ namespace Creatures
 		//void RemoveItem(Item item) { _inventory.erase(item); }
 	};
 
-	class MOB
+	class MOB : public Creature
 	{
 	protected:
-		std::string _name;
-		std::string _description;
-		int _level;
-		std::tuple <int, int> _health;
 		Condition _condition;
-		std::vector<Item> _equipment;
+		std::map<EquipLocation, Item> _equipment;
+		//std::vector<Item> _equipment;
 
 		void baseinit(std::string name, std::string description, int level, int health);
 		void calcCondition();
@@ -270,14 +270,6 @@ namespace Creatures
 		{
 			baseinit(name, description, level, health);
 		}
-		std::string getName() { return _name; }
-		void setName(std::string name) { _name = name; }
-		std::string getDescription() { return _description; }
-		void setDescription(std::string description) { _description = description; }
-		int getLevel() { return _level; }
-		void setLevel(int level) { _level = level; }
-		std::tuple<int, int> getHealth() { return _health; }
-		void setHealth(int health) { _health = { health, health }; }
 		void look();
 		void examine();
 		void hurt(int amount);

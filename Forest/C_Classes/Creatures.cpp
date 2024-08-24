@@ -10,21 +10,21 @@ using namespace CSL_Line;
 void MOB::baseinit(std::string name, std::string description, int level, int health)
 {
 	_name = name;
-	_description = description;
+	_shortDesc = description;
 	_level = level;
-	_health = { health, health };
+	_health = { "Health", health, health};
 	_condition = Condition::healthy;
-	_equipment = std::vector<Item>();
+	_equipment = std::map<EquipLocation, Item>();
 };
 
 void MOB::calcCondition()
 {
-	if (std::get<0>(_health) <= 0)
+	if (_health.current <= 0)
 	{
-		std::get<0>(_health) = 0;
+		_health.current = 0;
 		_condition = Condition::dead;
 	}
-	float percent = (float)std::get<0>(_health) / (float)std::get<1>(_health);
+	float percent = _health.GetPercent();
 	percent *= 100;
 	if (percent >= 100)
 		_condition = Condition::healthy;
@@ -41,38 +41,38 @@ void MOB::calcCondition()
 }
 void MOB::look()
 {
-	std::cout << _description << std::endl;;
+	std::cout << _longDesc << std::endl;;
 }
 void MOB::examine()
 {
-	std::cout << _name << ": " << _description << std::endl;
+	std::cout << _name << ": " << _shortDesc << std::endl;
 	std::cout << "Level: " << _level << std::endl;
-	std::cout << "Health: " << std::get<0>(_health) << "/" << std::get<1>(_health) << std::endl;
-	for (Item e : _equipment)
+	std::cout << "Health: " << GetCurHealth() << "/" << GetMaxHealth() << std::endl;
+	for (std::pair<EquipLocation, Item> e : _equipment)
 	{
-		e.getShortDesc();
+		e.second.getShortDesc();
 	}
 }
 void MOB::hurt(int amount)
 {
-	std::get<0>(_health) -= amount;
-	if (std::get<0>(_health) < 0)
-		std::get<0>(_health) = 0;
+	_health.current -= amount;
+	if (_health.current < 0)
+		_health.current = 0;
 	calcCondition();
 }
 void MOB::heal(int amount)
 {
-	std::get<0>(_health) += amount;
-	if (std::get<0>(_health) > std::get<1>(_health))
-		std::get<0>(_health) = std::get<1>(_health);
+	_health.current += amount;
+	if (_health.current > _health.max)
+		_health.current = _health.max;
 	calcCondition();
 }
 bool MOB::has(Item item)
 {
 	bool has = false;
-	for (Item e : _equipment)
+	for (std::pair<EquipLocation, Item> e : _equipment)
 	{
-		if (e.getName() == item.getName())
+		if (e.second.getName() == item.getName())
 		{
 			has = true;
 			break;
@@ -84,9 +84,9 @@ bool MOB::take(Item item)
 {
 	int i = 0;
 	bool has = false;
-	for (Item e : _equipment)
+	for (std::pair<EquipLocation, Item> e : _equipment)
 	{
-		if (e.getName() == item.getName())
+		if (e.second.getName() == item.getName())
 		{
 			has = true;
 			break;

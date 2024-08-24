@@ -1,7 +1,10 @@
 #pragma once
 #ifndef PLAYER_H
 #define PLAYER_H
+
+#include "../config.h"
 #include "Creatures.h"
+
 
 namespace Creatures
 {
@@ -9,17 +12,14 @@ namespace Creatures
 	{
 	private:
 		// Constants
-		static const int minLevel = 1;
-		static const int maxLevel = 10;
-		static const int minExp = 0;
-		static const int minGold = 0;
-		static const int maxGold = 1000000;
 		const std::vector<int> expNeeded = { 0, 100, 200, 400, 800, 1500, 2500, 4000, 6500, 10000, 15000 };
 
 		// General
 		std::string _title;
 
 		// Equipment
+		std::map<EquipLocation, Item> _equipment;
+
 		Weapon _curWeapon;
 		Armor _curArmor;
 		Shield _curShield;
@@ -51,17 +51,42 @@ namespace Creatures
 			if (this != &obj)
 			{
 				_name = obj._name;
+				_gender = obj._gender;
+				_race = obj._race;
+				_school = obj._school;
+				_shortDesc = obj._shortDesc;
+				_longDesc = obj._longDesc;
 				_title = obj._title;
 				_level = obj._level;
 				_experience = obj._experience;
 				_gold = obj._gold;
+				_silver = obj._silver;
+				_copper = obj._copper;
 				_health = obj._health;
 				_spirit = obj._spirit;
 				_stamina = obj._stamina;
 				_strength = obj._strength;
-				_fortitude = obj._fortitude;
 				_agility = obj._agility;
+				_fortitude = obj._fortitude;
 				_intellect = obj._intellect;
+				_wisdom = obj._wisdom;
+				_luck = obj._luck;
+				_armor = obj._armor;
+				_accuracy = obj._accuracy;
+				_evasion = obj._evasion;
+				_magic = obj._magic;
+				_cutting = obj._cutting;
+				_stabbing = obj._stabbing;
+				_bashing = obj._bashing;
+				_fire = obj._fire;
+				_water = obj._water;
+				_earth = obj._earth;
+				_air = obj._air;
+				_poison = obj._poison;
+				_lightning = obj._lightning;
+				_sonic = obj._sonic;
+				_inventory = obj._inventory;
+
 				_curWeapon = obj._curWeapon;
 				_curArmor = obj._curArmor;
 				_curShield = obj._curShield;
@@ -84,16 +109,16 @@ namespace Creatures
 		void setTitle(std::string title) { _title = title; }
 
 		int getLevel(void) { return _level; }
-		void gainLevel(void) { if (_level < maxLevel) _level++; _experience = 0; }
-		void loseLevel(void) { if (_level > minLevel) _level--; _experience = 0; }
+		void gainLevel(void) { if (_level < config::maxLevel) _level++; _experience = 0; }
+		void loseLevel(void) { if (_level > config::minLevel) _level--; _experience = 0; }
 
 		int getExp(void) { return _experience; }
 		int gainExp(int exp) { if (_experience + exp < expNeeded[getLevel()]) _experience += exp; else gainLevel(); }
 
 		int getGold(void) { return _gold; }
 		void setGold(int gold) { _gold = gold; }
-		void gainGold(int gold) { if (_gold + gold < maxGold) _gold += gold; }
-		void loseGold(int gold) { if (_gold - gold > minGold) _gold -= gold; }
+		void gainGold(int gold) { if (_gold + gold < config::maxGold) _gold += gold; }
+		void loseGold(int gold) { if (_gold - gold > config::minGold) _gold -= gold; }
 
 		int getHealth(void) { return _health.current; }
 		void setHealth(int health) { _health.current = health; }
