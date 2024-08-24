@@ -42,6 +42,24 @@ void PC::createNew(PC& player)
 	if ((player._name == "") || (player._race == Race::none) || (player._school == School::none))
 		return;
 
+	player._health.current = player._health.max = 80;
+	player._spirit.current = player._spirit.max = 80;
+	player._stamina.current = player._stamina.max = 80;
+
+	player._strength = player._agility = player._fortitude = 8;
+	player._intellect = player._wisdom = player._luck = 8;
+
+	player._armor = 0;
+	player._accuracy = player._evasion = 3;
+	player._magic = 0;
+
+	player._cutting.power = player._stabbing.power = player._bashing.power = 3;
+	player._cutting.resist = player._stabbing.resist = player._bashing.resist = 1;
+	player._fire.power = player._water.power = player._earth.power = player._air.power = 0;
+	player._fire.resist = player._water.resist = player._earth.resist = player._air.resist = 0;
+	player._poison.power = player._lightning.power = player._sonic.power = 0;
+	player._poison.resist = player._lightning.resist = player._sonic.resist = 0;
+
 	switch (player._race)
 	{
 	case Race::Human:
