@@ -186,6 +186,11 @@ namespace Creatures
 		// Public Methods
 		void viewStats();
 		void statLine();
+
+		static void createNew(PC &player);
+
+		static void save();
+		static void load();
 	};
 	static PC player;
 }

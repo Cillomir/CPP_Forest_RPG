@@ -37,6 +37,38 @@ void PC::init(std::string name)
 	_inventory.push_back(_curArmor);
 };
 
+void PC::createNew(PC& player)
+{
+	if ((player._name == "") || (player._race == Race::none) || (player._school == School::none))
+		return;
+
+	switch (player._race)
+	{
+	case Race::Human:
+		break;
+	case Race::Elf:
+		break;
+	case Race::Dwarf:
+		break;
+	case Race::Gnome:
+		break;
+	case Race::Orc:
+		break;
+
+	}
+	switch (player._school)
+	{
+	case School::Fighter:
+		break;
+	case School::Rogue:
+		break;
+	case School::Wizard:
+		break;
+	}
+
+};
+
+
 void PC::sortInventory()
 {
 	//		std::sort(_allWeapons.begin(), _allWeapons.end(), [](equip a, equip b) {return a._name < b._name; });
@@ -227,4 +259,12 @@ void PC::statLine()
 	Print FG_RED1;
 	Print getStaminaMax() << FG_GRAY2 << ">: " << SGR_RESET << CUR_SHAPE_BAR_B;
 }
+
+void PC::save()
+{
+};
+void PC::load()
+{
+};
+
 #pragma endregion

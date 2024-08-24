@@ -25,7 +25,7 @@ namespace Creatures
 	};
 	enum class Race
 	{
-		Human, Elf, Dwarf, Gnome, Orc
+		none, Human, Elf, Dwarf, Gnome, Orc
 	};
 	enum class School
 	{
@@ -79,7 +79,9 @@ namespace Creatures
 	protected:
 		// General
 		std::string _name;
-		std::string _gender, _race, _school;
+		std::string _gender;
+		Race _race;
+		School _school;
 		std::string _shortDesc, _longDesc;
 
 		int _level, _experience;
@@ -98,7 +100,7 @@ namespace Creatures
 
 	public:
 		Creature()
-			: _name(""), _gender(""), _race(""), _school(""), _shortDesc(""), _longDesc(""),
+			: _name(""), _gender(""), _race(Race::none), _school(School::none), _shortDesc(""), _longDesc(""),
 			_level(0), _experience(0), _gold(0), _silver(0), _copper(0),
 			_health({ "Health", 0, 0 }), _spirit({ "Spirit", 0, 0 }), _stamina({ "Stamina", 0, 0 }),
 			_strength(0), _agility(0), _fortitude(0), _intellect(0), _wisdom(0), _luck(0),
@@ -129,34 +131,35 @@ namespace Creatures
 				break;
 			}
 		}
-		std::string GetRace() { return _race; }
-		void SetRace(Race race)
+		std::string GetRace()
 		{
-			switch (race) {
-			case Race::Human: _race = "Human";
+			switch (_race) {
+			case Race::Human: return "Human";
 				break;
-			case Race::Elf: _race = "Elf";
+			case Race::Elf: return "Elf";
 				break;
-			case Race::Dwarf: _race = "Dwarf";
+			case Race::Dwarf: return "Dwarf";
 				break;
-			case Race::Gnome: _race = "Gnome";
+			case Race::Gnome: return "Gnome";
 				break;
-			case Race::Orc: _race = "Orc";
+			case Race::Orc: return "Orc";
 				break;
 			}
 		}
-		std::string GetSchool() { return _school; }
-		void SetSchool(School school)
+		void SetRace(Race race) { _race = race; }
+
+		std::string GetSchool() 
 		{
-			switch (school) {
-			case School::Fighter: _school = "Fighter";
+			switch (_school) {
+			case School::Fighter: return "Fighter";
 				break;
-			case School::Rogue: _school = "Rogue";
+			case School::Rogue: return "Rogue";
 				break;
-			case School::Wizard: _school = "Wizard";
+			case School::Wizard: return "Wizard";
 				break;
 			}
 		}
+		void SetSchool(School school) { _school = school; }
 
 		std::string GetShortDesc() { return _shortDesc; }
 		void SetShortDesc(std::string desc) { _longDesc = desc; }
