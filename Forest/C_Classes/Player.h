@@ -20,6 +20,9 @@ namespace Creatures
 		// Equipment
 		std::map<EquipLocation, Item> _equipment;
 
+		int _trainingPoints;
+		int _skillPoints;
+
 		Weapon _curWeapon;
 		Armor _curArmor;
 		Shield _curShield;
@@ -85,6 +88,8 @@ namespace Creatures
 				_poison = obj._poison;
 				_lightning = obj._lightning;
 				_sonic = obj._sonic;
+				_trainingPoints = obj._trainingPoints;
+				_skillPoints = obj._skillPoints;
 				_inventory = obj._inventory;
 
 				_curWeapon = obj._curWeapon;
@@ -150,20 +155,11 @@ namespace Creatures
 		void gainStaminaMax(int stamina) { _stamina.max += stamina; }
 		void loseStaminaMax(int stamina) { if (_stamina.max - stamina > 0) _stamina.max -= stamina; }
 
-		int getStrength(void) { return _strength; }
-		void setStrength(int strength) { _strength = strength; }
+		int GetTrainingPoints(void) { return _trainingPoints; }
+		void SetTrainingPoints(int points) { _trainingPoints = points; }
 
-		int getFortitude(void) { return _fortitude; }
-		void setFortitude(int fortitude) { _fortitude = fortitude; }
-
-		int getAgility(void) { return _agility; }
-		void setAgility(int agility) { _agility = agility; }
-
-		int getIntellect(void) { return _intellect; }
-		void setIntellect(int intellect) { _intellect = intellect; }
-
-		int getWisdom(void) { return _wisdom; }
-		void setWisdom(int wisdom) { _wisdom = wisdom; }
+		int GetSkillPoints(void) { return _skillPoints; }
+		void SetSkillPoints(int points) { _skillPoints = points; }
 
 		std::string getWeapon(void) { return _curWeapon.getName(); }
 		void setWeapon(Weapon weapon) { _curWeapon = weapon; }

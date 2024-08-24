@@ -42,16 +42,16 @@ void PC::createNew(PC& player)
 	if ((player._name == "") || (player._race == Race::none) || (player._school == School::none))
 		return;
 
-	player._health.current = player._health.max = 80;
-	player._spirit.current = player._spirit.max = 80;
-	player._stamina.current = player._stamina.max = 80;
+	player._health.Set(80);
+	player._spirit.Set(80);
+	player._stamina.Set(80);
 
 	player._strength = player._agility = player._fortitude = 8;
 	player._intellect = player._wisdom = player._luck = 8;
 
 	player._armor = 0;
 	player._accuracy = player._evasion = 3;
-	player._magic = 0;
+	player._magic = 1;
 
 	player._cutting.power = player._stabbing.power = player._bashing.power = 3;
 	player._cutting.resist = player._stabbing.resist = player._bashing.resist = 1;
@@ -60,30 +60,235 @@ void PC::createNew(PC& player)
 	player._poison.power = player._lightning.power = player._sonic.power = 0;
 	player._poison.resist = player._lightning.resist = player._sonic.resist = 0;
 
+	player._trainingPoints = 6;
+	player._skillPoints = 5;
+
 	switch (player._race)
 	{
 	case Race::Human:
+		player._health.Add(25);
+		player._spirit.Add(25);
+		player._stamina.Add(25);
+		player._strength += 6;
+		player._agility += 6;
+		player._fortitude += 6;
+		player._intellect += 6;
+		player._wisdom += 6;
+		player._luck += 7;
+		player._accuracy += 2;
+		player._evasion += 2;
+		player._magic += 2;
+		player._cutting.power += 2;
+		player._cutting.resist += 2;
+		player._stabbing.power += 2;
+		player._stabbing.resist += 2;
+		player._bashing.power += 2;
+		player._bashing.resist += 2;
+		player._fire.power += 1;
+		player._fire.resist += 2;
+		player._water.power += 1;
+		player._water.resist += 2;
+		player._earth.power += 1;
+		player._earth.resist += 2;
+		player._air.power += 1;
+		player._air.resist += 2;
 		break;
 	case Race::Elf:
+		player._health.Add(10);
+		player._spirit.Add(40);
+		player._stamina.Add(30);
+		player._strength += 4;
+		player._agility += 10;
+		player._fortitude += 4;
+		player._intellect += 8;
+		player._wisdom += 7;
+		player._luck += 4;
+		player._accuracy += 3;
+		player._evasion += 3;
+		player._magic += 3;
+		player._cutting.power += 2;
+		player._cutting.resist += 1;
+		player._stabbing.power += 2;
+		player._stabbing.resist += 1;
+		player._bashing.power += 1;
+		player._bashing.resist += 1;
+		player._fire.power += 1;
+		player._fire.resist += 1;
+		player._water.power += 1;
+		player._water.resist += 1;
+		player._earth.power += 1;
+		player._earth.resist += 1;
+		player._air.power += 1;
+		player._air.resist += 1;
+		player._poison.power += 1;
+		player._poison.resist += 1;
+		player._lightning.power += 2;
+		player._lightning.resist += 2;
+		player._sonic.power += 2;
+		player._sonic.resist += 2;
 		break;
 	case Race::Dwarf:
+		player._health.Add(40);
+		player._spirit.Add(10);
+		player._stamina.Add(30);
+		player._strength += 8;
+		player._agility += 2;
+		player._fortitude += 10;
+		player._intellect += 4;
+		player._wisdom += 5;
+		player._luck += 7;
+		player._armor += 1;
+		player._accuracy += 2;
+		player._evasion += 1;
+		player._magic += 1;
+		player._cutting.power += 3;
+		player._cutting.resist += 3;
+		player._stabbing.power += 1;
+		player._stabbing.resist += 3;
+		player._bashing.power += 3;
+		player._bashing.resist += 3;
+		player._fire.power += 2;
+		player._fire.resist += 3;
+		player._earth.power += 2;
+		player._earth.resist += 3;
+		player._poison.power += 2;
+		player._poison.resist += 3;
 		break;
 	case Race::Gnome:
+		player._spirit.Add(50);
+		player._stamina.Add(15);
+		player._strength += 2;
+		player._agility += 8;
+		player._fortitude += 2;
+		player._intellect += 10;
+		player._wisdom += 8;
+		player._luck += 9;
+		player._accuracy += 2;
+		player._evasion += 4;
+		player._magic += 4;
+		player._cutting.power += 1;
+		player._cutting.resist += 2;
+		player._stabbing.power += 2;
+		player._stabbing.resist += 2;
+		player._bashing.power += 1;
+		player._bashing.resist += 2;
+		player._water.power += 2;
+		player._water.resist += 3;
+		player._air.power += 2;
+		player._air.resist += 3;
+		player._sonic.power += 2;
+		player._sonic.resist += 3;
 		break;
 	case Race::Orc:
+		player._health.Add(35);
+		player._stamina.Add(45);
+		player._strength += 10;
+		player._agility += 4;
+		player._fortitude += 8;
+		player._intellect += 2;
+		player._wisdom += 5;
+		player._luck += 7;
+		player._armor += 1;
+		player._accuracy += 2;
+		player._evasion += 2;
+		player._magic += 1;
+		player._cutting.power += 2;
+		player._cutting.resist += 4;
+		player._stabbing.power += 2;
+		player._stabbing.resist += 4;
+		player._bashing.power += 2;
+		player._bashing.resist += 4;
+		player._fire.resist += 1;
+		player._water.resist += 1;
+		player._earth.resist += 1;
+		player._air.resist += 1;
+		player._poison.power += 1;
+		player._poison.resist += 2;
+		player._lightning.power += 2;
+		player._lightning.resist += 3;
 		break;
 
 	}
 	switch (player._school)
 	{
 	case School::Fighter:
+		player._health.Add(25);
+		player._spirit.Add(5);
+		player._stamina.Add(20);
+		player._strength += 3;
+		player._agility += 3;
+		player._fortitude += 2;
+		player._intellect += 1;
+		player._wisdom += 1;
+		player._luck += 1;
+		player._armor += 1;
+		player._accuracy += 3;
+		player._evasion += 3;
+		player._magic += 1;
+		player._cutting.power += 4;
+		player._cutting.resist += 2;
+		player._stabbing.power += 2;
+		player._stabbing.resist += 2;
+		player._bashing.power += 3;
+		player._bashing.resist += 2;
+		player._fire.resist += 1;
+		player._water.resist += 1;
+		player._earth.power += 1;
+		player._earth.resist += 1;
+		player._air.resist += 1;
+		player._lightning.power += 1;
 		break;
 	case School::Rogue:
+		player._health.Add(15);
+		player._spirit.Add(10);
+		player._stamina.Add(25);
+		player._strength += 2;
+		player._agility += 4;
+		player._fortitude += 1;
+		player._intellect += 1;
+		player._wisdom += 2;
+		player._luck += 1;
+		player._accuracy += 3;
+		player._evasion += 5;
+		player._magic += 1;
+		player._cutting.power += 2;
+		player._cutting.resist += 1;
+		player._stabbing.power += 5;
+		player._stabbing.resist += 1;
+		player._bashing.power += 2;
+		player._bashing.resist += 1;
+		player._fire.power += 1;
+		player._air.power += 1;
+		player._poison.power += 3;
+		player._poison.resist += 2;
 		break;
 	case School::Wizard:
+		player._spirit.Add(40);
+		player._stamina.Add(10);
+		player._strength += 1;
+		player._agility += 1;
+		player._intellect += 5;
+		player._wisdom += 3;
+		player._luck += 1;
+		player._accuracy += 1;
+		player._evasion += 1;
+		player._magic += 5;
+		player._stabbing.power += 1;
+		player._fire.power += 2;
+		player._fire.resist += 1;
+		player._water.power += 2;
+		player._water.resist += 1;
+		player._earth.power += 2;
+		player._earth.resist += 1;
+		player._air.power += 2;
+		player._air.resist += 1;
+		player._poison.power += 1;
+		player._lightning.power += 2;
+		player._lightning.resist += 1;
+		player._sonic.power += 2;
+		player._sonic.resist += 1;
 		break;
 	}
-
 };
 
 
@@ -213,19 +418,19 @@ void PC::viewStats()
 	Print "Stamina: " << FG_RED1 << stamina << FG_GRAY1 << "/" << FG_RED1 << getStaminaMax() << FG_GRAY2;
 
 	Cursor::setPos(5, 10);
-	Print "Strength: " << FG_ORANGE1 << getStrength() << FG_GRAY2;
+	Print "Strength: " << FG_ORANGE1 << GetStrength() << FG_GRAY2;
 	Cursor::setHor(21);
 	if (wide) Cursor::setHor(25);
-	Print "Fortitude: " << FG_AZURE1 << getFortitude() << FG_GRAY2;
+	Print "Fortitude: " << FG_AZURE1 << GetFortitude() << FG_GRAY2;
 	Cursor::setHor(37);
 	if (wide) Cursor::setHor(40);
-	Print "Agility: " << FG_GREEN1 << getAgility() << FG_GRAY2;
+	Print "Agility: " << FG_GREEN1 << GetAgility() << FG_GRAY2;
 	Cursor::setHor(54);
 	if (wide) Cursor::setHor(55);
-	Print "Intellect: " << FG_CYAN1 << getIntellect() << FG_GRAY2;
+	Print "Intellect: " << FG_CYAN1 << GetIntellect() << FG_GRAY2;
 	Cursor::setHor(70);
 	if (wide) Cursor::setHor(70);
-	Print "Wisdom: " << FG_YELLOW1 << getWisdom() << FG_GRAY2;
+	Print "Wisdom: " << FG_YELLOW1 << GetWisdom() << FG_GRAY2;
 
 	Cursor::setPos(5, 12);
 	Print "Gold: " << FG_GOLD1 << getGold() << FG_GRAY2;

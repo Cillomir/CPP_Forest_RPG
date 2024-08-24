@@ -72,6 +72,18 @@ namespace Creatures
 		std::string GetString() {
 			return std::format("{}: {}/{}", name, current, max);
 		}
+		void Set(int val) {
+			current = val;
+			max = val;
+		}
+		void Add(int val) {
+			current += val;
+			max += val;
+		}
+		void Subtract(int val) {
+			current -= val;
+			max -= val;
+		}
 	};
 
 	class Creature

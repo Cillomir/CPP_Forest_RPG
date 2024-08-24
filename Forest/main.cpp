@@ -119,10 +119,13 @@ static void CharacterCreation()
 			}
 		} while (cmd != 'F' && cmd != 'R' && cmd != 'W');
 
+		player.createNew(player);
+		player.viewStats();
+
 		options.clear();
 		options.push_back({ 'Y', "Yes" });
 		options.push_back({ 'N', "No" });
-		Menus::Menu YesNo("Is this correct? ", options, "Your answer?");
+		Menus::Menu YesNo("Is this correct? ", options, "");
 		cmd = ' ';
 		cmd = YesNo.select();
 	} while (cmd != 'Y');
