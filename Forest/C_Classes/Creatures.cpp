@@ -93,8 +93,8 @@ bool MOB::take(Item item)
 		}
 		i++;
 	}
-	if (has)
-		_equipment.erase(_equipment.begin() + i);
+	//if (has)
+	//	_equipment.erase(_equipment.begin() + i);
 	return has;
 }
 #pragma endregion

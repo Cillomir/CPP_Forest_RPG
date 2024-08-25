@@ -60,9 +60,7 @@ static void introduction()
 	playerName = IT::toCapitalize(playerName);
 	Print "Welcome, " << playerName << "\n";
 	pressAnyKey();
-	PC pc = Creatures::PC();
-	player = pc;
-	player.setName(playerName);
+	player.SetName(playerName);
 }
 
 static void CharacterCreation()
@@ -119,8 +117,8 @@ static void CharacterCreation()
 			}
 		} while (cmd != 'F' && cmd != 'R' && cmd != 'W');
 
-		player.createNew(player);
-		player.viewStats();
+		player.createNew(&player);
+		player.viewStats(&player);
 
 		options.clear();
 		options.push_back({ 'Y', "Yes" });
@@ -136,7 +134,7 @@ int main()
 	CSL::enableVTMode();
 	introduction();
 	CharacterCreation();
-	player.viewStats();
+	player.viewStats(&player);
 
 	//Town::townInit();
 	//Item::init();

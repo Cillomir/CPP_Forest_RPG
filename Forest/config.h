@@ -11,8 +11,8 @@ public:
 
 	static const int minLevel = 1;
 	static const int maxLevel = 10;
-	static const int minGold = 0;
-	static const int maxGold = 1000000;
+	static const int minCoin = 0;
+	static const int maxCoin = 1000000;
 
 };
 

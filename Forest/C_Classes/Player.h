@@ -107,51 +107,33 @@ namespace Creatures
 		}
 
 		// Sets & Gets
-		std::string getName(void) { return _name; }
-		void setName(std::string name) { _name = name; }
-
 		std::string getTitle(void) { return _title; }
 		void setTitle(std::string title) { _title = title; }
 
-		int getLevel(void) { return _level; }
 		void gainLevel(void) { if (_level < config::maxLevel) _level++; _experience = 0; }
 		void loseLevel(void) { if (_level > config::minLevel) _level--; _experience = 0; }
 
-		int getExp(void) { return _experience; }
-		int gainExp(int exp) { if (_experience + exp < expNeeded[getLevel()]) _experience += exp; else gainLevel(); }
+		int gainExp(int exp) { if (_experience + exp < expNeeded[_level]) _experience += exp; else gainLevel(); }
 
-		int getGold(void) { return _gold; }
-		void setGold(int gold) { _gold = gold; }
-		void gainGold(int gold) { if (_gold + gold < config::maxGold) _gold += gold; }
-		void loseGold(int gold) { if (_gold - gold > config::minGold) _gold -= gold; }
+		void gainGold(int gold) { if (_gold + gold < config::maxCoin) _gold += gold; }
+		void loseGold(int gold) { if (_gold - gold > config::minCoin) _gold -= gold; }
+		void gainSilver(int silver) { if (_silver + silver < config::maxCoin) _silver += silver; }
+		void loseSilver(int silver) { if (_silver - silver > config::minCoin) _silver -= silver; }
+		void gainCopper(int copper) { if (_copper + copper < config::maxCoin) _copper += copper; }
+		void loseCopper(int copper) { if (_copper - copper > config::minCoin) _copper -= copper; }
 
-		int getHealth(void) { return _health.current; }
-		void setHealth(int health) { _health.current = health; }
 		void gainHealth(int health) { _health.current += health; if (_health.current > _health.max) _health.current = _health.max; }
 		void loseHealth(int health) { _health.current -= health; if (_health.current < 0) _health.current = 0; }
-
-		int getHealthMax(void) { return _health.max; }
-		void setHealthMax(int health) { _health.max = health; }
 		void gainHealthMax(int health) { _health.max += health; }
 		void loseHealthMax(int health) { if (_health.max - health > 0) _health.max -= health; }
 
-		int getSpirit(void) { return _spirit.current; }
-		void setSpirit(int spirit) { _spirit.current = spirit; }
 		void gainSpirit(int spirit) { _spirit.current += spirit; if (_spirit.current > _spirit.max) _spirit.current = _spirit.max; }
 		void loseSpirit(int spirit) { _spirit.current -= spirit; if (_spirit.current < 0) _spirit.current = 0; }
-
-		int getSpiritMax(void) { return _spirit.max; }
-		void setSpiritMax(int spirit) { _spirit.max = spirit; }
 		void gainSpiritMax(int spirit) { _spirit.max += spirit; }
 		void loseSpiritMax(int spirit) { if (_spirit.max - spirit > 0) _spirit.max -= spirit; }
 
-		int getStamina(void) { return _stamina.current; }
-		void setStamina(int stamina) { _stamina.current = stamina; }
 		void gainStamina(int stamina) { _stamina.current += stamina; if (_stamina.current > _stamina.max) _stamina.current = _stamina.max; }
 		void loseStamina(int stamina) { _stamina.current -= stamina; if (_stamina.current < 0) _stamina.current = 0; }
-
-		int getStaminaMax(void) { return _stamina.max; }
-		void setStaminaMax(int stamina) { _stamina.max = stamina; }
 		void gainStaminaMax(int stamina) { _stamina.max += stamina; }
 		void loseStaminaMax(int stamina) { if (_stamina.max - stamina > 0) _stamina.max -= stamina; }
 
@@ -180,10 +162,10 @@ namespace Creatures
 		int getResSmashing();
 
 		// Public Methods
-		void viewStats();
-		void statLine();
+		static void viewStats(PC &player);
+		static void statLine(PC &player);
 
-		static void createNew(PC &player);
+		static void createNew(PC *player);
 
 		static void save();
 		static void load();

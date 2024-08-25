@@ -143,6 +143,7 @@ namespace Creatures
 				break;
 			}
 		}
+
 		std::string GetRace()
 		{
 			switch (_race) {

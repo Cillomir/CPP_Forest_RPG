@@ -3,6 +3,7 @@
 
 using namespace Menus;
 using namespace RPG;
+using namespace Creatures;
 
 std::unordered_map<std::string, Creatures::NPC> Town::shopkeepers = std::unordered_map<std::string, Creatures::NPC>();
 std::unordered_map<std::string, Menu> Town::menus = std::unordered_map<std::string, Menu>();
@@ -30,6 +31,7 @@ void Town::townMain()
         initTown();
     unsigned char cmd;
     do {
+        PC::statLine(&player);
         cmd = Town::menus["town"].select();
         switch (cmd) {
         case 'A':
@@ -45,7 +47,7 @@ void Town::townMain()
             //    Forest::menu();
             //    break;
         case 'V':
-            Creatures::player.viewStats();
+            PC::viewStats(&player);
             break;
         }
     } while (cmd != 'Q' && cmd != CSL_Key::KEY_ESC);
@@ -146,7 +148,7 @@ void Town::armorShop()
     std::string message = "Welcome to Angar's Armor Shop. This is a test string to see if the string parsing will work for an armor shop description.";
     unsigned char cmd;
     do {
-        Creatures::player.statLine();
+        PC::statLine(&player);
         cmd = Town::menus["armor"].select();
         switch (cmd) 
         {
@@ -160,7 +162,7 @@ void Town::armorShop()
                 listItems(Town::shopkeepers["armor"]);
                 break;
             case 'V':
-                Creatures::player.viewStats();
+                PC::viewStats(&player);
                 break;
         }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
@@ -172,6 +174,7 @@ void Town::weaponShop()
     initWeaponShop();
     unsigned char cmd;
     do {
+        PC::statLine(&player);
         cmd = Town::menus["weapon"].select();
         switch(cmd) {
         //case 'B':
@@ -184,7 +187,7 @@ void Town::weaponShop()
             listItems(Town::shopkeepers["weapon"]);
             break;
         case 'V':
-            Creatures::player.viewStats();
+            PC::viewStats(&player);
             break;
         }
 } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
@@ -195,6 +198,7 @@ void Town::healersHut()
     initHealersHut();
     unsigned char cmd;
     do {
+        PC::statLine(&player);
         cmd = Town::menus["healer"].select();
         switch (cmd) 
         {
@@ -211,7 +215,7 @@ void Town::healersHut()
                 listItems(Town::shopkeepers["healer"]);
                 break;
             case 'V':
-                Creatures::player.viewStats();
+                PC::viewStats(&player);
                 break;
         }
     } while (cmd != 'R' && cmd != CSL_Key::KEY_ESC);
@@ -219,7 +223,7 @@ void Town::healersHut()
 }
 void Town::getHealing()
 {
-    int missing = Creatures::player.getHealthMax() - Creatures::player.getHealth();
+    int missing = Creatures::player.GetMaxHealth() - Creatures::player.GetCurHealth();
     Print "You are currently missing " << std::to_string(missing) << "health.\n";
     Print "It costs 2 gp per health point recovered.";
     Print "How much healing do you want? ";
@@ -234,7 +238,7 @@ void Town::getHealing()
         healing = missing;
     if (healing < 0)
         healing = 0;
-    if (healing * 2 > Creatures::player.getGold())
+    if (healing * 2 > Creatures::player.GetGold())
     {
         Print "You don't have enough gold to heal for that much.\n";
     }

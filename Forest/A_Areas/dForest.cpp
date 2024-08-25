@@ -35,7 +35,7 @@ void Forest::init()
 void Forest::generate()
 {
     Forest::beasts.clear();
-    switch (Creatures::player.getLevel())
+    switch (Creatures::player.GetLevel())
     {
     case 1:
         generateLevel1();
